@@ -9,11 +9,11 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'NoRiskClient.dart';
-import 'config/Colors.dart';
+import 'client.dart';
+import 'config/colors.dart';
 import 'l10n/app_localizations.dart';
-import 'provider/localeProvider.dart';
-import 'screens/SignIn.dart';
+import 'provider/locale_provider.dart';
+import 'screens/sign_in.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
