@@ -50,11 +50,10 @@ class McRealState extends State<PostDetails> {
     commentUpdateStream.stream.listen((String? commentId) async {
       if (commentId != null) {
         if (commentId == '*') {
-          setState(() {
-            comments = null;
-            page = 0;
-            hitEnd = false;
-          });
+          comments = null;
+          page = 0;
+          hitEnd = false;
+          if (mounted) setState(() {});
           loadComments();
           return;
         }
@@ -89,27 +88,24 @@ class McRealState extends State<PostDetails> {
           commentUpdateStream: commentUpdateStream,
           postUpdateStream: widget.postUpdateStream,
         );
-        setState(() {
-          comments![index] = newComment;
-        });
+        comments![index] = newComment;
+        if (mounted) setState(() {});
       } else {
-        setState(() {
-          commentInput = commentInput is McRealCommentInput
-              ? Container()
-              : McRealCommentInput(
-                  userData: userData,
-                  postId: widget.postData['post']['_id'],
-                  refresh: () {
-                    setState(() {
-                      page = 0;
-                      hitEnd = false;
-                      commentInput = Container();
-                      comments = null;
-                    });
-                    loadComments();
-                  },
-                );
-        });
+        commentInput = commentInput is McRealCommentInput
+            ? Container()
+            : McRealCommentInput(
+                userData: userData,
+                postId: widget.postData['post']['_id'],
+                refresh: () {
+                  page = 0;
+                  hitEnd = false;
+                  commentInput = Container();
+                  comments = null;
+                  if (mounted) setState(() {});
+                  loadComments();
+                },
+              );
+        if (mounted) setState(() {});
       }
     });
     scrollController.addListener(() async {
@@ -141,11 +137,10 @@ class McRealState extends State<PostDetails> {
             ),
             child: RefreshIndicator(
               onRefresh: () {
-                setState(() {
-                  comments = null;
-                  page = 0;
-                  hitEnd = false;
-                });
+                comments = null;
+                page = 0;
+                hitEnd = false;
+                if (mounted) setState(() {});
                 return loadComments();
               },
               child: Stack(
@@ -291,10 +286,8 @@ class McRealState extends State<PostDetails> {
     List<McRealComment> existingPosts = comments ?? [];
     int scrollOffset = scrollController.offset.toInt();
 
-    await Future.delayed(const Duration(milliseconds: 20));
-    setState(() {
-      comments = [...existingPosts, ...newComments];
-    });
+    comments = [...existingPosts, ...newComments];
+    if (mounted) setState(() {});
     scrollController.jumpTo(scrollOffset.toDouble());
 
     isLoadingNewComments = false;

@@ -29,7 +29,7 @@
   "mcRealPartnersTabLabel": "Partner",
   "mcRealYourMcReal": "Dein McReal",
   "mcRealJustNow": "Jetzt",
-  "mcRealAgo": "Vor {time}",
+  "mcRealAgo": "{time} spät",
   "mcRealCommentLabel": "Kommentieren",
   "mcRealCommentHint": "Neuer Kommentar",
   "mcRealNoComments": "Keine Kommentare verfügbar.",

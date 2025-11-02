@@ -44,13 +44,12 @@ class ChatState extends State<Chat> {
   void initState() {
     for (int i = 0; i < 5; i++) {
       () async {
-        while (isLoadingNewChats) {
-          await Future.delayed(const Duration(milliseconds: 100));
-        }
-        setState(() {
-          page = page + 1;
-          messages = messages;
-        });
+        // while (isLoadingNewChats) {
+        //   await Future.delayed(const Duration(milliseconds: 100));
+        // }
+        page = page + 1;
+        messages = messages;
+        if (mounted) setState(() {});
         await loadMessages();
       }();
       if (hitEnd) {
@@ -81,13 +80,11 @@ class ChatState extends State<Chat> {
 
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
-        setState(() {
-          keyboardVisible = true;
-        });
+        keyboardVisible = true;
+        if (mounted) setState(() {});
       } else {
-        setState(() {
-          keyboardVisible = false;
-        });
+        keyboardVisible = false;
+        if (mounted) setState(() {});
       }
     });
 
@@ -174,10 +171,9 @@ class ChatState extends State<Chat> {
                       : 0),
               child: RefreshIndicator(
                 onRefresh: () async {
-                  setState(() {
-                    messages = [];
-                    page = 1;
-                  });
+                  messages = [];
+                  page = 1;
+                  if (mounted) setState(() {});
                   loadMessages();
                 },
                 child: ListView(
@@ -225,26 +221,25 @@ class ChatState extends State<Chat> {
                   NoRiskApi().sendChatMessage(widget.chatId, text).then((
                     Map<String, dynamic> data,
                   ) {
-                    setState(() {
-                      messages.insert(
-                        messages.length,
-                        Message(
-                          chatId: widget.chatId,
-                          messageId: data['_id'],
-                          content: data['content'],
-                          senderId: getUserData['uuid'],
-                          sentAt: data['sentAt'],
-                          status: data['readAt'] != null
-                              ? MessageStatus.read
-                              : data['recivedAt'] != data['sentAt']
-                              ? MessageStatus.received
-                              : data['sentAt'] != null
-                              ? MessageStatus.sent
-                              : MessageStatus.pending,
-                          chatUpdateStream: widget.chatUpdateStream,
-                        ),
-                      );
-                    });
+                    messages.insert(
+                      messages.length,
+                      Message(
+                        chatId: widget.chatId,
+                        messageId: data['_id'],
+                        content: data['content'],
+                        senderId: getUserData['uuid'],
+                        sentAt: data['sentAt'],
+                        status: data['readAt'] != null
+                            ? MessageStatus.read
+                            : data['recivedAt'] != data['sentAt']
+                            ? MessageStatus.received
+                            : data['sentAt'] != null
+                            ? MessageStatus.sent
+                            : MessageStatus.pending,
+                        chatUpdateStream: widget.chatUpdateStream,
+                      ),
+                    );
+                    if (mounted) setState(() {});
                     widget.chatUpdateStream.sink.add('*');
                   });
                 },
@@ -314,10 +309,8 @@ class ChatState extends State<Chat> {
     List<Message> existingChats = messages;
     int scrollOffset = scrollController.offset.toInt();
 
-    await Future.delayed(const Duration(milliseconds: 10));
-    setState(() {
-      messages = [...newMessages, ...existingChats];
-    });
+    messages = [...newMessages, ...existingChats];
+    if (mounted) setState(() {});
     scrollController.jumpTo(scrollOffset.toDouble());
 
     isLoadingNewChats = false;

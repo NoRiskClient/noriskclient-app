@@ -89,57 +89,64 @@ class ReportMcRealState extends State<ReportMcReal> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             NoRiskCheckbox(
-              onChanged: (value) => setState(() {
+              onChanged: (value) {
                 obscenity = value;
-              }),
+                if (mounted) setState(() {});
+              },
               name: AppLocalizations.of(context).mcRealReportReasonObscenity,
             ),
             const SizedBox(height: 10),
             NoRiskCheckbox(
-              onChanged: (value) => setState(() {
+              onChanged: (value) {
                 hateSpeech = value;
-              }),
+                if (mounted) setState(() {});
+              },
               name: AppLocalizations.of(context).mcRealReportReasonHateSpeech,
             ),
             const SizedBox(height: 10),
             NoRiskCheckbox(
-              onChanged: (value) => setState(() {
+              onChanged: (value) {
                 copyrightInfringement = value;
-              }),
+                if (mounted) setState(() {});
+              },
               name: AppLocalizations.of(
                 context,
               ).mcRealReportReasonCopyrightInfringement,
             ),
             const SizedBox(height: 10),
             NoRiskCheckbox(
-              onChanged: (value) => setState(() {
+              onChanged: (value) {
                 privacyViolation = value;
-              }),
+                if (mounted) setState(() {});
+              },
               name: AppLocalizations.of(
                 context,
               ).mcRealReportReasonPrivacyViolation,
             ),
             const SizedBox(height: 10),
             NoRiskCheckbox(
-              onChanged: (value) => setState(() {
+              onChanged: (value) {
                 spamOrFraud = value;
-              }),
+                if (mounted) setState(() {});
+              },
               name: AppLocalizations.of(context).mcRealReportReasonSpamOrFraud,
             ),
             const SizedBox(height: 10),
             NoRiskCheckbox(
-              onChanged: (value) => setState(() {
+              onChanged: (value) {
                 inappropriateForMinors = value;
-              }),
+                if (mounted) setState(() {});
+              },
               name: AppLocalizations.of(
                 context,
               ).mcRealReportReasonInappropriateForMinors,
             ),
             const SizedBox(height: 10),
             NoRiskCheckbox(
-              onChanged: (value) => setState(() {
+              onChanged: (value) {
                 other = value;
-              }),
+                if (mounted) setState(() {});
+              },
               name: AppLocalizations.of(context).mcRealReportReasonOther,
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),

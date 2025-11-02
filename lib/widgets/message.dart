@@ -93,21 +93,23 @@ class MessageState extends State<Message> {
                           if (widget.senderId == getUserData['uuid'])
                             const Spacer(),
                           GestureDetector(
-                            onTapDown: (_) => setState(() {
+                            onTapDown: (_) {
                               isPressed = true;
                               isSelected = false;
-                            }),
-                            onTapUp: (_) => setState(() {
+                              if (mounted) setState(() {});
+                            },
+                            onTapUp: (_) {
                               isPressed = false;
-                            }),
-                            onTapCancel: () => setState(() {
+                              if (mounted) setState(() {});
+                            },
+                            onTapCancel: () {
                               isPressed = false;
-                            }),
-                            onLongPressStart: (_) => setState(() {
-                              if (!isDeleted) {
-                                isSelected = true;
-                              }
-                            }),
+                              if (mounted) setState(() {});
+                            },
+                            onLongPressStart: (_) {
+                              if (!isDeleted) isSelected = true;
+                              if (mounted) setState(() {});
+                            },
                             child: NoRiskContainer(
                               padding: const EdgeInsets.only(left: 5, right: 5),
                               constraints: BoxConstraints(
@@ -315,13 +317,13 @@ class MessageState extends State<Message> {
                       NoRiskApi()
                           .deleteChatMessage(widget.chatId, widget.messageId)
                           .then((_) {
-                            setState(() {
-                              widget.content = AppLocalizations.of(
-                                context,
-                              ).chatMessageDeleted;
-                              isSelected = false;
-                              isDeleted = true;
-                            });
+                            if (!context.mounted) return;
+                            widget.content = AppLocalizations.of(
+                              context,
+                            ).chatMessageDeleted;
+                            isSelected = false;
+                            isDeleted = true;
+                            if (mounted) setState(() {});
                           });
                     },
                     child: NoRiskText(
@@ -361,13 +363,13 @@ class MessageState extends State<Message> {
                       NoRiskApi()
                           .deleteChatMessage(widget.chatId, widget.messageId)
                           .then((_) {
-                            setState(() {
-                              widget.content = AppLocalizations.of(
-                                context,
-                              ).chatMessageDeleted;
-                              isSelected = false;
-                              isDeleted = true;
-                            });
+                            if (!context.mounted) return;
+                            widget.content = AppLocalizations.of(
+                              context,
+                            ).chatMessageDeleted;
+                            isSelected = false;
+                            isDeleted = true;
+                            if (mounted) setState(() {});
                           });
                     },
                     child: NoRiskText(

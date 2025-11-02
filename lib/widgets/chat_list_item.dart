@@ -39,14 +39,14 @@ class _ChatListItemState extends State<ChatListItem> {
     getUpdateStream.sink.add([
       'loadSkin',
       widget.participantId,
-      () => setState(() {
+      () {
         cache = getCache;
-      }),
+        if (mounted) setState(() {});
+      },
     ]);
     NoRiskApi().getUserProfile(widget.participantId).then((Map profile) {
-      setState(() {
-        cache = getCache;
-      });
+      cache = getCache;
+      if (mounted) setState(() {});
     });
     super.initState();
   }

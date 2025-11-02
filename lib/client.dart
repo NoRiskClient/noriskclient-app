@@ -33,9 +33,8 @@ class NoRiskClientState extends State<NoRiskClient> {
 
     activeTabIndexController.stream.listen((index) {
       updateStream.add(["tabIndex", index]);
-      setState(() {
-        tabIndex = index;
-      });
+      tabIndex = index;
+      if (mounted) setState(() {});
     });
   }
 

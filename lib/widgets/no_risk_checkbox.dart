@@ -29,9 +29,8 @@ class McRealPostState extends State<NoRiskCheckbox> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          value = !value;
-        });
+        value = !value;
+        if (mounted) setState(() {});
         widget.onChanged(value);
       },
       child: Row(

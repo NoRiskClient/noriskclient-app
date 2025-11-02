@@ -99,7 +99,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String mcRealAgo(String time) {
-    return 'Vor $time';
+    return '$time spät';
   }
 
   @override

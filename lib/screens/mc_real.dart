@@ -18,13 +18,10 @@ import '../widgets/no_risk_icon_button.dart';
 import '../widgets/no_risk_text.dart';
 import 'profile.dart';
 
-enum McRealStatus {
-  ok,
-  removed,
-  deleted;
-
-  @override
-  String toString() => name;
+abstract class McRealStatus {
+  static const String ok = "OK";
+  static const String removed = "REMOVED";
+  static const String deleted = "DELETED";
 }
 
 Map<String, dynamic>? ownPostData;
@@ -48,24 +45,28 @@ class McRealState extends State<McReal> {
 
   @override
   void initState() {
-    getUpdateStream.sink.add([
-      'loadSkin',
-      userData['uuid'],
-      () => setState(() {
-        cache = getCache;
-      }),
-    ]);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => getUpdateStream.sink.add([
+        'loadSkin',
+        userData['uuid'],
+        () {
+          cache = getCache;
+          if (mounted) setState(() {});
+        },
+      ]),
+    );
     loadPosts();
     postUpdateStream.stream.listen((String data) async {
       if (data == '*') {
-        setState(() {
-          ownPost = null;
-          posts = [];
-          page = 0;
-        });
+        ownPost = null;
+        posts.clear();
+        page = 0;
+        if (mounted) setState(() {});
+
         loadPosts();
         return;
       }
+
       var res = await http.get(
         Uri.parse(
           '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/post/$data?uuid=${userData['uuid']}',
@@ -74,9 +75,8 @@ class McRealState extends State<McReal> {
       );
       if (res.statusCode != 200) {
         if (res.statusCode == 403) {
-          setState(() {
-            ownPost = null;
-          });
+          ownPost = null;
+          if (mounted) setState(() {});
         } else if (res.statusCode == 401) {
           getUpdateStream.sink.add(['signOut']);
         }
@@ -96,13 +96,13 @@ class McRealState extends State<McReal> {
         displayOnly: oldPost.displayOnly,
         postUpdateStream: oldPost.postUpdateStream,
       );
-      setState(() {
-        if (index == -1) {
-          ownPost = newPost;
-        } else {
-          posts[index] = newPost;
-        }
-      });
+
+      if (index == -1) {
+        ownPost = newPost;
+      } else {
+        posts[index] = newPost;
+      }
+      if (mounted) setState(() {});
     });
 
     scrollController.addListener(() async {
@@ -134,12 +134,12 @@ class McRealState extends State<McReal> {
       backgroundColor: NoRiskClientColors.background,
       body: RefreshIndicator(
         onRefresh: () async {
-          setState(() {
-            ownPost = null;
-            ownPostData = null;
-            posts = [];
-            page = 0;
-          });
+          ownPost = null;
+          ownPostData = null;
+          posts.clear();
+          page = 0;
+          if (mounted) setState(() {});
+
           loadPlayerPost();
           loadPosts();
         },
@@ -180,10 +180,9 @@ class McRealState extends State<McReal> {
                                     child: Center(
                                       child: NoRiskIconButton(
                                         onTap: () {
-                                          setState(() {
-                                            posts = [];
-                                            page = 0;
-                                          });
+                                          posts.clear();
+                                          page = 0;
+                                          if (mounted) setState(() {});
                                           loadPosts();
                                         },
                                         transparent: true,
@@ -216,11 +215,10 @@ class McRealState extends State<McReal> {
                           GestureDetector(
                             onTap: () {
                               if (activeTab == 0) return;
-                              setState(() {
-                                activeTab = 0;
-                                posts = [];
-                                page = 0;
-                              });
+                              activeTab = 0;
+                              posts.clear();
+                              page = 0;
+                              if (mounted) setState(() {});
                               loadPosts();
                             },
                             child: NoRiskText(
@@ -251,11 +249,10 @@ class McRealState extends State<McReal> {
                           GestureDetector(
                             onTap: () {
                               if (activeTab == 1) return;
-                              setState(() {
-                                activeTab = 1;
-                                posts = [];
-                                page = 0;
-                              });
+                              activeTab = 1;
+                              posts.clear();
+                              page = 0;
+                              if (mounted) setState(() {});
                               loadPosts();
                             },
                             child: NoRiskText(
@@ -286,11 +283,10 @@ class McRealState extends State<McReal> {
                           GestureDetector(
                             onTap: () {
                               if (activeTab == 2) return;
-                              setState(() {
-                                activeTab = 2;
-                                posts = [];
-                                page = 0;
-                              });
+                              activeTab = 2;
+                              posts.clear();
+                              page = 0;
+                              if (mounted) setState(() {});
                               loadPosts();
                             },
                             child: NoRiskText(
@@ -323,11 +319,10 @@ class McRealState extends State<McReal> {
   }
 
   Future<void> loadPlayerPost() async {
-    if (userData['mcRealStatus'] != McRealStatus.ok.name) {
-      setState(() {
-        ownPost = null;
-        ownPostData = null;
-      });
+    if (userData['mcRealStatus'] != McRealStatus.ok) {
+      ownPost = null;
+      ownPostData = null;
+      if (mounted) setState(() {});
     }
     userData.remove('mcRealStatus');
     userData.remove('mcRealStatusInfo');
@@ -339,9 +334,8 @@ class McRealState extends State<McReal> {
     );
     if (res.statusCode != 200) {
       if (res.statusCode == 403) {
-        setState(() {
-          ownPost = null;
-        });
+        ownPost = null;
+        if (mounted) setState(() {});
       } else if (res.statusCode == 401) {
         getUpdateStream.sink.add(['signOut']);
       }
@@ -358,14 +352,13 @@ class McRealState extends State<McReal> {
       }
     }
 
-    setState(() {
-      ownPostData = postData;
-      ownPost = McRealPost(
-        locked: false,
-        postData: postData,
-        postUpdateStream: postUpdateStream,
-      );
-    });
+    ownPostData = postData;
+    ownPost = McRealPost(
+      locked: false,
+      postData: postData,
+      postUpdateStream: postUpdateStream,
+    );
+    if (mounted) setState(() {});
   }
 
   Future<void> loadPosts() async {
@@ -388,7 +381,7 @@ class McRealState extends State<McReal> {
     hitEnd = false;
     if (postsData.length < Config.maxPostsPerPage) hitEnd = true;
 
-    late final String lockedReason;
+    String lockedReason = "";
     if (!mounted) {
       lockedReason = "Unknown error";
     } else if (userData['mcRealStatus'] == McRealStatus.removed) {
@@ -419,10 +412,8 @@ class McRealState extends State<McReal> {
     List<McRealPost> existingPosts = posts;
     int scrollOffset = scrollController.offset.toInt();
 
-    await Future.delayed(const Duration(milliseconds: 10));
-    setState(() {
-      posts = [...existingPosts, ...newPosts];
-    });
+    posts = [...existingPosts, ...newPosts];
+    if (mounted) setState(() {});
     scrollController.jumpTo(scrollOffset.toDouble());
 
     isLoadingNewPosts = false;

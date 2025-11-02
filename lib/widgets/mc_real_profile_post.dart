@@ -127,12 +127,14 @@ class McRealPostState extends State<ProfileMcRealPost> {
                                 },
                               ),
                             ),
-                            onLongPress: () => setState(() {
+                            onLongPress: () {
                               holdingMainImage = true;
-                            }),
-                            onLongPressEnd: (_) => setState(() {
+                              if (mounted) setState(() {});
+                            },
+                            onLongPressEnd: (_) {
                               holdingMainImage = false;
-                            }),
+                              if (mounted) setState(() {});
+                            },
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(2.5),
                               child: Stack(
@@ -155,9 +157,10 @@ class McRealPostState extends State<ProfileMcRealPost> {
                                           top: 10,
                                           left: 10,
                                           child: GestureDetector(
-                                            onTap: () => setState(() {
+                                            onTap: () {
                                               swapped = !swapped;
-                                            }),
+                                              if (mounted) setState(() {});
+                                            },
                                             child: SizedBox(
                                               height: 75,
                                               child: ClipRRect(
@@ -237,17 +240,15 @@ class McRealPostState extends State<ProfileMcRealPost> {
       return;
     }
 
-    setState(() {
-      cache = getCache;
-      primary = Image.memory(primaryRes.bodyBytes, fit: BoxFit.fill);
-      secondary = Image.memory(secondaryRes.bodyBytes, fit: BoxFit.fill);
-    });
+    cache = getCache;
+    primary = Image.memory(primaryRes.bodyBytes, fit: BoxFit.fill);
+    secondary = Image.memory(secondaryRes.bodyBytes, fit: BoxFit.fill);
+    if (mounted) setState(() {});
   }
 
   void updateData(newData) {
-    setState(() {
-      widget.postData = newData;
-    });
+    widget.postData = newData;
+    if (mounted) setState(() {});
     loadImages();
     getPostTime();
   }

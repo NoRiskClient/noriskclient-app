@@ -272,10 +272,10 @@ abstract class AppLocalizations {
   /// **'Now'**
   String get mcRealJustNow;
 
-  /// Relative time suffix, e.g., '13h ago'.
+  /// Used to show the delay from day start to submission time. E.g., '13h late' means the post was made 13 hours after the McReal day started.
   ///
   /// In en, this message translates to:
-  /// **'{time} ago'**
+  /// **'{time} late'**
   String mcRealAgo(String time);
 
   /// Action label to add a comment.

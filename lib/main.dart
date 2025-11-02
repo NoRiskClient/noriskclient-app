@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +15,7 @@ import 'config/colors.dart';
 import 'l10n/app_localizations.dart';
 import 'provider/locale_provider.dart';
 import 'screens/sign_in.dart';
+import 'utils/no_risk_icon.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +43,7 @@ Map<String, Map<String, dynamic>> cache = {
   'profiles': {},
 };
 int activeTabIndex = 2;
-final StreamController<List> updateStream = StreamController<List>();
+final StreamController<List> updateStream = StreamController<List>(sync: true);
 
 Map<String, Map<String, dynamic>> get getCache => cache;
 Map<String, dynamic> get getUserData => userData;
@@ -60,6 +62,10 @@ class AppState extends State<App> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => NoRiskIcon.preloadIcons(context),
+    );
+
     isIOS =
         Theme.of(context).platform == TargetPlatform.iOS ||
         Theme.of(context).platform == TargetPlatform.macOS;
@@ -89,32 +95,25 @@ class AppState extends State<App> {
         clearUserData();
         clearCache();
       } else if (event == 'tabIndex') {
-        if (kDebugMode) print('Setting active tab index to ${data[1]}');
         activeTabIndex = data[1];
       } else if (event == 'clearCache') {
-        if (kDebugMode) print('Clearing cache');
         clearCache();
       } else if (event == 'loadUserData') {
-        if (kDebugMode) print('Loading user data');
         await loadUserData();
       } else if (event == 'loadSkin') {
         if (cache['skins']?[data[1]] == null ||
             cache['armorSkins']?[data[1]] == null) {
-          if (kDebugMode) print('Loading skin for ${data[1]}');
           loadSkin(data[1]);
         }
         if (data.length > 2) data[2]();
       } else if (event == 'loadUsername') {
         if (cache['usernames']?[data[1]] == null) {
-          if (kDebugMode) print('Loading username for ${data[1]}');
           await loadUsername(data[1]);
         }
         if (data.length > 2) data[2]();
       } else if (event == 'cacheProfile') {
-        if (kDebugMode) print('Caching profile ${data[1]} -> ${data[2]}');
-        setState(() {
-          cache['profiles']?[data[1]] = data[2];
-        });
+        cache['profiles']?[data[1]] = data[2];
+        if (mounted) setState(() {});
       }
     });
 
@@ -188,13 +187,12 @@ class AppState extends State<App> {
 
   Future<void> loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userData = {
-        'uuid': prefs.getString('uuid') ?? '',
-        'experimental': prefs.getBool('experimental') ?? false,
-        'token': prefs.getString('token') ?? '',
-      };
-    });
+    userData = {
+      'uuid': prefs.getString('uuid') ?? '',
+      'experimental': prefs.getBool('experimental') ?? false,
+      'token': prefs.getString('token') ?? '',
+    };
+    if (mounted) setState(() {});
   }
 
   Future<void> saveUserData(Map<String, dynamic> userData) async {
@@ -214,36 +212,32 @@ class AppState extends State<App> {
   }
 
   void clearCache() {
-    setState(() {
-      cache = {
-        'skins': {},
-        'armorSkins': {},
-        'usernames': {},
-        'posts': {},
-        'profiles': {},
-      };
-    });
+    cache = {
+      'skins': {},
+      'armorSkins': {},
+      'usernames': {},
+      'posts': {},
+      'profiles': {},
+    };
+    if (mounted) setState(() {});
   }
 
   void loadSkin(String uuid) {
     if (cache['skins']?[uuid] == null) {
-      setState(() {
-        cache['skins']?[uuid] = Image.network(
-          'https://mineskin.eu/helm/$uuid/64',
-          width: 32,
-          height: 32,
-        );
-      });
+      cache['skins']?[uuid] = Image.network(
+        'https://mineskin.eu/helm/$uuid/64',
+        width: 32,
+        height: 32,
+      );
     }
     if (cache['armorSkins']?[uuid] == null) {
-      setState(() {
-        cache['armorSkins']?[uuid] = Image.network(
-          'https://mineskin.eu/armor/bust/$uuid/128.png',
-          height: 175,
-          width: 175,
-        );
-      });
+      cache['armorSkins']?[uuid] = Image.network(
+        'https://mineskin.eu/armor/bust/$uuid/128.png',
+        height: 175,
+        width: 175,
+      );
     }
+    if (mounted) setState(() {});
   }
 
   Future<void> loadUsername(String uuid) async {
@@ -253,12 +247,10 @@ class AppState extends State<App> {
           'https://sessionserver.mojang.com/session/minecraft/profile/$uuid',
         ),
       );
-      if (res.statusCode != 200) {
-        return;
-      }
-      setState(() {
-        cache['usernames']?[uuid] = jsonDecode(res.body)['name'];
-      });
+      if (res.statusCode != 200) return;
+
+      cache['usernames']?[uuid] = jsonDecode(res.body)['name'];
+      if (mounted) setState(() {});
     }
   }
 }

@@ -39,8 +39,8 @@ abstract class NoRiskIcon {
   );
   static Image reload = Image.asset(
     'lib/assets/icons/reload.png',
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
     fit: BoxFit.fill,
   );
   static Image report = Image.asset(
@@ -57,8 +57,8 @@ abstract class NoRiskIcon {
   );
   static Image streak = Image.asset(
     'lib/assets/icons/fire.webp',
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
     fit: BoxFit.fill,
   );
   static Image settings = Image.asset(
@@ -82,39 +82,61 @@ abstract class NoRiskIcon {
 
   static Image news = Image.asset(
     'lib/assets/widgets/news.png',
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
     fit: BoxFit.fill,
   );
   static Image chats = Image.asset(
     'lib/assets/widgets/chats.png',
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
     fit: BoxFit.fill,
   );
   static Image mcreal = Image.asset(
     'lib/assets/widgets/mcreal.png',
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
     fit: BoxFit.fill,
   );
   static Image friends = Image.asset(
     'lib/assets/widgets/friends.png',
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
     fit: BoxFit.fill,
   );
   static Image profile = Image.asset(
     'lib/assets/widgets/profile.png',
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
     fit: BoxFit.fill,
   );
 
   static Image gamescom = Image.asset(
     'lib/assets/widgets/gamescom.png',
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
     fit: BoxFit.fill,
   );
+
+  static void preloadIcons(BuildContext context) {
+    precacheImage(delete.image, context);
+    precacheImage(comment.image, context);
+    precacheImage(upvote.image, context);
+    precacheImage(downvote.image, context);
+    precacheImage(upvoted.image, context);
+    precacheImage(downvoted.image, context);
+    precacheImage(reload.image, context);
+    precacheImage(report.image, context);
+    precacheImage(lock.image, context);
+    precacheImage(streak.image, context);
+    precacheImage(settings.image, context);
+    precacheImage(checkmark.image, context);
+    precacheImage(blueCheckmark.image, context);
+    precacheImage(news.image, context);
+    precacheImage(chats.image, context);
+    precacheImage(mcreal.image, context);
+    precacheImage(friends.image, context);
+    precacheImage(profile.image, context);
+    precacheImage(gamescom.image, context);
+  }
 }

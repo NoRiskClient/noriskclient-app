@@ -58,18 +58,20 @@ class McRealPostState extends State<McRealComment> {
     getUpdateStream.sink.add([
       'loadSkin',
       widget.commentData['comment']['author'],
-      () => setState(() {
+      () {
         cache = getCache;
-      }),
+        if (mounted) setState(() {});
+      },
     ]);
     ownComment = userData['uuid'] == widget.commentData['comment']['author'];
     if (!ownComment) {
       getUpdateStream.sink.add([
         'loadUsername',
         widget.commentData['comment']['author'],
-        () => setState(() {
+        () {
           cache = getCache;
-        }),
+          if (mounted) setState(() {});
+        },
       ]);
     }
     likes = widget.commentData['likes'];
@@ -269,9 +271,8 @@ class McRealPostState extends State<McRealComment> {
                   if (replies.isNotEmpty)
                     GestureDetector(
                       onTap: () {
-                        setState(() {
-                          showReplies = !showReplies;
-                        });
+                        showReplies = !showReplies;
+                        if (mounted) setState(() {});
                       },
                       child: SizedBox(
                         height: 25,
@@ -360,9 +361,8 @@ class McRealPostState extends State<McRealComment> {
       );
     }
 
-    setState(() {
-      replies = newReplies;
-    });
+    replies = newReplies;
+    if (mounted) setState(() {});
   }
 
   void openProfilePage() {
@@ -377,16 +377,15 @@ class McRealPostState extends State<McRealComment> {
   }
 
   Future<void> reply() async {
-    setState(() {
-      commentInput = commentInput is McRealCommentInput
-          ? Container()
-          : McRealCommentInput(
-              userData: userData,
-              postId: widget.commentData['comment']['postId'],
-              parentCommentId: widget.commentData['comment']['_id'],
-              refresh: () => widget.commentUpdateStream.sink.add("*"),
-            );
-    });
+    commentInput = commentInput is McRealCommentInput
+        ? Container()
+        : McRealCommentInput(
+            userData: userData,
+            postId: widget.commentData['comment']['postId'],
+            parentCommentId: widget.commentData['comment']['_id'],
+            refresh: () => widget.commentUpdateStream.sink.add("*"),
+          );
+    if (mounted) setState(() {});
   }
 
   Future<void> upvote() async {
@@ -394,14 +393,15 @@ class McRealPostState extends State<McRealComment> {
     int oldLikes = likes;
     int oldDislikes = dislikes;
     bool? oldOwnRating = ownRating;
-    setState(() {
-      likes++;
-      if (ownRating == false) {
-        dislikes--;
-      }
-      ownRating = true;
-      currentlyUpdatingVotes = true;
-    });
+
+    likes++;
+    if (ownRating == false) {
+      dislikes--;
+    }
+    ownRating = true;
+    currentlyUpdatingVotes = true;
+    if (mounted) setState(() {});
+
     http.Response res = await http.post(
       Uri.parse(
         '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/comments/rating?uuid=${userData['uuid']}&commentId=${widget.commentData['comment']['_id']}&isPositive=true',
@@ -409,25 +409,22 @@ class McRealPostState extends State<McRealComment> {
       headers: {'Authorization': 'Bearer ${userData['token']}'},
     );
     if (res.statusCode != 200) {
-      setState(() {
-        likes = oldLikes;
-        dislikes = oldDislikes;
-        ownRating = oldOwnRating;
-        currentlyUpdatingVotes = false;
-      });
+      likes = oldLikes;
+      dislikes = oldDislikes;
+      ownRating = oldOwnRating;
+      currentlyUpdatingVotes = false;
+      if (mounted) setState(() {});
+
       if (res.statusCode == 401) {
         if (mounted) Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
       return;
     }
+
     widget.commentUpdateStream.sink.add(widget.commentData['comment']['_id']);
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => setState(() {
-        currentlyUpdatingVotes = false;
-      }),
-    );
+    currentlyUpdatingVotes = false;
+    if (mounted) setState(() {});
   }
 
   Future<void> downvote() async {
@@ -435,14 +432,15 @@ class McRealPostState extends State<McRealComment> {
     int oldLikes = likes;
     int oldDislikes = dislikes;
     bool? oldOwnRating = ownRating;
-    setState(() {
-      dislikes++;
-      if (ownRating == true) {
-        likes--;
-      }
-      ownRating = false;
-      currentlyUpdatingVotes = true;
-    });
+
+    dislikes++;
+    if (ownRating == true) {
+      likes--;
+    }
+    ownRating = false;
+    currentlyUpdatingVotes = true;
+    if (mounted) setState(() {});
+
     http.Response res = await http.post(
       Uri.parse(
         '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/comments/rating?uuid=${userData['uuid']}&commentId=${widget.commentData['comment']['_id']}&isPositive=false',
@@ -450,12 +448,12 @@ class McRealPostState extends State<McRealComment> {
       headers: {'Authorization': 'Bearer ${userData['token']}'},
     );
     if (res.statusCode != 200) {
-      setState(() {
-        likes = oldLikes;
-        dislikes = oldDislikes;
-        ownRating = oldOwnRating;
-        currentlyUpdatingVotes = false;
-      });
+      likes = oldLikes;
+      dislikes = oldDislikes;
+      ownRating = oldOwnRating;
+      currentlyUpdatingVotes = false;
+      if (mounted) setState(() {});
+
       if (res.statusCode == 401) {
         if (mounted) Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
@@ -463,12 +461,8 @@ class McRealPostState extends State<McRealComment> {
       return;
     }
     widget.commentUpdateStream.sink.add(widget.commentData['comment']['_id']);
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => setState(() {
-        currentlyUpdatingVotes = false;
-      }),
-    );
+    currentlyUpdatingVotes = false;
+    if (mounted) setState(() {});
   }
 
   Future<void> deleteRating() async {
@@ -476,15 +470,16 @@ class McRealPostState extends State<McRealComment> {
     int oldLikes = likes;
     int oldDislikes = dislikes;
     bool? oldOwnRating = ownRating;
-    setState(() {
-      if (ownRating == true) {
-        likes--;
-      } else {
-        dislikes--;
-      }
-      ownRating = null;
-      currentlyUpdatingVotes = true;
-    });
+
+    if (ownRating == true) {
+      likes--;
+    } else {
+      dislikes--;
+    }
+    ownRating = null;
+    currentlyUpdatingVotes = true;
+    if (mounted) setState(() {});
+
     http.Response res = await http.delete(
       Uri.parse(
         '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/comments/rating?uuid=${userData['uuid']}&commentId=${widget.commentData['comment']['_id']}',
@@ -492,25 +487,22 @@ class McRealPostState extends State<McRealComment> {
       headers: {'Authorization': 'Bearer ${userData['token']}'},
     );
     if (res.statusCode != 200) {
-      setState(() {
-        likes = oldLikes;
-        dislikes = oldDislikes;
-        ownRating = oldOwnRating;
-        currentlyUpdatingVotes = false;
-      });
+      likes = oldLikes;
+      dislikes = oldDislikes;
+      ownRating = oldOwnRating;
+      currentlyUpdatingVotes = false;
+      if (mounted) setState(() {});
+
       if (res.statusCode == 401) {
         if (mounted) Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
       return;
     }
+
     widget.commentUpdateStream.sink.add(widget.commentData['comment']['_id']);
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => setState(() {
-        currentlyUpdatingVotes = false;
-      }),
-    );
+    currentlyUpdatingVotes = false;
+    if (mounted) setState(() {});
   }
 
   Future<void> report() async {
@@ -562,9 +554,9 @@ class McRealPostState extends State<McRealComment> {
                         }
                         return;
                       }
-                      setState(() {
-                        deleted = true;
-                      });
+                      deleted = true;
+                      if (mounted) setState(() {});
+
                       widget.commentUpdateStream.sink.add("*");
                       if (context.mounted) Navigator.of(context).pop();
                     },
@@ -609,9 +601,8 @@ class McRealPostState extends State<McRealComment> {
                         }
                         return;
                       }
-                      setState(() {
-                        deleted = true;
-                      });
+                      deleted = true;
+                      if (mounted) setState(() {});
                       if (context.mounted) Navigator.of(context).pop();
                     },
                     child: Text(AppLocalizations.of(context).mcRealPopupDelete),

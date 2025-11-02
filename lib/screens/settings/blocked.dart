@@ -173,16 +173,18 @@ class BlockedState extends State<Blocked> {
       getUpdateStream.sink.add([
         'loadSkin',
         uuid,
-        () => setState(() {
+        () {
           cache = getCache;
-        }),
+          if (mounted) setState(() {});
+        },
       ]);
       getUpdateStream.sink.add([
         'loadUsername',
         uuid,
-        () => setState(() {
+        () {
           cache = getCache;
-        }),
+          if (mounted) setState(() {});
+        },
       ]);
     }
   }

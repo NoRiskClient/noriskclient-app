@@ -145,14 +145,13 @@
     "description": "Relative time label for events that happened just now.",
     "context": "mcReal:time"
   },
-  "mcRealAgo": "{time} ago",
+  "mcRealAgo": "{time} late",
   "@mcRealAgo": {
-    "description": "Relative time suffix, e.g., '13h ago'.",
+    "description": "Used to show the delay from day start to submission time. E.g., '13h late' means the post was made 13 hours after the McReal day started.",
     "context": "mcReal:time",
     "placeholders": {
       "time": {
         "type": "String",
-        "description": "The duration of time this was posted ago.",
         "example": "13h"
       }
     }

@@ -35,9 +35,8 @@ class McRealPostState extends State<McRealCommentInput> {
   @override
   void initState() {
     commentFocus.addListener(() {
-      setState(() {
-        hasFocus = commentFocus.hasFocus;
-      });
+      hasFocus = commentFocus.hasFocus;
+      if (mounted) setState(() {});
     });
     super.initState();
   }

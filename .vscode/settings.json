@@ -3,7 +3,8 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "discord.enabled": false,
     "cSpell.words": [
-        "gamescom",
-        "mcreal"
+        "noriskclient",
+        "mcreal",
+        "gamescom"
     ]
 }

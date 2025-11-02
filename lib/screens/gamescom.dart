@@ -45,9 +45,8 @@ class GamescomState extends State<Gamescom> {
               ),
               child: RefreshIndicator(
                 onRefresh: () async {
-                  setState(() {
-                    gamescomInfos = null;
-                  });
+                  gamescomInfos = null;
+                  if (mounted) setState(() {});
                   loadGamescomInfos();
                 },
                 child: ListView(
@@ -200,8 +199,7 @@ class GamescomState extends State<Gamescom> {
   void loadGamescomInfos() async {
     Map<String, dynamic>? data = await NoRiskApi().getGamescomInfos();
 
-    setState(() {
-      gamescomInfos = data;
-    });
+    gamescomInfos = data;
+    if (mounted) setState(() {});
   }
 }

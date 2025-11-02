@@ -60,13 +60,16 @@ class McRealPostState extends State<McRealPost> {
 
   @override
   void initState() {
-    getUpdateStream.sink.add([
-      'loadSkin',
-      widget.postData['post']['author'],
-      () => setState(() {
-        cache = getCache;
-      }),
-    ]);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => getUpdateStream.sink.add([
+        'loadSkin',
+        widget.postData['post']['author'],
+        () {
+          cache = getCache;
+          if (mounted) setState(() {});
+        },
+      ]),
+    );
     isOwnPost = userData['uuid'] == widget.postData['post']['author'];
     primary = Container(
       height: 200,
@@ -81,9 +84,10 @@ class McRealPostState extends State<McRealPost> {
       getUpdateStream.sink.add([
         'loadUsername',
         widget.postData['post']['author'],
-        () => setState(() {
+        () {
           cache = getCache;
-        }),
+          if (mounted) setState(() {});
+        },
       ]);
     }
 
@@ -91,9 +95,8 @@ class McRealPostState extends State<McRealPost> {
     NoRiskApi().getUserProfile(widget.postData['post']['author']).then((
       Map profile,
     ) {
-      setState(() {
-        cache = getCache;
-      });
+      cache = getCache;
+      if (mounted) setState(() {});
     });
     super.initState();
   }
@@ -356,15 +359,17 @@ class McRealPostState extends State<McRealPost> {
                                   : openDetailsPage,
                               onDoubleTap: () => upvote(true),
                               onLongPress: widget.locked
-                                  ? () {}
-                                  : () => setState(() {
+                                  ? null
+                                  : () {
                                       holdingMainImage = true;
-                                    }),
+                                      if (mounted) setState(() {});
+                                    },
                               onLongPressEnd: widget.locked
-                                  ? (_) {}
-                                  : (_) => setState(() {
+                                  ? null
+                                  : (_) {
                                       holdingMainImage = false;
-                                    }),
+                                      if (mounted) setState(() {});
+                                    },
                               child: Stack(
                                 children: [
                                   Stack(
@@ -391,10 +396,13 @@ class McRealPostState extends State<McRealPost> {
                                           left: 10,
                                           child: GestureDetector(
                                             onTap: widget.locked
-                                                ? () {}
-                                                : () => setState(() {
+                                                ? null
+                                                : () {
                                                     swapped = !swapped;
-                                                  }),
+                                                    if (mounted) {
+                                                      setState(() {});
+                                                    }
+                                                  },
                                             child: SizedBox(
                                               height: 75,
                                               child: ClipRRect(
@@ -473,25 +481,30 @@ class McRealPostState extends State<McRealPost> {
                     const SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        NoRiskText(
-                          widget.postData['post']['title']
-                              .toString()
-                              .toUpperCase(),
-                          maxLength:
-                              MediaQuery.of(context).size.width -
-                              2 * 15 -
-                              2 * 12 -
-                              160,
-                          spaceTop: false,
-                          spaceBottom: false,
-                          style: const TextStyle(
-                            fontSize: 22.5,
-                            color: NoRiskClientColors.text,
-                            fontWeight: FontWeight.w500,
+                        Flexible(
+                          child: NoRiskText(
+                            widget.postData['post']['title']
+                                .toString()
+                                .toUpperCase(),
+                            maxLength:
+                                MediaQuery.of(context).size.width -
+                                2 * 15 -
+                                2 * 12 -
+                                160,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            spaceTop: false,
+                            spaceBottom: false,
+                            style: const TextStyle(
+                              fontSize: 22.5,
+                              color: NoRiskClientColors.text,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
+                        SizedBox(width: 4),
                         if (!widget.locked)
                           Row(
                             children: [
@@ -598,36 +611,37 @@ class McRealPostState extends State<McRealPost> {
 
   String getPostTime() {
     DateTime mcRealTime = DateTime.parse(
-      "${widget.postData['post']['mcRealDate']} ${widget.postData['post']['mcRealTime'].toString().split('.')[0]}",
-    );
+      "${widget.postData['post']['mcRealDate']} ${widget.postData['post']['mcRealTime'].toString().split('.')[0]} Z",
+    ).toLocal();
     DateTime uploadTime = DateTime.parse(
-      "${widget.postData['post']['uploadDate']} ${widget.postData['post']['uploadTime'].toString().split('.')[0]}",
-    );
+      "${widget.postData['post']['uploadDate']} ${widget.postData['post']['uploadTime'].toString().split('.')[0]} Z",
+    ).toLocal();
 
     Duration difference = uploadTime
         .subtract(Duration(minutes: Config.mcRealTimeframe))
         .difference(mcRealTime);
 
     String postTime = '';
-
     if (widget.postData['post']['serverIp'] != null) {
       postTime += widget.postData['post']['serverIp'];
       postTime += ' • ';
     }
 
+    var postTime2 = '';
     if (difference.inMinutes <= 0) {
-      postTime +=
+      postTime2 +=
           '${uploadTime.hour}:${uploadTime.minute}:${uploadTime.second}';
     } else {
       if (difference.inHours > 0) {
-        postTime = '${difference.inHours}h';
+        postTime2 = '${difference.inHours}h';
       } else if (difference.inMinutes > 0) {
-        postTime = '${difference.inMinutes}min';
+        postTime2 = '${difference.inMinutes}min';
       } else {
-        postTime = '${difference.inSeconds}s';
+        postTime2 = '${difference.inSeconds}s';
       }
-      postTime = AppLocalizations.of(context).mcRealAgo(postTime);
+      postTime2 = AppLocalizations.of(context).mcRealAgo(postTime2);
     }
+    postTime += postTime2;
 
     return postTime;
   }
@@ -656,11 +670,10 @@ class McRealPostState extends State<McRealPost> {
       return;
     }
 
-    setState(() {
-      cache = getCache;
-      primary = Image.memory(primaryRes.bodyBytes, fit: BoxFit.fill);
-      secondary = Image.memory(secondaryRes.bodyBytes, fit: BoxFit.fill);
-    });
+    cache = getCache;
+    primary = Image.memory(primaryRes.bodyBytes, fit: BoxFit.fill);
+    secondary = Image.memory(secondaryRes.bodyBytes, fit: BoxFit.fill);
+    if (mounted) setState(() {});
   }
 
   void openProfilePage() {
@@ -708,18 +721,16 @@ class McRealPostState extends State<McRealPost> {
     int oldLikes = widget.postData['likes'];
     int oldDislikes = widget.postData['dislikes'];
     Map<String, dynamic>? oldUserRating = widget.postData['userRating'];
-    setState(() {
-      widget.postData['likes']++;
-      if (widget.postData['userRating'] != null &&
-          !widget.postData['userRating']!['isPositive']) {
-        widget.postData['dislikes']--;
-      }
-      widget.postData['userRating'] = {'isPositive': true};
-      processingNewRating = true;
-    });
-    if (animate) {
-      animatedUpvote();
+
+    widget.postData['likes']++;
+    if (widget.postData['userRating'] != null &&
+        !widget.postData['userRating']!['isPositive']) {
+      widget.postData['dislikes']--;
     }
+    widget.postData['userRating'] = {'isPositive': true};
+    processingNewRating = true;
+    if (mounted) setState(() {});
+    if (animate) animatedUpvote();
 
     http
         .post(
@@ -733,12 +744,12 @@ class McRealPostState extends State<McRealPost> {
         )
         .then((http.Response res) {
           if (res.statusCode != 200) {
-            setState(() {
-              widget.postData['likes'] = oldLikes;
-              widget.postData['dislikes'] = oldDislikes;
-              widget.postData['userRating'] = oldUserRating;
-              processingNewRating = false;
-            });
+            widget.postData['likes'] = oldLikes;
+            widget.postData['dislikes'] = oldDislikes;
+            widget.postData['userRating'] = oldUserRating;
+            processingNewRating = false;
+            if (mounted) setState(() {});
+
             if (res.statusCode == 401) {
               if (widget.commentUpdateStream != null) {
                 if (mounted) Navigator.of(context).pop();
@@ -747,24 +758,21 @@ class McRealPostState extends State<McRealPost> {
             }
             return;
           }
+
           widget.postUpdateStream.sink.add(widget.postData['post']['_id']);
-          Future.delayed(
-            const Duration(seconds: 1),
-            () => setState(() {
-              processingNewRating = false;
-            }),
-          );
+          processingNewRating = false;
+          if (mounted) setState(() {});
         });
   }
 
   void animatedUpvote() async {
-    setState(() {
-      animateUpvote = true;
-    });
+    animateUpvote = true;
+    if (mounted) setState(() {});
+
     await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      animateUpvote = false;
-    });
+
+    animateUpvote = false;
+    if (mounted) setState(() {});
   }
 
   void downvote() async {
@@ -772,14 +780,15 @@ class McRealPostState extends State<McRealPost> {
     int oldLikes = widget.postData['likes'];
     int oldDislikes = widget.postData['dislikes'];
     Map<String, dynamic>? oldUserRating = widget.postData['userRating'];
-    setState(() {
-      widget.postData['dislikes']++;
-      if (widget.postData['userRating']?['isPositive'] == true) {
-        widget.postData['likes']--;
-      }
-      widget.postData['userRating'] = {'isPositive': false};
-      processingNewRating = true;
-    });
+
+    widget.postData['dislikes']++;
+    if (widget.postData['userRating']?['isPositive'] == true) {
+      widget.postData['likes']--;
+    }
+    widget.postData['userRating'] = {'isPositive': false};
+    processingNewRating = true;
+    if (mounted) setState(() {});
+
     http.Response res = await http.post(
       Uri.parse(
         '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/post/rate?postId=${widget.postData['post']['_id']}&isPositive=false&uuid=${userData['uuid']}',
@@ -790,12 +799,12 @@ class McRealPostState extends State<McRealPost> {
       },
     );
     if (res.statusCode != 200) {
-      setState(() {
-        widget.postData['likes'] = oldLikes;
-        widget.postData['dislikes'] = oldDislikes;
-        widget.postData['userRating'] = oldUserRating;
-        processingNewRating = false;
-      });
+      widget.postData['likes'] = oldLikes;
+      widget.postData['dislikes'] = oldDislikes;
+      widget.postData['userRating'] = oldUserRating;
+      processingNewRating = false;
+      if (mounted) setState(() {});
+
       if (res.statusCode == 401) {
         if (widget.commentUpdateStream != null) {
           if (mounted) Navigator.of(context).pop();
@@ -804,13 +813,10 @@ class McRealPostState extends State<McRealPost> {
       }
       return;
     }
+
     widget.postUpdateStream.sink.add(widget.postData['post']['_id']);
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => setState(() {
-        processingNewRating = false;
-      }),
-    );
+    processingNewRating = false;
+    if (mounted) setState(() {});
   }
 
   void deleteRating() async {
@@ -818,15 +824,16 @@ class McRealPostState extends State<McRealPost> {
     int oldLikes = widget.postData['likes'];
     int oldDislikes = widget.postData['dislikes'];
     Map<String, dynamic>? oldUserRating = widget.postData['userRating'];
-    setState(() {
-      if (widget.postData['userRating']?['isPositive'] == true) {
-        widget.postData['likes']--;
-      } else {
-        widget.postData['dislikes']--;
-      }
-      widget.postData['userRating'] = null;
-      processingNewRating = true;
-    });
+
+    if (widget.postData['userRating']?['isPositive'] == true) {
+      widget.postData['likes']--;
+    } else {
+      widget.postData['dislikes']--;
+    }
+    widget.postData['userRating'] = null;
+    processingNewRating = true;
+    if (mounted) setState(() {});
+
     http.Response res = await http.delete(
       Uri.parse(
         '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/post/rate?postId=${widget.postData['post']['_id']}&uuid=${userData['uuid']}',
@@ -837,12 +844,12 @@ class McRealPostState extends State<McRealPost> {
       },
     );
     if (res.statusCode != 200) {
-      setState(() {
-        widget.postData['likes'] = oldLikes;
-        widget.postData['dislikes'] = oldDislikes;
-        widget.postData['userRating'] = oldUserRating;
-        processingNewRating = false;
-      });
+      widget.postData['likes'] = oldLikes;
+      widget.postData['dislikes'] = oldDislikes;
+      widget.postData['userRating'] = oldUserRating;
+      processingNewRating = false;
+      if (mounted) setState(() {});
+
       if (res.statusCode == 401) {
         if (widget.commentUpdateStream != null) {
           if (mounted) Navigator.of(context).pop();
@@ -852,12 +859,8 @@ class McRealPostState extends State<McRealPost> {
       return;
     }
     widget.postUpdateStream.sink.add(widget.postData['post']['_id']);
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => setState(() {
-        processingNewRating = false;
-      }),
-    );
+    processingNewRating = false;
+    if (mounted) setState(() {});
   }
 
   void openPostRemovedPopup() {

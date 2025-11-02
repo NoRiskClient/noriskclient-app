@@ -83,8 +83,7 @@ class _NewsState extends State<News> {
       }
     }
 
-    setState(() {
-      news = newsPosts;
-    });
+    news = newsPosts;
+    if (mounted) setState(() {});
   }
 }

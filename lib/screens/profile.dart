@@ -55,9 +55,10 @@ class ProfileState extends State<Profile> {
     getUpdateStream.sink.add([
       'loadUsername',
       widget.uuid,
-      () => setState(() {
+      () {
         cache = getCache;
-      }),
+        if (mounted) setState(() {});
+      },
     ]);
 
     // profilePostsUpdateStream.stream
@@ -67,14 +68,12 @@ class ProfileState extends State<Profile> {
 
   void toggleEasteregg() {
     if (widget.uuid == '1245c340-8bdb-4796-838e-a247f1594796') {
-      setState(() {
-        psJahn = !psJahn;
-      });
+      psJahn = !psJahn;
+      if (mounted) setState(() {});
       if (kDebugMode) print('Toggled PSJahn, now $psJahn');
     } else if (widget.uuid == '625dd22b-bad2-4b82-a0bc-e43ba1c1a7fd') {
-      setState(() {
-        aimShock = !aimShock;
-      });
+      aimShock = !aimShock;
+      if (mounted) setState(() {});
       if (kDebugMode) print('Toggled Aim_shock, now $aimShock');
 
       if (aimShock) {
@@ -429,9 +428,8 @@ class ProfileState extends State<Profile> {
   void loadBlockedState() {
     if (widget.uuid == userData['uuid']) return;
     BlockingManager().checkBlocked(widget.uuid).then((bool blocked) {
-      setState(() {
-        this.blocked = blocked;
-      });
+      this.blocked = blocked;
+      if (mounted) setState(() {});
     });
   }
 
@@ -565,20 +563,15 @@ class ProfileState extends State<Profile> {
   ) async {
     // only clear if we refresh all posts
     if (refreshPostIndex == null) {
-      setState(() {
-        pins = null;
-        noPins = true;
-      });
+      pins = null;
+      noPins = true;
+      if (mounted) setState(() {});
     }
 
     await NoRiskApi().getUserProfile(widget.uuid);
 
-    // ahaha bro wie scuffed, aber sonst ist noch nt im cache 🥀🥀🥀
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    setState(() {
-      cache = getCache;
-    });
+    cache = getCache;
+    if (mounted) setState(() {});
 
     List<ProfileMcRealPost> newPinnedPosts = [];
     int index = 0;
@@ -593,24 +586,21 @@ class ProfileState extends State<Profile> {
         ),
       );
       if (pinnedPost != null) {
-        setState(() {
-          noPins = false;
-        });
+        noPins = false;
+        if (mounted) setState(() {});
       }
       index++;
     }
 
-    // update if we refresh a single post
     if (refreshPostIndex != null) {
-      setState(() {
-        pins![refreshPostIndex] = newPinnedPosts[refreshPostIndex];
-      });
+      // update if we refresh a single post
+      pins![refreshPostIndex] = newPinnedPosts[refreshPostIndex];
+      if (mounted) setState(() {});
       updateData!(pins![refreshPostIndex].postData);
     } else {
       // update all posts if we refresh all posts
-      setState(() {
-        pins = newPinnedPosts;
-      });
+      pins = newPinnedPosts;
+      if (mounted) setState(() {});
     }
   }
 }

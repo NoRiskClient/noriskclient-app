@@ -28,12 +28,11 @@ class ChatsState extends State<Chats> {
     Provider.of<LocaleProvider>(context, listen: false).loadLocale();
     loadChats();
     chatUpdateStream.stream.listen((String data) async {
-      if (data == '*') {
-        setState(() {
-          chats = [];
-        });
-        loadChats();
-        return;
+      switch (data) {
+        case "*":
+          chats.clear();
+          if (mounted) setState(() {});
+          loadChats();
       }
     });
 
@@ -53,9 +52,8 @@ class ChatsState extends State<Chats> {
       backgroundColor: NoRiskClientColors.background,
       body: RefreshIndicator(
         onRefresh: () async {
-          setState(() {
-            chats = [];
-          });
+          chats.clear();
+          if (mounted) setState(() {});
           loadChats();
         },
         child: ListView(
@@ -136,10 +134,8 @@ class ChatsState extends State<Chats> {
       return b.lastMessageTimestamp!.compareTo(a.lastMessageTimestamp!);
     });
 
-    await Future.delayed(const Duration(milliseconds: 10));
-    setState(() {
-      chats = newChats;
-    });
+    chats = newChats;
+    if (mounted) setState(() {});
   }
 
   void openProfilePage() {

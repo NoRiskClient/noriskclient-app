@@ -386,16 +386,12 @@ class SignInState extends State<SignIn> {
       headers: {'Authorization': 'Bearer ${userData['token']}'},
     );
 
-    setState(() {
-      isProcessingResult = true;
-    });
-
-    await Future.delayed(const Duration(seconds: 1));
+    isProcessingResult = true;
+    if (mounted) setState(() {});
 
     if (res.statusCode != 200) {
-      setState(() {
-        isProcessingResult = false;
-      });
+      isProcessingResult = false;
+      if (mounted) setState(() {});
       return;
     }
 
