@@ -9,260 +9,275 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get mcRealComment_reply => 'Reply';
+  String get localeDisplay => 'English';
 
   @override
-  String get mcRealComment_replys => 'Rreplys';
+  String get navbarYou => 'You';
 
   @override
-  String get mcRealComment_you => 'You';
+  String get signInEula =>
+      'By signing in you agree to the terms of service and privacy policy.';
 
   @override
-  String get mcRealProfile_notPosted => 'You have to post a McReal before you can see others.';
+  String get signInExplanation =>
+      'To sign in, scan the QR code from the NoRiskClient Launcher under the menu option \'Social Accounts\' next to the account manager.';
 
   @override
-  String get mcRealReport_info_hint => 'Additional Information';
+  String get signInScanQrCode => 'Scan QR Code';
 
   @override
-  String get mcRealReport_reason_copyrightInfringement => 'Copyright Infringement';
+  String get signInLabel => 'Sign In';
 
   @override
-  String get mcRealReport_reason_hateSpeach => 'Hate Speach';
+  String get signInSigningIn => 'Signing In...';
 
   @override
-  String get mcRealReport_reason_inappropriateForMinors => 'Inappropriate For Minors';
+  String get settingsTitle => 'Settings';
 
   @override
-  String get mcRealReport_reason_obscenity => 'Obscenity';
+  String get settingsSignOut => 'Sign Out';
 
   @override
-  String get mcRealReport_reason_other => 'Other';
+  String get settingsLanguage => 'Language';
 
   @override
-  String get mcRealReport_reason_privacyViolation => 'Privacy Violation';
+  String get settingsBlockedPlayers => 'Blocked Players';
 
   @override
-  String get mcRealReport_reason_spamOrFraud => 'Spam or Fraud';
+  String get settingsLegal => 'Legal';
 
   @override
-  String get mcRealReport_report => 'Report';
+  String get settingsTos => 'Terms of Service';
 
   @override
-  String get mcRealReport_title_comment => 'Report Comment';
+  String get settingsPrivacyPolicy => 'Privacy Policy';
 
   @override
-  String get mcRealReport_title_post => 'Report Post';
+  String get settingsImprint => 'Imprint';
 
   @override
-  String get mcRealReport_whatHappened => 'What happened?';
+  String get settingsSupport => 'Support';
 
   @override
-  String get mcReal_ago => 'late';
+  String get profileYourProfile => 'Your Profile';
 
   @override
-  String get mcReal_comment => 'Comment';
+  String get profileUsersProfile => '\'s Profile';
 
   @override
-  String get mcReal_comment_hint => 'New Comment';
+  String get profileStatsFirstJoin => 'First Join';
 
   @override
-  String get mcReal_deleteCommentPopupContent => 'Are you sure you want to delete this comment?';
+  String get profileStatsLastJoin => 'Last Join';
 
   @override
-  String get mcReal_deleteCommentPopupTitle => 'Are you sure?';
+  String get profileStatsLoginStreak => 'Login Streak';
 
   @override
-  String get mcReal_deletePostPopupContent => 'Are you sure you want to delete today\'s McReal?\nYou will not be able to post another McReal today!';
+  String get profileStatsMcReal => 'McReal Streak';
 
   @override
-  String get mcReal_deletePostPopupTitle => 'Are you sure?';
+  String get profileStatsPlaytime => 'Playtime';
 
   @override
-  String get mcReal_discovery => 'Discovery';
+  String get profileNoPinnedPosts => ' doesn\'t have any pinned posts :/';
 
   @override
-  String get mcReal_friendsOnly => 'Friends';
+  String get mcRealFriendsTabLabel => 'Friends';
 
   @override
-  String get mcReal_partnerPosts => 'Partners';
+  String get mcRealDiscoverTabLabel => 'Discover';
 
   @override
-  String get mcReal_justNow => 'Now';
+  String get mcRealPartnersTabLabel => 'Partners';
 
   @override
-  String get mcReal_noComments => 'No Comments available.';
+  String get mcRealYourMcReal => 'Your McReal';
 
   @override
-  String get mcReal_noPosts => 'Nobody has posted their McReal yet.\nStart NoRiskClient to be the first one to post!';
+  String get mcRealJustNow => 'Now';
 
   @override
-  String get mcReal_noPostsPlain => 'No posts available :(';
+  String mcRealAgo(String time) {
+    return '$time ago';
+  }
 
   @override
-  String get mcReal_pinPostPopupContent => 'Are you sure you want to pin todays McReal?';
+  String get mcRealCommentLabel => 'Comment';
 
   @override
-  String get mcReal_pinPostPopupTitle => 'Are you sure?';
+  String get mcRealCommentHint => 'New Comment';
 
   @override
-  String get mcReal_popup_cancel => 'Cancel';
+  String get mcRealNoComments => 'No comments available.';
 
   @override
-  String get mcReal_popup_delete => 'Delete!';
+  String get mcRealReply => 'Reply';
 
   @override
-  String get mcReal_popup_ok => 'Ok';
+  String get mcRealCommentReply => 'Reply';
 
   @override
-  String get mcReal_popup_yes => 'Yes';
+  String get mcRealCommentReplies => 'Replies';
 
   @override
-  String get mcReal_popup_pin => 'Pin!';
+  String get mcRealCommentYou => 'You';
 
   @override
-  String get mcReal_popup_unpin => 'Unpin';
+  String get mcRealNoPosts =>
+      'Nobody has posted their McReal yet.\nStart NoRiskClient to be the first!';
 
   @override
-  String get mcReal_removedPost => 'Your McReal was removed.\nTap here for more information.';
+  String get mcRealNoPostsPlain => 'No posts available :(';
 
   @override
-  String get mcReal_removedPostPopupTitle => 'Your McReal was removed';
+  String get mcRealDeleteCommentTitle => 'Are you sure?';
 
   @override
-  String get mcReal_removedPostReason => 'Reason';
+  String get mcRealDeleteCommentContent =>
+      'Are you sure you want to delete this comment?';
 
   @override
-  String get mcReal_reply => 'Reply';
+  String get mcRealDeletePostTitle => 'Are you sure?';
 
   @override
-  String get mcReal_status_deleted => 'You have deleted your post.';
+  String get mcRealDeletePostContent =>
+      'Are you sure you want to delete today\'s McReal?\nYou will not be able to post another McReal today!';
 
   @override
-  String get mcReal_status_noPost => 'You have not yet posted your McReal of today.';
+  String get mcRealPinPostTitle => 'Are you sure?';
 
   @override
-  String get mcReal_status_removed => 'Your McReal was removed.';
+  String get mcRealPinPostContent =>
+      'Are you sure you want to pin today\'s McReal?';
 
   @override
-  String get mcReal_unpinPostPopupContent => 'Are you sure you no longer want to pin this McReal?';
+  String get mcRealUnpinPostTitle => 'Are you sure?';
 
   @override
-  String get mcReal_unpinPostPopupTitle => 'Are you sure?';
+  String get mcRealUnpinPostContent =>
+      'Are you sure you no longer want to pin this McReal?';
 
   @override
-  String get mcReal_yourMcReal => 'Your McReal';
+  String get mcRealPopupCancel => 'Cancel';
 
   @override
-  String get postDetails_title => 'Post Details';
+  String get mcRealPopupDelete => 'Delete';
 
   @override
-  String get postDetails_yourMcReal => 'Your McReal';
+  String get mcRealPopupOk => 'OK';
 
   @override
-  String get settings_signOut => 'Sign Out';
+  String get mcRealPopupYes => 'Yes';
 
   @override
-  String get settings_title => 'Settings';
+  String get mcRealPopupPin => 'Pin';
 
   @override
-  String get signIn_eula => 'By signing in you agree to the terms of service and privacy policy.';
+  String get mcRealPopupUnpin => 'Unpin';
 
   @override
-  String get signIn_explanation => 'To sign in just scan the QR-Code from the NoRiskClient Launcher under the menu option \"Social Accounts\" next to the account manager.';
+  String get mcRealRemovedPostInfo =>
+      'Your McReal was removed.\nTap here for more information.';
 
   @override
-  String get signIn_scanQrCode => 'Scan QR Code';
+  String get mcRealRemovedPostTitle => 'Your McReal was removed';
 
   @override
-  String get signIn_signIn => 'SignIn';
+  String get mcRealRemovedPostReason => 'Reason';
 
   @override
-  String get signIn_signingIn => 'Signing In...';
+  String get mcRealStatusDeleted => 'You have deleted your post.';
 
   @override
-  String get profile_yourProfile => 'Your Profile';
+  String get mcRealStatusNoPost =>
+      'You have not yet posted your McReal of today.';
 
   @override
-  String get profile_usersProfile => '\'s Profile';
+  String get mcRealStatusRemoved => 'Your McReal was removed.';
 
   @override
-  String get profile_stats_firstJoin => 'First Join';
+  String get mcRealProfileNotPosted =>
+      'You have to post a McReal before you can see others.';
 
   @override
-  String get profile_stats_lastJoin => 'Last Join';
+  String get mcRealReportLabel => 'Report';
 
   @override
-  String get profile_stats_loginStreak => 'Login Streak';
+  String get mcRealReportCommentTitle => 'Report Comment';
 
   @override
-  String get profile_stats_mcReal => 'McReal Streak';
+  String get mcRealReportPostTitle => 'Report Post';
 
   @override
-  String get profile_stats_playtime => 'Playtime';
+  String get mcRealReportWhatHappened => 'What happened?';
 
   @override
-  String get profile_noPinnedPosts => ' doesn\'t have any pinned posts :/';
+  String get mcRealReportInfoHint => 'Additional Information';
 
   @override
-  String get settings_language => 'Language';
+  String get mcRealReportReasonCopyrightInfringement =>
+      'Copyright Infringement';
 
   @override
-  String get settings_blockedPlayers => 'Blocked Players';
+  String get mcRealReportReasonHateSpeech => 'Hate Speech';
 
   @override
-  String get settings_legal => 'Legal Info\'s';
+  String get mcRealReportReasonInappropriateForMinors =>
+      'Inappropriate For Minors';
 
   @override
-  String get settings_tos => 'Terms of Service';
+  String get mcRealReportReasonObscenity => 'Obscenity';
 
   @override
-  String get settings_privacyPolicy => 'Privacy Policy';
+  String get mcRealReportReasonOther => 'Other';
 
   @override
-  String get settings_imprint => 'Imprint';
+  String get mcRealReportReasonPrivacyViolation => 'Privacy Violation';
 
   @override
-  String get settings_support => 'Support';
+  String get mcRealReportReasonSpamOrFraud => 'Spam or Fraud';
 
   @override
-  String get mcReal_profile_blockUserPopupTitle => 'Are you sure?';
+  String get postDetailsTitle => 'Post Details';
 
   @override
-  String get mcReal_profile_blockUserPopupContent => 'Are you sure you want to block this player?';
+  String get postDetailsYourMcReal => 'Your McReal';
 
   @override
-  String get mcReal_profile_unblockUserPopupTitle => 'Are you sure?';
+  String get chatDeleteMessageTitle => 'Delete Message';
 
   @override
-  String get mcReal_profile_unblockUserPopupContent => 'Are you sure you want to unblock this player?';
+  String get chatDeleteMessageContent =>
+      'Are you sure you want to delete this message?';
 
   @override
-  String get mcReal_profile_blockedPlayer => 'You have blocked this player.';
+  String get chatMessageDeleted => 'This message was deleted.';
 
   @override
-  String get mcReal_blocked_noBlockedPlayers => 'You don\'t have any blocked players.';
+  String get chatEmpty => 'Empty Chat';
 
   @override
-  String get chat_delete_message_title => 'Delete Message';
+  String get gamescomNoInfo =>
+      'There is no information available at the moment.';
 
   @override
-  String get chat_delete_message_content => 'Are you sure you want to delete this message?';
+  String get mcRealBlockUserTitle => 'Are you sure?';
 
   @override
-  String get chat_delete_message_cancel => 'Cancel';
+  String get mcRealBlockUserContent =>
+      'Are you sure you want to block this player?';
 
   @override
-  String get chat_delete_message_delete => 'Delete';
+  String get mcRealUnblockUserTitle => 'Are you sure?';
 
   @override
-  String get chat_message_deleted => 'This message was deleted.';
+  String get mcRealUnblockUserContent =>
+      'Are you sure you want to unblock this player?';
 
   @override
-  String get chat_chat_empty => 'Empty Chat';
+  String get mcRealBlockedPlayer => 'You have blocked this player.';
 
   @override
-  String get navbar_you => 'You';
-
-  @override
-  String get gamescom_no_infos => 'There are no infos available at the moment.';
+  String get mcRealBlockedNone => 'You don\'t have any blocked players.';
 }

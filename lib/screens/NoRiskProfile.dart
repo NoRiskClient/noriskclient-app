@@ -1,27 +1,30 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:noriskclient/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/main.dart';
-import 'package:noriskclient/screens/Settings.dart';
-import 'package:noriskclient/utils/BlockingManager.dart';
-import 'package:noriskclient/utils/NoRiskApi.dart';
-import 'package:noriskclient/utils/NoRiskIcon.dart';
-import 'package:noriskclient/widgets/NoRiskBackButton.dart';
-import 'package:noriskclient/widgets/NoRiskContainer.dart';
-import 'package:noriskclient/widgets/NoRiskProfileStatisticContainer.dart';
-import 'package:noriskclient/widgets/NoRiskText.dart';
-import 'package:noriskclient/widgets/ProfileMcRealPost.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../config/Colors.dart';
+import '../l10n/app_localizations.dart';
+import '../main.dart';
+import '../utils/BlockingManager.dart';
+import '../utils/NoRiskApi.dart';
+import '../utils/NoRiskIcon.dart';
+import '../widgets/NoRiskBackButton.dart';
+import '../widgets/NoRiskContainer.dart';
+import '../widgets/NoRiskProfileStatisticContainer.dart';
+import '../widgets/NoRiskText.dart';
+import '../widgets/ProfileMcRealPost.dart';
+import 'Settings.dart';
 
 class Profile extends StatefulWidget {
-  const Profile(
-      {super.key,
-      required this.uuid,
-      this.isSettings = false,
-      this.postUpdateStream});
+  const Profile({
+    super.key,
+    required this.uuid,
+    this.isSettings = false,
+    this.postUpdateStream,
+  });
 
   final String uuid;
   final bool isSettings;
@@ -32,11 +35,11 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileState extends State<Profile> {
-  List<ProfileMcRealPost>? pinns;
+  List<ProfileMcRealPost>? pins;
   StreamController<List> profilePostsUpdateStream = StreamController<List>();
   Map<String, Map<String, dynamic>> cache = getCache;
   Map<String, dynamic> userData = getUserData;
-  bool noPinns = true;
+  bool noPins = true;
   bool? blocked;
 
   //eastereggs
@@ -52,8 +55,8 @@ class ProfileState extends State<Profile> {
       'loadUsername',
       widget.uuid,
       () => setState(() {
-            cache = getCache;
-          })
+        cache = getCache;
+      }),
     ]);
 
     // profilePostsUpdateStream.stream
@@ -75,35 +78,41 @@ class ProfileState extends State<Profile> {
 
       if (Aim_shock) {
         showDialog(
-            context: context,
-            builder: isAndroid
-                ? (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Tea Time 🍵'),
-                      content: Text(
-                          'Welcome to the Tea Time!\nCome have a seat and calm down with a cup of tea 😊'),
-                      actions: [
-                        TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text('Close',
-                                style:
-                                    TextStyle(color: NoRiskClientColors.blue)))
-                      ],
-                    );
-                  }
-                : (BuildContext context) {
-                    return CupertinoAlertDialog(
-                      title: Text('Tea Time 🍵'),
-                      content: Text(
-                          'Welcome to the Tea Time!\nCome have a seat and calm down with a cup of tea 😊'),
-                      actions: [
-                        CupertinoDialogAction(
-                            isDefaultAction: true,
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text('Close'))
-                      ],
-                    );
-                  });
+          context: context,
+          builder: isAndroid
+              ? (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Tea Time 🍵'),
+                    content: Text(
+                      'Welcome to the Tea Time!\nCome have a seat and calm down with a cup of tea 😊',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: Text(
+                          'Close',
+                          style: TextStyle(color: NoRiskClientColors.blue),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              : (BuildContext context) {
+                  return CupertinoAlertDialog(
+                    title: Text('Tea Time 🍵'),
+                    content: Text(
+                      'Welcome to the Tea Time!\nCome have a seat and calm down with a cup of tea 😊',
+                    ),
+                    actions: [
+                      CupertinoDialogAction(
+                        isDefaultAction: true,
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: Text('Close'),
+                      ),
+                    ],
+                  );
+                },
+        );
       }
     }
   }
@@ -111,271 +120,309 @@ class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: NoRiskClientColors.background,
-        body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            image: PSJahn
-                ? DecorationImage(
-                    image: Image.asset('lib/assets/app/gommehd.png',
-                            repeat: ImageRepeat.repeat)
-                        .image,
-                    repeat: ImageRepeat.repeat)
-                : null,
-          ),
-          child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Stack(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: NoRiskClientColors.background,
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: PSJahn
+              ? DecorationImage(
+                  image: Image.asset(
+                    'lib/assets/app/gommehd.png',
+                    repeat: ImageRepeat.repeat,
+                  ).image,
+                  repeat: ImageRepeat.repeat,
+                )
+              : null,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Stack(
+            children: [
+              Stack(
                 children: [
-                  Stack(
+                  Column(
                     children: [
-                      Column(children: [
-                        const SizedBox(height: 65),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            if (!widget.isSettings)
-                              NoRiskBackButton(
-                                  onPressed: () => Navigator.of(context).pop()),
-                            if (widget.isSettings) const SizedBox(width: 30),
-                            Column(children: [
+                      const SizedBox(height: 65),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (!widget.isSettings)
+                            NoRiskBackButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          if (widget.isSettings) const SizedBox(width: 30),
+                          Column(
+                            children: [
                               NoRiskText(
-                                  (widget.uuid == userData['uuid']
-                                          ? AppLocalizations.of(context)!
-                                              .profile_yourProfile
-                                          : (cache['usernames']?[widget.uuid] ??
+                                (widget.uuid == userData['uuid']
+                                        ? AppLocalizations.of(
+                                            context,
+                                          ).profileYourProfile
+                                        : (cache['usernames']?[widget.uuid] ??
                                               'Unknown'))
-                                      .toString()
-                                      .toLowerCase(),
+                                    .toString()
+                                    .toLowerCase(),
+                                spaceTop: false,
+                                spaceBottom: false,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                  color: NoRiskClientColors.text,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              if (cache['profiles']?[widget.uuid] != null &&
+                                  cache['profiles']![widget
+                                          .uuid]['nrcUser']['noRiskPlusExpirationDate'] !=
+                                      null &&
+                                  cache['profiles']![widget
+                                          .uuid]['nrcUser']['noRiskPlusExpirationDate'] >
+                                      0 &&
+                                  cache['profiles']![widget
+                                      .uuid]['nrcUser']['additionalNameTag']['isEnabled'])
+                                NoRiskText(
+                                  (cache['profiles']![widget
+                                              .uuid]['nrcUser']['additionalNameTag']['text'] ??
+                                          'Unknown')
+                                      .toLowerCase()
+                                      .replaceAll(
+                                        RegExp(
+                                          r'[§&][0-9A-FK-OR]',
+                                          caseSensitive: false,
+                                        ),
+                                        '',
+                                      ),
+                                  maxLength:
+                                      MediaQuery.of(context).size.width -
+                                      2 * 15 -
+                                      2 * 30 -
+                                      2 * 15,
                                   spaceTop: false,
                                   spaceBottom: false,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                      fontSize: 30,
-                                      color: NoRiskClientColors.text,
-                                      fontWeight: FontWeight.bold)),
-                              if (cache['profiles']?[widget.uuid] != null &&
-                                  cache['profiles']![widget.uuid]['nrcUser']
-                                          ['noRiskPlusExpirationDate'] !=
-                                      null &&
-                                  cache['profiles']![widget.uuid]['nrcUser']
-                                          ['noRiskPlusExpirationDate'] >
-                                      0 &&
-                                  cache['profiles']![widget.uuid]['nrcUser']
-                                      ['additionalNameTag']['isEnabled'])
-                                NoRiskText(
-                                    (cache['profiles']![widget.uuid]['nrcUser']
-                                                ['additionalNameTag']['text'] ??
-                                            'Unknown')
-                                        .toLowerCase()
-                                        .replaceAll(
-                                            RegExp(r'[§&][0-9A-FK-OR]',
-                                                caseSensitive: false),
-                                            ''),
-                                    maxLength:
-                                        MediaQuery.of(context).size.width -
-                                            2 * 15 -
-                                            2 * 30 -
-                                            2 * 15,
-                                    spaceTop: false,
-                                    spaceBottom: false,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 25,
-                                        color: NoRiskClientColors.blue)),
-                            ]),
-                            if (blocked != null)
-                              NoRiskContainer(
-                                  child: GestureDetector(
-                                      onTap: blocked! ? unblock : block,
-                                      onLongPress: () => Fluttertoast.showToast(
-                                          msg:
-                                              "${blocked == false ? 'Block' : 'Unblock'} ${cache['usernames']?[widget.uuid] ?? 'Unknown'}"),
-                                      child: SizedBox(
-                                          height: 26.5,
-                                          width: 26.5,
-                                          child: Center(
-                                            child: Icon(
-                                                blocked == false
-                                                    ? Icons.block
-                                                    : Icons.handshake,
-                                                color: blocked == false
-                                                    ? Colors.red
-                                                    : Colors.green,
-                                                size: 20),
-                                          )))),
-                            if (widget.isSettings)
-                              GestureDetector(
-                                  onTap: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              Settings())),
-                                  child: NoRiskContainer(
-                                      child: SizedBox(
-                                    height: 30,
-                                    width: 30,
-                                    child: Center(child: NoRiskIcon.settings),
-                                  ))),
-                            if (!widget.isSettings && blocked == null)
-                              const SizedBox(width: 30),
-                          ],
-                        ),
-                        Center(
-                            child: cache['armorSkins']?[widget.uuid] != null
-                                ? GestureDetector(
-                                    child: cache['armorSkins']?[widget.uuid],
-                                    onTap: toggleEasteregg)
-                                : const SizedBox()),
-                      ]),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 275),
-                        child: RefreshIndicator(
-                          onRefresh: () => loadPinnedPosts(null, null),
-                          child: ListView(children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                NoRiskProfileStatisticContainer(
-                                  width: (MediaQuery.of(context).size.width -
-                                          2 * 15 -
-                                          1 * 10) /
-                                      2,
-                                  title: AppLocalizations.of(context)!
-                                      .profile_stats_firstJoin,
-                                  value: DateTime.fromMillisecondsSinceEpoch(
-                                          cache['profiles']?[widget.uuid]
-                                                  ?['firstJoinTimeStamp'] ??
-                                              0)
-                                      .toIso8601String()
-                                      .toString()
-                                      .split('T')[0]
-                                      .replaceAll("-", ".")
-                                      .split(".")
-                                      .reversed
-                                      .join("."),
+                                    fontSize: 25,
+                                    color: NoRiskClientColors.blue,
+                                  ),
                                 ),
-                                const SizedBox(width: 10),
-                                NoRiskProfileStatisticContainer(
-                                  width: (MediaQuery.of(context).size.width -
-                                          2 * 15 -
-                                          1 * 10) /
-                                      2,
-                                  title: AppLocalizations.of(context)!
-                                      .profile_stats_lastJoin,
-                                  value: DateTime.fromMillisecondsSinceEpoch(
-                                          cache['profiles']?[widget.uuid]
-                                                  ?['lastJoinTimeStamp'] ??
-                                              0)
-                                      .toIso8601String()
-                                      .toString()
-                                      .split('T')[0]
-                                      .replaceAll("-", ".")
-                                      .split(".")
-                                      .reversed
-                                      .join("."),
+                            ],
+                          ),
+                          if (blocked != null)
+                            NoRiskContainer(
+                              child: GestureDetector(
+                                onTap: blocked! ? unblock : block,
+                                onLongPress: () => Fluttertoast.showToast(
+                                  msg:
+                                      "${blocked == false ? 'Block' : 'Unblock'} ${cache['usernames']?[widget.uuid] ?? 'Unknown'}",
                                 ),
-                              ],
+                                child: SizedBox(
+                                  height: 26.5,
+                                  width: 26.5,
+                                  child: Center(
+                                    child: Icon(
+                                      blocked == false
+                                          ? Icons.block
+                                          : Icons.handshake,
+                                      color: blocked == false
+                                          ? Colors.red
+                                          : Colors.green,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                            const SizedBox(height: 10),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  NoRiskProfileStatisticContainer(
-                                    width: (MediaQuery.of(context).size.width -
-                                            2 * 15 -
-                                            2 * 10) /
-                                        3,
-                                    title: AppLocalizations.of(context)!
-                                        .profile_stats_loginStreak,
-                                    value: cache['profiles']?[widget.uuid]
-                                                    ?['nrcUser']['loginStreak']
-                                                ['days']
-                                            .toString() ??
-                                        '?',
-                                  ),
-                                  const SizedBox(width: 10),
-                                  NoRiskProfileStatisticContainer(
-                                    width: (MediaQuery.of(context).size.width -
-                                            2 * 15 -
-                                            2 * 10) /
-                                        3,
-                                    title: AppLocalizations.of(context)!
-                                        .profile_stats_mcReal,
-                                    value: cache['profiles']?[widget.uuid]
-                                                ?['mcRealStreak']['days']
-                                            .toString() ??
-                                        '?',
-                                  ),
-                                  const SizedBox(width: 10),
-                                  NoRiskProfileStatisticContainer(
-                                    width: (MediaQuery.of(context).size.width -
-                                            2 * 15 -
-                                            2 * 10) /
-                                        3,
-                                    title: AppLocalizations.of(context)!
-                                        .profile_stats_playtime,
-                                    value: Duration(
-                                                    milliseconds: cache[
-                                                                    'profiles']
-                                                                ?[widget.uuid]
-                                                            ?['playTime'] ??
-                                                        0)
-                                                .inDays >
-                                            0
-                                        ? '${Duration(milliseconds: cache['profiles']?[widget.uuid]?['playTime'] ?? 0).inDays}d'
-                                        : '${Duration(milliseconds: cache['profiles']?[widget.uuid]?['playTime'] ?? 0).inHours}h',
-                                  ),
-                                ]),
-                            const SizedBox(height: 15),
-                            if (!noPinns && blocked != true)
-                              Column(children: [
-                                ...pinns!,
-                                const SizedBox(height: 50)
-                              ]),
-                            if (noPinns || blocked == true)
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height -
-                                                500,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Center(
-                                                child: NoRiskText(
-                                                    blocked == true
-                                                        ? AppLocalizations.of(
-                                                                context)!
-                                                            .mcReal_profile_blockedPlayer
-                                                            .toLowerCase()
-                                                        : (cache['usernames']?[
-                                                                        widget
-                                                                            .uuid] ??
-                                                                    'Unknown')
-                                                                .toLowerCase() +
-                                                            AppLocalizations.of(
-                                                                    context)!
-                                                                .profile_noPinnedPosts,
-                                                    textAlign: TextAlign.center,
-                                                    style: const TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.red))),
-                                          )
-                          ]),
-                        ),
+                          if (widget.isSettings)
+                            GestureDetector(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) => Settings(),
+                                ),
+                              ),
+                              child: NoRiskContainer(
+                                child: SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: Center(child: NoRiskIcon.settings),
+                                ),
+                              ),
+                            ),
+                          if (!widget.isSettings && blocked == null)
+                            const SizedBox(width: 30),
+                        ],
+                      ),
+                      Center(
+                        child: cache['armorSkins']?[widget.uuid] != null
+                            ? GestureDetector(
+                                child: cache['armorSkins']?[widget.uuid],
+                                onTap: toggleEasteregg,
+                              )
+                            : const SizedBox(),
                       ),
                     ],
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 275),
+                    child: RefreshIndicator(
+                      onRefresh: () => loadPinnedPosts(null, null),
+                      child: ListView(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              NoRiskProfileStatisticContainer(
+                                width:
+                                    (MediaQuery.of(context).size.width -
+                                        2 * 15 -
+                                        1 * 10) /
+                                    2,
+                                title: AppLocalizations.of(
+                                  context,
+                                ).profileStatsFirstJoin,
+                                value:
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                          cache['profiles']?[widget
+                                                  .uuid]?['firstJoinTimeStamp'] ??
+                                              0,
+                                        )
+                                        .toIso8601String()
+                                        .toString()
+                                        .split('T')[0]
+                                        .replaceAll("-", ".")
+                                        .split(".")
+                                        .reversed
+                                        .join("."),
+                              ),
+                              const SizedBox(width: 10),
+                              NoRiskProfileStatisticContainer(
+                                width:
+                                    (MediaQuery.of(context).size.width -
+                                        2 * 15 -
+                                        1 * 10) /
+                                    2,
+                                title: AppLocalizations.of(
+                                  context,
+                                ).profileStatsLastJoin,
+                                value:
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                          cache['profiles']?[widget
+                                                  .uuid]?['lastJoinTimeStamp'] ??
+                                              0,
+                                        )
+                                        .toIso8601String()
+                                        .toString()
+                                        .split('T')[0]
+                                        .replaceAll("-", ".")
+                                        .split(".")
+                                        .reversed
+                                        .join("."),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              NoRiskProfileStatisticContainer(
+                                width:
+                                    (MediaQuery.of(context).size.width -
+                                        2 * 15 -
+                                        2 * 10) /
+                                    3,
+                                title: AppLocalizations.of(
+                                  context,
+                                ).profileStatsLoginStreak,
+                                value:
+                                    cache['profiles']?[widget
+                                            .uuid]?['nrcUser']['loginStreak']['days']
+                                        .toString() ??
+                                    '?',
+                              ),
+                              const SizedBox(width: 10),
+                              NoRiskProfileStatisticContainer(
+                                width:
+                                    (MediaQuery.of(context).size.width -
+                                        2 * 15 -
+                                        2 * 10) /
+                                    3,
+                                title: AppLocalizations.of(
+                                  context,
+                                ).profileStatsMcReal,
+                                value:
+                                    cache['profiles']?[widget
+                                            .uuid]?['mcRealStreak']['days']
+                                        .toString() ??
+                                    '?',
+                              ),
+                              const SizedBox(width: 10),
+                              NoRiskProfileStatisticContainer(
+                                width:
+                                    (MediaQuery.of(context).size.width -
+                                        2 * 15 -
+                                        2 * 10) /
+                                    3,
+                                title: AppLocalizations.of(
+                                  context,
+                                ).profileStatsPlaytime,
+                                value:
+                                    Duration(
+                                          milliseconds:
+                                              cache['profiles']?[widget
+                                                  .uuid]?['playTime'] ??
+                                              0,
+                                        ).inDays >
+                                        0
+                                    ? '${Duration(milliseconds: cache['profiles']?[widget.uuid]?['playTime'] ?? 0).inDays}d'
+                                    : '${Duration(milliseconds: cache['profiles']?[widget.uuid]?['playTime'] ?? 0).inHours}h',
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 15),
+                          if (!noPins && blocked != true)
+                            Column(
+                              children: [...pins!, const SizedBox(height: 50)],
+                            ),
+                          if (noPins || blocked == true)
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height - 500,
+                              width: MediaQuery.of(context).size.width,
+                              child: Center(
+                                child: NoRiskText(
+                                  blocked == true
+                                      ? AppLocalizations.of(
+                                          context,
+                                        ).settingsBlockedPlayers.toLowerCase()
+                                      : (cache['usernames']?[widget.uuid] ??
+                                                    'Unknown')
+                                                .toLowerCase() +
+                                            AppLocalizations.of(
+                                              context,
+                                            ).profileNoPinnedPosts,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
-              )),
-        ));
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void loadBlockedState() {
@@ -389,123 +436,141 @@ class ProfileState extends State<Profile> {
 
   void block() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Platform.isAndroid
-              ? AlertDialog(
-                  title: Text(AppLocalizations.of(context)!
-                      .mcReal_profile_blockUserPopupTitle),
-                  content: Text(AppLocalizations.of(context)!
-                      .mcReal_profile_blockUserPopupContent),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text(
-                            AppLocalizations.of(context)!.mcReal_popup_cancel,
-                            style: const TextStyle(color: Colors.red))),
-                    TextButton(
-                        onPressed: () async {
-                          await BlockingManager().block(widget.uuid);
-                          loadBlockedState();
-                          widget.postUpdateStream?.sink.add('*');
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                            AppLocalizations.of(context)!.mcReal_popup_yes,
-                            style: const TextStyle(
-                                color: NoRiskClientColors.blue))),
-                  ],
-                )
-              : CupertinoAlertDialog(
-                  title: Text(AppLocalizations.of(context)!
-                      .mcReal_profile_blockUserPopupTitle),
-                  content: Text(AppLocalizations.of(context)!
-                      .mcReal_profile_blockUserPopupContent),
-                  actions: [
-                    CupertinoDialogAction(
-                        isDestructiveAction: true,
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text(
-                            AppLocalizations.of(context)!.mcReal_popup_cancel)),
-                    CupertinoDialogAction(
-                        isDefaultAction: true,
-                        onPressed: () async {
-                          await BlockingManager().block(widget.uuid);
-                          loadBlockedState();
-                          widget.postUpdateStream?.sink.add('*');
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                            AppLocalizations.of(context)!.mcReal_popup_yes))
-                  ],
-                );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return Platform.isAndroid
+            ? AlertDialog(
+                title: Text(AppLocalizations.of(context).mcRealBlockUserTitle),
+                content: Text(
+                  AppLocalizations.of(context).mcRealBlockUserContent,
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(
+                      AppLocalizations.of(context).mcRealPopupCancel,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      await BlockingManager().block(widget.uuid);
+                      loadBlockedState();
+                      widget.postUpdateStream?.sink.add('*');
+                      if (context.mounted) Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      AppLocalizations.of(context).mcRealPopupYes,
+                      style: const TextStyle(color: NoRiskClientColors.blue),
+                    ),
+                  ),
+                ],
+              )
+            : CupertinoAlertDialog(
+                title: Text(AppLocalizations.of(context).mcRealBlockUserTitle),
+                content: Text(
+                  AppLocalizations.of(context).mcRealBlockUserContent,
+                ),
+                actions: [
+                  CupertinoDialogAction(
+                    isDestructiveAction: true,
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(
+                      AppLocalizations.of(context).mcRealPopupCancel,
+                    ),
+                  ),
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    onPressed: () async {
+                      await BlockingManager().block(widget.uuid);
+                      loadBlockedState();
+                      widget.postUpdateStream?.sink.add('*');
+                      if (context.mounted) Navigator.of(context).pop();
+                    },
+                    child: Text(AppLocalizations.of(context).mcRealPopupYes),
+                  ),
+                ],
+              );
+      },
+    );
   }
 
   void unblock() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Platform.isAndroid
-              ? AlertDialog(
-                  title: Text(AppLocalizations.of(context)!
-                      .mcReal_profile_unblockUserPopupTitle),
-                  content: Text(AppLocalizations.of(context)!
-                      .mcReal_profile_unblockUserPopupContent),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text(
-                            AppLocalizations.of(context)!.mcReal_popup_cancel,
-                            style: const TextStyle(color: Colors.red))),
-                    TextButton(
-                        onPressed: () async {
-                          await BlockingManager().unblock(widget.uuid);
-                          loadBlockedState();
-                          widget.postUpdateStream?.sink.add('*');
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                            AppLocalizations.of(context)!.mcReal_popup_yes,
-                            style: const TextStyle(
-                                color: NoRiskClientColors.blue))),
-                  ],
-                )
-              : CupertinoAlertDialog(
-                  title: Text(AppLocalizations.of(context)!
-                      .mcReal_profile_unblockUserPopupTitle),
-                  content: Text(AppLocalizations.of(context)!
-                      .mcReal_profile_unblockUserPopupContent),
-                  actions: [
-                    CupertinoDialogAction(
-                        isDestructiveAction: true,
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text(
-                            AppLocalizations.of(context)!.mcReal_popup_cancel)),
-                    CupertinoDialogAction(
-                        isDefaultAction: true,
-                        onPressed: () async {
-                          await BlockingManager().unblock(widget.uuid);
-                          loadBlockedState();
-                          widget.postUpdateStream?.sink.add('*');
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                            AppLocalizations.of(context)!.mcReal_popup_yes))
-                  ],
-                );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return Platform.isAndroid
+            ? AlertDialog(
+                title: Text(
+                  AppLocalizations.of(context).mcRealUnblockUserTitle,
+                ),
+                content: Text(
+                  AppLocalizations.of(context).mcRealUnblockUserContent,
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(
+                      AppLocalizations.of(context).mcRealPopupCancel,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      await BlockingManager().unblock(widget.uuid);
+                      loadBlockedState();
+                      widget.postUpdateStream?.sink.add('*');
+                      if (context.mounted) Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      AppLocalizations.of(context).mcRealPopupYes,
+                      style: const TextStyle(color: NoRiskClientColors.blue),
+                    ),
+                  ),
+                ],
+              )
+            : CupertinoAlertDialog(
+                title: Text(
+                  AppLocalizations.of(context).mcRealUnblockUserTitle,
+                ),
+                content: Text(
+                  AppLocalizations.of(context).mcRealUnblockUserContent,
+                ),
+                actions: [
+                  CupertinoDialogAction(
+                    isDestructiveAction: true,
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(
+                      AppLocalizations.of(context).mcRealPopupCancel,
+                    ),
+                  ),
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    onPressed: () async {
+                      await BlockingManager().unblock(widget.uuid);
+                      loadBlockedState();
+                      widget.postUpdateStream?.sink.add('*');
+                      if (context.mounted) Navigator.of(context).pop();
+                    },
+                    child: Text(AppLocalizations.of(context).mcRealPopupYes),
+                  ),
+                ],
+              );
+      },
+    );
   }
 
   void loadStreak() async {}
 
-  Future<void> loadPinnedPosts(int? refreshPostIndex,
-      void Function(Map<String, dynamic>? newData)? updateData) async {
+  Future<void> loadPinnedPosts(
+    int? refreshPostIndex,
+    void Function(Map<String, dynamic>? newData)? updateData,
+  ) async {
     // only clear if we refresh all posts
     if (refreshPostIndex == null) {
       setState(() {
-        pinns = null;
-        noPinns = true;
+        pins = null;
+        noPins = true;
       });
     }
 
@@ -522,14 +587,17 @@ class ProfileState extends State<Profile> {
     int index = 0;
     for (var pinnedPost
         in cache['profiles']?[widget.uuid]?['pinnedPosts'] ?? []) {
-      newPinnedPosts.add(ProfileMcRealPost(
+      newPinnedPosts.add(
+        ProfileMcRealPost(
           postData: pinnedPost,
           profilePostIndex: index,
           profileUuid: widget.uuid,
-          profilePostsUpdateStream: profilePostsUpdateStream));
+          profilePostsUpdateStream: profilePostsUpdateStream,
+        ),
+      );
       if (pinnedPost != null) {
         setState(() {
-          noPinns = false;
+          noPins = false;
         });
       }
       index++;
@@ -538,13 +606,13 @@ class ProfileState extends State<Profile> {
     // update if we refresh a single post
     if (refreshPostIndex != null) {
       setState(() {
-        pinns![refreshPostIndex] = newPinnedPosts[refreshPostIndex];
+        pins![refreshPostIndex] = newPinnedPosts[refreshPostIndex];
       });
-      updateData!(pinns![refreshPostIndex].postData);
+      updateData!(pins![refreshPostIndex].postData);
     } else {
       // update all posts if we refresh all posts
       setState(() {
-        pinns = newPinnedPosts;
+        pins = newPinnedPosts;
       });
     }
   }

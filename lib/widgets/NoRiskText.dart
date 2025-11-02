@@ -17,29 +17,34 @@ class NoRiskText extends Text {
     int? maxLines,
     StrutStyle? strutStyle,
   }) : super(
-          StringUtils.enforceMaxLengthByPixels(
-            data,
-            maxLength != null ? maxLength.toDouble() : double.infinity,
-            TextStyle(
-                color: style?.color,
-                fontSize: style?.fontSize,
-                fontWeight: style?.fontWeight,
-                fontFamily: 'SmallCapsMC'),
-          ),
-          key: key,
-          style: TextStyle(
-              color: style?.color,
-              fontSize: style?.fontSize,
-              fontWeight: style?.fontWeight,
-              height: style?.height,
-              fontFamily: 'SmallCapsMC'),
-          textAlign: textAlign,
-          textDirection: textDirection,
-          textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: spaceTop, applyHeightToLastDescent: spaceBottom),
-          locale: locale,
-          softWrap: softWrap,
-          overflow: overflow,
-          maxLines: maxLines,
-          strutStyle: strutStyle,
-        );
+         StringUtils.enforceMaxLengthByPixels(
+           data,
+           maxLength != null ? maxLength.toDouble() : double.infinity,
+           TextStyle(
+             color: style?.color,
+             fontSize: style?.fontSize,
+             fontWeight: style?.fontWeight,
+             fontFamily: 'SmallCapsMC',
+           ),
+         ),
+         key: key,
+         style: TextStyle(
+           color: style?.color,
+           fontSize: style?.fontSize,
+           fontWeight: style?.fontWeight,
+           height: style?.height,
+           fontFamily: 'SmallCapsMC',
+         ),
+         textAlign: textAlign,
+         textDirection: textDirection,
+         textHeightBehavior: TextHeightBehavior(
+           applyHeightToFirstAscent: spaceTop,
+           applyHeightToLastDescent: spaceBottom,
+         ),
+         locale: locale,
+         softWrap: softWrap,
+         overflow: overflow,
+         maxLines: maxLines,
+         strutStyle: strutStyle,
+       );
 }

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
 
 class NoRiskButton extends StatelessWidget {
-  NoRiskButton(
-      {super.key,
-      this.height,
-      this.width,
-      this.color = Colors.white,
-      required this.onTap,
-      required this.child});
+  NoRiskButton({
+    super.key,
+    this.height,
+    this.width,
+    this.color = Colors.white,
+    required this.onTap,
+    required this.child,
+  });
 
   final Widget child;
   Color color;

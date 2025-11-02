@@ -11,7 +11,10 @@ class StringUtils {
   }
 
   static String enforceMaxLengthByPixels(
-      String value, double maxWidth, TextStyle style) {
+    String value,
+    double maxWidth,
+    TextStyle style,
+  ) {
     String trimmedValue = value;
 
     TextSpan textSpan = TextSpan(text: value, style: style);

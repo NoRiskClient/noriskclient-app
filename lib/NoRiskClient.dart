@@ -1,14 +1,14 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:noriskclient/main.dart';
-import 'package:noriskclient/provider/localeProvider.dart';
-import 'package:noriskclient/screens/Chats.dart';
-import 'package:noriskclient/screens/Gamescom.dart';
-import 'package:noriskclient/screens/McReal.dart';
-import 'package:noriskclient/screens/News.dart';
-import 'package:noriskclient/screens/NoRiskProfile.dart';
-import 'package:noriskclient/widgets/BottomNavigationBar.dart';
-import 'package:provider/provider.dart';
+
+import 'main.dart';
+import 'screens/Chats.dart';
+import 'screens/Gamescom.dart';
+import 'screens/McReal.dart';
+import 'screens/News.dart';
+import 'screens/NoRiskProfile.dart';
+import 'widgets/BottomNavigationBar.dart';
 
 class NoRiskClient extends StatefulWidget {
   const NoRiskClient({super.key});
@@ -30,8 +30,6 @@ class NoRiskClientState extends State<NoRiskClient> {
   @override
   void initState() {
     super.initState();
-    final provider = Provider.of<LocaleProvider>(context, listen: false);
-    provider.loadLocale();
 
     activeTabIndexController.stream.listen((index) {
       updateStream.add(["tabIndex", index]);
@@ -61,14 +59,19 @@ class NoRiskClientState extends State<NoRiskClient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Stack(children: [
+      resizeToAvoidBottomInset: true,
+      body: Stack(
+        children: [
           getActiveTab(),
           Align(
-              alignment: Alignment.bottomCenter,
-              child: NoRiskBottomNavigationBar(
-                  currentIndex: tabIndex,
-                  currentIndexController: activeTabIndexController)),
-        ]));
+            alignment: Alignment.bottomCenter,
+            child: NoRiskBottomNavigationBar(
+              currentIndex: tabIndex,
+              currentIndexController: activeTabIndexController,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

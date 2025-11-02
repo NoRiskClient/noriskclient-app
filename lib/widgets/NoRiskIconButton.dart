@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
 
 class NoRiskIconButton extends StatelessWidget {
-  NoRiskIconButton(
-      {super.key,
-      required this.onTap,
-      this.transparent = false,
-      required this.icon,
-      this.width = 30,
-      this.height = 30});
+  NoRiskIconButton({
+    super.key,
+    required this.onTap,
+    this.transparent = false,
+    required this.icon,
+    this.width = 30,
+    this.height = 30,
+  });
 
   final Widget icon;
   final bool transparent;
@@ -21,10 +22,11 @@ class NoRiskIconButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: NoRiskContainer(
-          width: width,
-          height: height,
-          color: transparent ? Colors.transparent : Colors.white,
-          child: Center(child: icon)),
+        width: width,
+        height: height,
+        color: transparent ? Colors.transparent : Colors.white,
+        child: Center(child: icon),
+      ),
     );
   }
 }

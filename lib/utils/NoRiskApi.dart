@@ -19,10 +19,14 @@ class NoRiskApi {
   }
 
   Future<T?> _fetchData<T>(
-      String backend, String endpoint, Map<String, dynamic>? params) async {
+    String backend,
+    String endpoint,
+    Map<String, dynamic>? params,
+  ) async {
     final response = await http.get(
       Uri.parse(
-          '${getBaseUrl(getUserData['experimental'], backend)}/$endpoint?uuid=${getUserData['uuid']}${params?.entries.map((e) => '&${e.key}=${e.value}').join() ?? ''}'),
+        '${getBaseUrl(getUserData['experimental'], backend)}/$endpoint?uuid=${getUserData['uuid']}${params?.entries.map((e) => '&${e.key}=${e.value}').join() ?? ''}',
+      ),
       headers: {'Authorization': 'Bearer ${getUserData['token']}'},
     );
     if (response.statusCode == 200) {
@@ -35,15 +39,20 @@ class NoRiskApi {
     }
   }
 
-  Future<T?> _postData<T>(String backend, String endpoint,
-      Map<String, dynamic>? body, Map<String, dynamic>? params) async {
+  Future<T?> _postData<T>(
+    String backend,
+    String endpoint,
+    Map<String, dynamic>? body,
+    Map<String, dynamic>? params,
+  ) async {
     final response = await http.post(
       Uri.parse(
-          '${getBaseUrl(getUserData['experimental'], backend)}/$endpoint?uuid=${getUserData['uuid']}${params?.entries.map((e) => '&${e.key}=${e.value}').join() ?? ''}'),
+        '${getBaseUrl(getUserData['experimental'], backend)}/$endpoint?uuid=${getUserData['uuid']}${params?.entries.map((e) => '&${e.key}=${e.value}').join() ?? ''}',
+      ),
       body: body != null ? jsonEncode(body) : null,
       headers: {
         'Authorization': 'Bearer ${getUserData['token']}',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
     );
     if (response.statusCode == 200) {
@@ -58,15 +67,20 @@ class NoRiskApi {
     }
   }
 
-  Future<T?> _deleteData<T>(String backend, String endpoint,
-      Map<String, dynamic>? body, Map<String, dynamic>? params) async {
+  Future<T?> _deleteData<T>(
+    String backend,
+    String endpoint,
+    Map<String, dynamic>? body,
+    Map<String, dynamic>? params,
+  ) async {
     final response = await http.delete(
       Uri.parse(
-          '${getBaseUrl(getUserData['experimental'], backend)}/$endpoint?uuid=${getUserData['uuid']}${params?.entries.map((e) => '&${e.key}=${e.value}').join() ?? ''}'),
+        '${getBaseUrl(getUserData['experimental'], backend)}/$endpoint?uuid=${getUserData['uuid']}${params?.entries.map((e) => '&${e.key}=${e.value}').join() ?? ''}',
+      ),
       body: body != null ? jsonEncode(body) : null,
       headers: {
         'Authorization': 'Bearer ${getUserData['token']}',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
     );
     if (response.statusCode == 200) {
@@ -86,8 +100,11 @@ class NoRiskApi {
       return getCache['profiles']![uuid];
     }
 
-    Map? profileData =
-        await _fetchData<Map>('mcreal', 'user/profile/$uuid', null);
+    Map? profileData = await _fetchData<Map>(
+      'mcreal',
+      'user/profile/$uuid',
+      null,
+    );
     if (profileData == null) {
       return {};
     } else {
@@ -98,7 +115,10 @@ class NoRiskApi {
 
   Future<List<dynamic>> getBlogPostsAndChangeLogs() async {
     List<dynamic>? data = await _fetchData<List<dynamic>>(
-        'wordpress', 'posts', {'categories': '21,2'});
+      'wordpress',
+      'posts',
+      {'categories': '21,2'},
+    );
     return data ?? [];
   }
 
@@ -110,25 +130,35 @@ class NoRiskApi {
 
   Future<List<dynamic>> getChatMessages(String chatId, int page) async {
     List<dynamic>? data = await _fetchData(
-        "messaging", "chat/$chatId/messages", {'page': page.toString()});
+      "messaging",
+      "chat/$chatId/messages",
+      {'page': page.toString()},
+    );
 
     return data ?? [];
   }
 
   Future<Map<String, dynamic>> sendChatMessage(
-      String chatId, String content) async {
-    return await _postData(
-        "messaging", "chat/$chatId/messages", {'content': content}, null);
+    String chatId,
+    String content,
+  ) async {
+    return await _postData("messaging", "chat/$chatId/messages", {
+      'content': content,
+    }, null);
   }
 
   Future<String> deleteChatMessage(String chatId, String messageId) async {
-    return await _deleteData(
-        "messaging", "chat/$chatId/messages", {'messageID': messageId}, null);
+    return await _deleteData("messaging", "chat/$chatId/messages", {
+      'messageID': messageId,
+    }, null);
   }
 
   Future<Map<String, dynamic>> getGiveawayAdminInfo(String giveawayId) async {
-    Map<String, dynamic>? data =
-        await _fetchData("cosmetics", "giveaways/admin/$giveawayId", null);
+    Map<String, dynamic>? data = await _fetchData(
+      "cosmetics",
+      "giveaways/admin/$giveawayId",
+      null,
+    );
 
     if (data == null) {
       return {};
@@ -140,11 +170,12 @@ class NoRiskApi {
   Future<Map<String, dynamic>?> redeemGiveaway(String giveawayId) async {
     final response = await http.post(
       Uri.parse(
-          '${getBaseUrl(getUserData['experimental'], "cosmetics")}/giveaways/$giveawayId/redeem?uuid=${getUserData['uuid']}'),
+        '${getBaseUrl(getUserData['experimental'], "cosmetics")}/giveaways/$giveawayId/redeem?uuid=${getUserData['uuid']}',
+      ),
       body: null,
       headers: {
         'Authorization': 'Bearer ${getUserData['token']}',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
     );
     if (response.statusCode == 200) {
@@ -159,8 +190,9 @@ class NoRiskApi {
   }
 
   Future<String?> isAndroidAppReleased() async {
-    final response = await http
-        .get(Uri.parse('https://dl-staging.norisk.gg/android_app_release'));
+    final response = await http.get(
+      Uri.parse('https://dl-staging.norisk.gg/android_app_release'),
+    );
 
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes))['currentVersion']
@@ -172,9 +204,13 @@ class NoRiskApi {
 
   Future<Map<String, dynamic>?> getGamescomInfos() async {
     print(
-        'https://api${getUserData['experimental'] == true ? '-staging' : ''}.norisk.gg/api/v1/discord/gamescom-infos');
-    final response = await http.get(Uri.parse(
-        'https://api${getUserData['experimental'] == true ? '-staging' : ''}.norisk.gg/api/v1/discord/gamescom-infos'));
+      'https://api${getUserData['experimental'] == true ? '-staging' : ''}.norisk.gg/api/v1/discord/gamescom-infos',
+    );
+    final response = await http.get(
+      Uri.parse(
+        'https://api${getUserData['experimental'] == true ? '-staging' : ''}.norisk.gg/api/v1/discord/gamescom-infos',
+      ),
+    );
 
     if (response.statusCode == 200) {
       return response.body == 'null'

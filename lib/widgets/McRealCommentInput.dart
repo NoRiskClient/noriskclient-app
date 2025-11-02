@@ -1,19 +1,22 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:noriskclient/l10n/app_localizations.dart';
-import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/config/Config.dart';
-import 'package:noriskclient/main.dart';
-import 'package:noriskclient/utils/NoRiskApi.dart';
+
+import '../config/Colors.dart';
+import '../config/Config.dart';
+import '../l10n/app_localizations.dart';
+import '../main.dart';
+import '../utils/NoRiskApi.dart';
 
 class McRealCommentInput extends StatefulWidget {
-  const McRealCommentInput(
-      {super.key,
-      required this.userData,
-      required this.postId,
-      this.parentCommentId,
-      required this.refresh});
+  const McRealCommentInput({
+    super.key,
+    required this.userData,
+    required this.postId,
+    this.parentCommentId,
+    required this.refresh,
+  });
 
   final Map<String, dynamic> userData;
   final String postId;
@@ -42,59 +45,66 @@ class McRealPostState extends State<McRealCommentInput> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 35),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width *
-                    (widget.parentCommentId != null ? 0.7 : 0.925),
-                height: hasFocus ? 100 : 55,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(7.5),
-                        borderSide: const BorderSide(
-                            color: NoRiskClientColors.light, width: 2)),
-                    fillColor: NoRiskClientColors.background,
-                    // hintText: ,
-                    labelText:
-                        AppLocalizations.of(context)!.mcReal_comment_hint,
-                    labelStyle: const TextStyle(color: Colors.white),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(7.5),
-                        gapPadding: 3.5,
-                        borderSide:
-                            const BorderSide(color: Colors.white, width: 2)),
-                    filled: true,
-                    isDense: true,
+      padding: const EdgeInsets.only(top: 35),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width:
+                MediaQuery.of(context).size.width *
+                (widget.parentCommentId != null ? 0.7 : 0.925),
+            height: hasFocus ? 100 : 55,
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(7.5),
+                  borderSide: const BorderSide(
+                    color: NoRiskClientColors.light,
+                    width: 2,
                   ),
-                  enabled: true,
-                  maxLines: 3,
-                  controller: commentController,
-                  focusNode: commentFocus,
-                  keyboardType: TextInputType.text,
-                  maxLength: Config.maxCommentContentLength,
-                  cursorHeight: 12.5,
-                  style: const TextStyle(color: Colors.white, fontSize: 12.5),
-                  autofocus: true,
-                  canRequestFocus: true,
-                  scrollPadding: const EdgeInsets.all(0),
-                  onSubmitted: (value) => create(value),
-                  onTapOutside: (event) => commentFocus.unfocus(),
                 ),
-              )
-            ]));
+                fillColor: NoRiskClientColors.background,
+                // hintText: ,
+                labelText: AppLocalizations.of(context).mcRealCommentHint,
+                labelStyle: const TextStyle(color: Colors.white),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(7.5),
+                  gapPadding: 3.5,
+                  borderSide: const BorderSide(color: Colors.white, width: 2),
+                ),
+                filled: true,
+                isDense: true,
+              ),
+              enabled: true,
+              maxLines: 3,
+              controller: commentController,
+              focusNode: commentFocus,
+              keyboardType: TextInputType.text,
+              maxLength: Config.maxCommentContentLength,
+              cursorHeight: 12.5,
+              style: const TextStyle(color: Colors.white, fontSize: 12.5),
+              autofocus: true,
+              canRequestFocus: true,
+              scrollPadding: const EdgeInsets.all(0),
+              onSubmitted: (value) => create(value),
+              onTapOutside: (event) => commentFocus.unfocus(),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> create(String content) async {
     if (content.isEmpty) return;
-    
+
     http.Response res = await http.post(
-        Uri.parse(
-            '${NoRiskApi().getBaseUrl(widget.userData['experimental'], 'mcreal')}/comments?uuid=${widget.userData['uuid']}&postId=${widget.postId}${widget.parentCommentId != null ? '&parentCommentId=${widget.parentCommentId}' : ''}&text=$content'),
-        headers: {'Authorization': 'Bearer ${widget.userData['token']}'});
+      Uri.parse(
+        '${NoRiskApi().getBaseUrl(widget.userData['experimental'], 'mcreal')}/comments?uuid=${widget.userData['uuid']}&postId=${widget.postId}${widget.parentCommentId != null ? '&parentCommentId=${widget.parentCommentId}' : ''}&text=$content',
+      ),
+      headers: {'Authorization': 'Bearer ${widget.userData['token']}'},
+    );
     if (res.statusCode != 200) {
       print("Create comment: ${res.statusCode}");
       if (res.statusCode == 401) {

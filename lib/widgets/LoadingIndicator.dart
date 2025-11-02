@@ -3,11 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator(
-      {super.key,
-      this.height = 15,
-      this.width = 15,
-      this.color});
+  const LoadingIndicator({
+    super.key,
+    this.height = 15,
+    this.width = 15,
+    this.color,
+  });
 
   final double height;
   final double width;
@@ -21,7 +22,9 @@ class LoadingIndicator extends StatelessWidget {
             width: width,
             child: Center(
               child: CircularProgressIndicator(
-                  strokeWidth: 1.5, color: color ?? Colors.white),
+                strokeWidth: 1.5,
+                color: color ?? Colors.white,
+              ),
             ),
           )
         : Center(child: CupertinoActivityIndicator(color: color));

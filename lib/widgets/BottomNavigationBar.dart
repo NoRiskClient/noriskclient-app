@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/l10n/app_localizations.dart';
-import 'package:noriskclient/main.dart';
-import 'package:noriskclient/utils/NoRiskIcon.dart';
-import 'package:noriskclient/widgets/NoRiskContainer.dart';
-import 'package:noriskclient/widgets/NoRiskIconButton.dart';
-import 'package:noriskclient/widgets/NoRiskText.dart';
+import '../config/Colors.dart';
+import '../l10n/app_localizations.dart';
+import '../main.dart';
+import '../utils/NoRiskIcon.dart';
+import 'NoRiskContainer.dart';
+import 'NoRiskIconButton.dart';
+import 'NoRiskText.dart';
 
 class NoRiskBottomNavigationBar extends StatefulWidget {
   NoRiskBottomNavigationBar({
@@ -35,17 +35,19 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
       borderOpacity: 200,
       child: Padding(
         padding: EdgeInsets.only(
-            bottom: isAndroid ? MediaQuery.of(context).viewPadding.bottom : 0),
+          bottom: isAndroid ? MediaQuery.of(context).viewPadding.bottom : 0,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _BottomNavigationBarButton(
-                index: 0,
-                currentIndex: widget.currentIndex,
-                icon: NoRiskIcon.news,
-                label: 'news',
-                onTap: () => widget.currentIndexController.sink.add(0)),
+              index: 0,
+              currentIndex: widget.currentIndex,
+              icon: NoRiskIcon.news,
+              label: 'news',
+              onTap: () => widget.currentIndexController.sink.add(0),
+            ),
             _BottomNavigationBarButton(
               index: 1,
               currentIndex: widget.currentIndex,
@@ -54,11 +56,12 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
               onTap: () => widget.currentIndexController.sink.add(1),
             ),
             _BottomNavigationBarButton(
-                index: 2,
-                currentIndex: widget.currentIndex,
-                icon: NoRiskIcon.mcreal,
-                label: 'mcreal',
-                onTap: () => widget.currentIndexController.sink.add(2)),
+              index: 2,
+              currentIndex: widget.currentIndex,
+              icon: NoRiskIcon.mcreal,
+              label: 'mcreal',
+              onTap: () => widget.currentIndexController.sink.add(2),
+            ),
             // _BottomNavigationBarButton(
             //   index: 3,
             //   currentIndex: widget.currentIndex,
@@ -68,20 +71,21 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
             //   disabled: true,
             // ),
             _BottomNavigationBarButton(
-                index: 3,
-                currentIndex: widget.currentIndex,
-                icon: NoRiskIcon.gamescom,
-                label: 'gamescom',
-                onTap: () => widget.currentIndexController.sink.add(3),
-                fontSize: 21,
-                disabled: true // DateTime.now().isBefore(DateTime(2025, 8, 20))
+              index: 3,
+              currentIndex: widget.currentIndex,
+              icon: NoRiskIcon.gamescom,
+              label: 'gamescom',
+              onTap: () => widget.currentIndexController.sink.add(3),
+              fontSize: 21,
+              disabled: true, // DateTime.now().isBefore(DateTime(2025, 8, 20))
             ),
             _BottomNavigationBarButton(
-                index: 4,
-                currentIndex: widget.currentIndex,
-                icon: NoRiskIcon.profile,
-                label: AppLocalizations.of(context)!.navbar_you.toLowerCase(),
-                onTap: () => widget.currentIndexController.sink.add(4)),
+              index: 4,
+              currentIndex: widget.currentIndex,
+              icon: NoRiskIcon.profile,
+              label: AppLocalizations.of(context).navbarYou,
+              onTap: () => widget.currentIndexController.sink.add(4),
+            ),
           ],
         ),
       ),
@@ -113,51 +117,55 @@ class _BottomNavigationBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: disabled ? () {} : onTap,
-            child: Stack(
-              children: [
-                SizedBox(
+      child: Stack(
+        children: [
+          SizedBox(
             width: 65,
             height: 55,
-                  child: Center(
-                    child: Padding(
+            child: Center(
+              child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
-                      child: NoRiskIconButton(
-                    onTap: disabled ? () {} : onTap,
-                          transparent: true,
-                          height: 35,
-                          width: 35,
-                    icon: Opacity(
-                        opacity: disabled
-                            ? 0.4
-                            : currentIndex == index
-                                ? 1
-                                : 0.75,
-                        child: icon)),
-                    ),
+                child: NoRiskIconButton(
+                  onTap: disabled ? () {} : onTap,
+                  transparent: true,
+                  height: 35,
+                  width: 35,
+                  icon: Opacity(
+                    opacity: disabled
+                        ? 0.4
+                        : currentIndex == index
+                        ? 1
+                        : 0.75,
+                    child: icon,
                   ),
                 ),
-                SizedBox(
+              ),
+            ),
+          ),
+          SizedBox(
             width: 65,
             height: 55,
-                  child: Center(
-                    child: Padding(
+            child: Center(
+              child: Padding(
                 padding: const EdgeInsets.only(top: 20),
-                          child: NoRiskText(label,
-                              spaceTop: false,
-                              spaceBottom: false,
-                              style: TextStyle(
-                        fontSize: fontSize,
-                        color: disabled
-                            ? Colors.white.withAlpha((100).floor())
-                            : currentIndex == index
-                                      ? Colors.white
-                                      : Colors.white
-                                          .withAlpha((200).floor()))),
-                        ),
+                child: NoRiskText(
+                  label,
+                  spaceTop: false,
+                  spaceBottom: false,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    color: disabled
+                        ? Colors.white.withAlpha((100).floor())
+                        : currentIndex == index
+                        ? Colors.white
+                        : Colors.white.withAlpha((200).floor()),
                   ),
                 ),
-              ],
+              ),
             ),
-          );
+          ),
+        ],
+      ),
+    );
   }
 }

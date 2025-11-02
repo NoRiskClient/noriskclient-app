@@ -1,32 +1,31 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/Config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocaleProvider extends ChangeNotifier {
-  Locale _locale = Locale(
-      Config.availableLanguages.contains(PlatformDispatcher.instance.locale.languageCode)
-          ? PlatformDispatcher.instance.locale.languageCode
-          : Config.fallbackLangauge);
-  Locale get locale => _locale;
+import '../l10n/app_localizations.dart';
 
-  void setLocale(String languageCode) {
-    _locale = Locale(languageCode.toLowerCase());
+class LocaleProvider extends ChangeNotifier {
+  Locale? _locale;
+  Locale? get locale => _locale;
+
+  void setLocale(Locale locale) {
+    if (!AppLocalizations.supportedLocales.contains(locale)) return;
+    _locale = locale;
+    saveLocale();
     notifyListeners();
   }
 
-  void loadLocale() async {
+  Future<void> saveLocale() async {
+    if (_locale == null) return;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String language = prefs.getString('language') ??
-        (Config.availableLanguages
-                .contains(PlatformDispatcher.instance.locale.languageCode)
-            ? PlatformDispatcher.instance.locale.languageCode
-            : Config.fallbackLangauge);
-    print('LANGUAGE: $language');
-    setLocale(language);
+    await prefs.setString("language", _locale!.languageCode);
+  }
 
-    if (prefs.getString('language') == null) {
-      await prefs.setString('language', language);
-    }
+  Future<void> loadLocale() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? language = prefs.getString('language');
+    if (language == null) return;
+
+    final locale = Locale(language);
+    setLocale(locale);
   }
 }

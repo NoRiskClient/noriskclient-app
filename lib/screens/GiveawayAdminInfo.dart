@@ -31,84 +31,106 @@ class _GiveawayAdminInfoState extends State<GiveawayAdminInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: NoRiskClientColors.background,
-        body: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 50),
-          child: ListView(children: [
+      resizeToAvoidBottomInset: true,
+      backgroundColor: NoRiskClientColors.background,
+      body: Padding(
+        padding: const EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: 15,
+          bottom: 50,
+        ),
+        child: ListView(
+          children: [
             Stack(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 7.5),
-                    child: NoRiskBackButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 7.5),
+                      child: NoRiskBackButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  NoRiskText(
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    NoRiskText(
                       'Giveaway Info'.toLowerCase(),
                       spaceTop: false,
                       spaceBottom: false,
                       style: const TextStyle(
-                          color: NoRiskClientColors.text,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold)),
-                ],
+                        color: NoRiskClientColors.text,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 25),
+            NoRiskText(
+              'Giveaway ID'.toLowerCase(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
-          const SizedBox(height: 25),
-            NoRiskText('Giveaway ID'.toLowerCase(), style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            )),
-            NoRiskText(widget.giveawayId, style: TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-            )),
+            ),
+            NoRiskText(
+              widget.giveawayId,
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
             SizedBox(height: 10),
-            NoRiskText('Item ID'.toLowerCase(), style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            )),
-            NoRiskText(widget.itemId.toLowerCase(), style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            )),
+            NoRiskText(
+              'Item ID'.toLowerCase(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            NoRiskText(
+              widget.itemId.toLowerCase(),
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
             SizedBox(height: 10),
-            NoRiskText('Item Name'.toLowerCase(), style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            )),
-            NoRiskText(GAMESCOM_ITEMS[widget.itemId]?.toLowerCase() ?? 'unknown?', style: TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-            )),
+            NoRiskText(
+              'Item Name'.toLowerCase(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            NoRiskText(
+              GAMESCOM_ITEMS[widget.itemId]?.toLowerCase() ?? 'unknown?',
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
             SizedBox(height: 10),
-            NoRiskText('Additional Info'.toLowerCase(), style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            )),
-            NoRiskText(widget.additionalInfo.toLowerCase(), style: TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-            )),
-          ]),
-        ));
+            NoRiskText(
+              'Additional Info'.toLowerCase(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            NoRiskText(
+              widget.additionalInfo.toLowerCase(),
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

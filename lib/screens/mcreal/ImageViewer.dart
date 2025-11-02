@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/widgets/NoRiskBackButton.dart';
+
+import '../../config/Colors.dart';
+import '../../widgets/NoRiskBackButton.dart';
 
 class ImageViewer extends StatelessWidget {
   ImageViewer({super.key, required this.image});
@@ -19,10 +20,7 @@ class ImageViewer extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: InteractiveViewer(
-                child: Image(
-                  image: image.image,
-                  fit: BoxFit.contain,
-                ),
+                child: Image(image: image.image, fit: BoxFit.contain),
               ),
             ),
           ),

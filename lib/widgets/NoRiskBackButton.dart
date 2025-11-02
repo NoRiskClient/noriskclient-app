@@ -15,10 +15,16 @@ class NoRiskBackButton extends StatelessWidget {
         width: 30,
         height: 30,
         child: Center(
-          child: NoRiskText('←',
-              spaceTop: false,
-              spaceBottom: true,
-              style: const TextStyle(color: Colors.white, fontSize: 27.5, fontWeight: FontWeight.bold)),
+          child: NoRiskText(
+            '←',
+            spaceTop: false,
+            spaceBottom: true,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 27.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );

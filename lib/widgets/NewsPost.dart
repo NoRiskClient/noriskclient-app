@@ -26,27 +26,37 @@ class NewsPost extends StatelessWidget {
       onTap: () => launchUrlString(link, mode: LaunchMode.externalApplication),
       child: NoRiskContainer(
         color: isNewest ? NoRiskClientColors.blue : Colors.white,
-        padding:
-            const EdgeInsets.only(top: 2.5, bottom: 10, left: 10, right: 10),
+        padding: const EdgeInsets.only(
+          top: 2.5,
+          bottom: 10,
+          left: 10,
+          right: 10,
+        ),
         child: Column(
           children: [
             Row(
               children: [
-                NoRiskText(title.toLowerCase(),
-                    maxLength: MediaQuery.of(context).size.width -
-                        2 * 15 -
-                        2 * 10 -
-                        115,
-                    spaceTop: false,
-                    spaceBottom: false,
-                    style: TextStyle(
-                        fontSize: 25, color: NoRiskClientColors.text)),
+                NoRiskText(
+                  title.toLowerCase(),
+                  maxLength:
+                      MediaQuery.of(context).size.width - 2 * 15 - 2 * 10 - 115,
+                  spaceTop: false,
+                  spaceBottom: false,
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: NoRiskClientColors.text,
+                  ),
+                ),
                 const Spacer(),
-                NoRiskText(postedAt,
-                    spaceTop: false,
-                    spaceBottom: false,
-                    style: TextStyle(
-                        fontSize: 25, color: NoRiskClientColors.text)),
+                NoRiskText(
+                  postedAt,
+                  spaceTop: false,
+                  spaceBottom: false,
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: NoRiskClientColors.text,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 5),

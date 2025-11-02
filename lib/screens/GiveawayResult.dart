@@ -11,7 +11,7 @@ class GiveawayResult extends StatefulWidget {
   final String errorMessage;
 
   const GiveawayResult({
-    super.key, 
+    super.key,
     required this.itemId,
     required this.itemName,
     required this.itemRarity,
@@ -53,51 +53,51 @@ class _GiveawayResultState extends State<GiveawayResult> {
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: widget.errorMessage.isNotEmpty ? [
-                  SizedBox(height: MediaQuery.of(context).size.height / 4),
-                  NoRiskText(
-                    'Error!'.toLowerCase(),
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 55,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  NoRiskText(
-                    widget.errorMessage.toLowerCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: NoRiskClientColors.text,
-                      fontSize: 25,
-                    ),
-                  ),
-                ] : [
-                  SizedBox(height: MediaQuery.of(context).size.height / 4),
-                  NoRiskText(
-                    'Congratulations!'.toLowerCase(),
-                    style: TextStyle(
-                      color: NoRiskClientColors.text,
-                      fontSize: 55,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  NoRiskText(
-                    'You have won a giveaway item!'.toLowerCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: NoRiskClientColors.text,
-                      fontSize: 25,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  NoRiskText(
-                    widget.itemName.toLowerCase(),
-                    style: TextStyle(
-                      color: Colors.yellow,
-                      fontSize: 45,
-                    ),
-                  ),
-                ],
+                children: widget.errorMessage.isNotEmpty
+                    ? [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 4,
+                        ),
+                        NoRiskText(
+                          'Error!'.toLowerCase(),
+                          style: TextStyle(color: Colors.red, fontSize: 55),
+                        ),
+                        const SizedBox(height: 10),
+                        NoRiskText(
+                          widget.errorMessage.toLowerCase(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: NoRiskClientColors.text,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ]
+                    : [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 4,
+                        ),
+                        NoRiskText(
+                          'Congratulations!'.toLowerCase(),
+                          style: TextStyle(
+                            color: NoRiskClientColors.text,
+                            fontSize: 55,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        NoRiskText(
+                          'You have won a giveaway item!'.toLowerCase(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: NoRiskClientColors.text,
+                            fontSize: 25,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        NoRiskText(
+                          widget.itemName.toLowerCase(),
+                          style: TextStyle(color: Colors.yellow, fontSize: 45),
+                        ),
+                      ],
               ),
             ),
           ],

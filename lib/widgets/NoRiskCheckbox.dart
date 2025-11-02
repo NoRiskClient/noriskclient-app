@@ -7,11 +7,12 @@ import 'package:noriskclient/widgets/NoRiskText.dart';
 
 // ignore: must_be_immutable
 class NoRiskCheckbox extends StatefulWidget {
-  NoRiskCheckbox(
-      {super.key,
-      this.defaultValue = false,
-      required this.onChanged,
-      this.name = ''});
+  NoRiskCheckbox({
+    super.key,
+    this.defaultValue = false,
+    required this.onChanged,
+    this.name = '',
+  });
 
   bool defaultValue;
   Function(bool) onChanged = (bool value) {};
@@ -40,18 +41,19 @@ class McRealPostState extends State<NoRiskCheckbox> {
           NoRiskContainer(
             width: 35,
             height: 35,
-            child: Center(
-              child: value ? NoRiskIcon.checkmark : Container(),
-            ),
+            child: Center(child: value ? NoRiskIcon.checkmark : Container()),
           ),
           const SizedBox(width: 10),
           if (widget.name.isNotEmpty)
-            NoRiskText(widget.name.toLowerCase(),
-                spaceTop: false,
-                style: const TextStyle(
-                    fontSize: 25,
-                    color: NoRiskClientColors.text,
-                    fontWeight: FontWeight.bold)),
+            NoRiskText(
+              widget.name.toLowerCase(),
+              spaceTop: false,
+              style: const TextStyle(
+                fontSize: 25,
+                color: NoRiskClientColors.text,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
         ],
       ),
     );

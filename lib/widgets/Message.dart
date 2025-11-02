@@ -3,24 +3,15 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/l10n/app_localizations.dart';
-import 'package:noriskclient/main.dart';
-import 'package:noriskclient/utils/NoRiskApi.dart';
-import 'package:noriskclient/utils/NoRiskIcon.dart';
-import 'package:noriskclient/widgets/NoRiskContainer.dart';
-import 'package:noriskclient/widgets/NoRiskText.dart';
+import '../config/Colors.dart';
+import '../l10n/app_localizations.dart';
+import '../main.dart';
+import '../utils/NoRiskApi.dart';
+import '../utils/NoRiskIcon.dart';
+import 'NoRiskContainer.dart';
+import 'NoRiskText.dart';
 
-enum MessageStatus {
-  // ignore: constant_identifier_names
-  PENDING,
-  // ignore: constant_identifier_names
-  SENT,
-  // ignore: constant_identifier_names
-  RECIVED,
-  // ignore: constant_identifier_names
-  READ,
-}
+enum MessageStatus { pending, sent, received, read }
 
 class Message extends StatefulWidget {
   final String chatId;
@@ -40,7 +31,7 @@ class Message extends StatefulWidget {
     required this.senderId,
     required this.sentAt,
     required this.chatUpdateStream,
-    this.status = MessageStatus.SENT,
+    this.status = MessageStatus.sent,
     this.isSpacer = false,
   });
 
@@ -61,25 +52,29 @@ class MessageState extends State<Message> {
           ? Padding(
               padding: const EdgeInsets.only(top: 25, bottom: 5),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    NoRiskContainer(
-                      padding:
-                          const EdgeInsets.only(left: 5, right: 5, bottom: 2),
-                      child: Center(
-                        child: NoRiskText(
-                          widget.content,
-                          spaceTop: false,
-                          spaceBottom: false,
-                          style: const TextStyle(
-                            color: NoRiskClientColors.text,
-                            fontSize: 20,
-                          ),
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  NoRiskContainer(
+                    padding: const EdgeInsets.only(
+                      left: 5,
+                      right: 5,
+                      bottom: 2,
+                    ),
+                    child: Center(
+                      child: NoRiskText(
+                        widget.content,
+                        spaceTop: false,
+                        spaceBottom: false,
+                        style: const TextStyle(
+                          color: NoRiskClientColors.text,
+                          fontSize: 20,
                         ),
                       ),
-                    )
-                  ]),
+                    ),
+                  ),
+                ],
+              ),
             )
           : Column(
               children: [
@@ -116,90 +111,119 @@ class MessageState extends State<Message> {
                             child: NoRiskContainer(
                               padding: const EdgeInsets.only(left: 5, right: 5),
                               constraints: BoxConstraints(
-                                  maxWidth: MediaQuery.of(context).size.width * 0.7, minHeight: 30, minWidth: 50),
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.7,
+                                minHeight: 30,
+                                minWidth: 50,
+                              ),
                               color: isPressed
                                   ? NoRiskClientColors.light.withOpacity(0.75)
                                   : isSelected
-                                      ? NoRiskClientColors.blue
-                                      : null,
-                              child: Stack(children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 5, bottom: 12.5),
-                                  child: NoRiskText(
-                                    widget.content,
-                                    spaceTop: false,
-                                    spaceBottom: false,
-                                    maxLines: 99,
-                                    softWrap: true,
-                                    overflow: TextOverflow.visible,
-                                    style: TextStyle(
+                                  ? NoRiskClientColors.blue
+                                  : null,
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 5,
+                                      bottom: 12.5,
+                                    ),
+                                    child: NoRiskText(
+                                      widget.content,
+                                      spaceTop: false,
+                                      spaceBottom: false,
+                                      maxLines: 99,
+                                      softWrap: true,
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
                                         color: isPressed
                                             ? NoRiskClientColors.light
                                             : NoRiskClientColors.text,
                                         fontSize: 22.5,
-                                        height: 0.75),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  bottom: 2.5,
-                                  child: Row(
-                                    children: [
-                                      NoRiskText(
-                                        widget.sentAt != 0
-                                            ? DateTime
-                                                    .fromMillisecondsSinceEpoch(
-                                                        widget.sentAt)
-                                                .toLocal()
-                                                .toString()
-                                                .substring(11, 16)
-                                            : '',
-                                        spaceTop: false,
-                                        spaceBottom: false,
-                                        style: TextStyle(
-                                          color: isPressed
-                                              ? NoRiskClientColors.light
-                                              : NoRiskClientColors.text,
-                                          fontSize: 13.5,
-                                        ),
+                                        height: 0.75,
                                       ),
-                                      if (widget.senderId ==
-                                          getUserData['uuid'])
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 2, left: 2),
-                                          child: Opacity(
-                                            opacity: isPressed ? 0.1 : 1.0,
-                                            child: Stack(
-                                              children: [
-                                                if (widget.status !=
-                                                    MessageStatus.PENDING)
-                                                  SizedBox(
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    bottom: 2.5,
+                                    child: Row(
+                                      children: [
+                                        NoRiskText(
+                                          widget.sentAt != 0
+                                              ? DateTime.fromMillisecondsSinceEpoch(
+                                                      widget.sentAt,
+                                                    )
+                                                    .toLocal()
+                                                    .toString()
+                                                    .substring(11, 16)
+                                              : '',
+                                          spaceTop: false,
+                                          spaceBottom: false,
+                                          style: TextStyle(
+                                            color: isPressed
+                                                ? NoRiskClientColors.light
+                                                : NoRiskClientColors.text,
+                                            fontSize: 13.5,
+                                          ),
+                                        ),
+                                        if (widget.senderId ==
+                                            getUserData['uuid'])
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 2,
+                                              left: 2,
+                                            ),
+                                            child: Opacity(
+                                              opacity: isPressed ? 0.1 : 1.0,
+                                              child: Stack(
+                                                children: [
+                                                  if (widget.status !=
+                                                      MessageStatus.pending)
+                                                    SizedBox(
                                                       width: 7.5,
                                                       height: 7.5,
                                                       child:
-                                                          widget.status == MessageStatus.READ ? NoRiskIcon.blue_checkmark : NoRiskIcon.checkmark),
-                                                if (widget.status ==
-                                                    MessageStatus.RECIVED || widget.status == MessageStatus.READ)
-                                                  Padding(
+                                                          widget.status ==
+                                                              MessageStatus.read
+                                                          ? NoRiskIcon
+                                                                .blue_checkmark
+                                                          : NoRiskIcon
+                                                                .checkmark,
+                                                    ),
+                                                  if (widget.status ==
+                                                          MessageStatus
+                                                              .received ||
+                                                      widget.status ==
+                                                          MessageStatus.read)
+                                                    Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              left: 2.5),
+                                                            left: 2.5,
+                                                          ),
                                                       child: SizedBox(
-                                                          width: 7.5,
-                                                          height: 7.5,
-                                                          child: widget.status == MessageStatus.READ ? NoRiskIcon.blue_checkmark : NoRiskIcon
-                                                                    .checkmark)),
-                                              ],
+                                                        width: 7.5,
+                                                        height: 7.5,
+                                                        child:
+                                                            widget.status ==
+                                                                MessageStatus
+                                                                    .read
+                                                            ? NoRiskIcon
+                                                                  .blue_checkmark
+                                                            : NoRiskIcon
+                                                                  .checkmark,
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        )
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                )
-                              ]),
+                                ],
+                              ),
                             ),
                           ),
                           if (widget.senderId != getUserData['uuid'])
@@ -233,14 +257,17 @@ class MessageState extends State<Message> {
                               GestureDetector(
                                 onTap: deleteMessage,
                                 child: NoRiskContainer(
-                                    width: 30,
-                                    height: 30,
-                                    color: Colors.red,
-                                    child: Center(
-                                        child: SizedBox(
-                                            height: 16.5,
-                                            width: 13.5,
-                                            child: NoRiskIcon.delete))),
+                                  width: 30,
+                                  height: 30,
+                                  color: Colors.red,
+                                  child: Center(
+                                    child: SizedBox(
+                                      height: 16.5,
+                                      width: 13.5,
+                                      child: NoRiskIcon.delete,
+                                    ),
+                                  ),
+                                ),
                               ),
                         ];
                         return widget.senderId == getUserData['uuid']
@@ -256,91 +283,99 @@ class MessageState extends State<Message> {
 
   void deleteMessage() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Platform.isAndroid
-              ? AlertDialog(
-                  title: NoRiskText(
-                      AppLocalizations.of(context)!.chat_delete_message_title,
+      context: context,
+      builder: (BuildContext context) {
+        return Platform.isAndroid
+            ? AlertDialog(
+                title: NoRiskText(
+                  AppLocalizations.of(context).chatDeleteMessageTitle,
+                  spaceTop: false,
+                  spaceBottom: false,
+                ),
+                content: NoRiskText(
+                  AppLocalizations.of(context).chatDeleteMessageContent,
+                  spaceTop: false,
+                  spaceBottom: false,
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: NoRiskText(
+                      AppLocalizations.of(context).mcRealPopupCancel,
                       spaceTop: false,
-                      spaceBottom: false),
-                  content: NoRiskText(
-                      AppLocalizations.of(context)!.chat_delete_message_content,
-                      spaceTop: false,
-                      spaceBottom: false),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: NoRiskText(
-                            AppLocalizations.of(context)!
-                                .chat_delete_message_cancel,
-                            spaceTop: false,
-                            spaceBottom: false,
-                            style: const TextStyle(
-                                color: NoRiskClientColors.blue))),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          NoRiskApi().deleteChatMessage(widget.chatId, widget.messageId).then((_) {
+                      spaceBottom: false,
+                      style: const TextStyle(color: NoRiskClientColors.blue),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      NoRiskApi()
+                          .deleteChatMessage(widget.chatId, widget.messageId)
+                          .then((_) {
                             setState(() {
-                              widget.content = AppLocalizations.of(context)!
-                                .chat_message_deleted.toLowerCase();
-                                isSelected = false;
-                                isDeleted = true;
+                              widget.content = AppLocalizations.of(
+                                context,
+                              ).chatMessageDeleted;
+                              isSelected = false;
+                              isDeleted = true;
                             });
                           });
-                        },
-                        child: NoRiskText(
-                            AppLocalizations.of(context)!
-                                .chat_delete_message_delete,
-                            spaceTop: false,
-                            spaceBottom: false,
-                            style: const TextStyle(color: Colors.red))),
-                  ],
-                )
-              : CupertinoAlertDialog(
-                  title: NoRiskText(
-                      AppLocalizations.of(context)!
-                          .chat_delete_message_title
-                          .toLowerCase(),
+                    },
+                    child: NoRiskText(
+                      AppLocalizations.of(context).mcRealPopupDelete,
                       spaceTop: false,
-                      style: const TextStyle(fontSize: 30)),
-                  content: NoRiskText(
-                      AppLocalizations.of(context)!
-                          .chat_delete_message_content
-                          .toLowerCase(),
-                      style: const TextStyle(fontSize: 17.5, height: 0.75),
-                      spaceTop: false,
-                      spaceBottom: false),
-                  actions: [
-                    CupertinoDialogAction(
-                        isDefaultAction: true,
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: NoRiskText(
-                            AppLocalizations.of(context)!
-                                .chat_delete_message_cancel
-                                .toLowerCase(),
-                            style: const TextStyle(fontSize: 22.5))),
-                    CupertinoDialogAction(
-                        isDestructiveAction: true,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          NoRiskApi().deleteChatMessage(widget.chatId, widget.messageId).then((_) {
+                      spaceBottom: false,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+                ],
+              )
+            : CupertinoAlertDialog(
+                title: NoRiskText(
+                  AppLocalizations.of(context).chatDeleteMessageTitle,
+                  spaceTop: false,
+                  style: const TextStyle(fontSize: 30),
+                ),
+                content: NoRiskText(
+                  AppLocalizations.of(context).chatDeleteMessageContent,
+                  style: const TextStyle(fontSize: 17.5, height: 0.75),
+                  spaceTop: false,
+                  spaceBottom: false,
+                ),
+                actions: [
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: NoRiskText(
+                      AppLocalizations.of(context).mcRealPopupCancel,
+                      style: const TextStyle(fontSize: 22.5),
+                    ),
+                  ),
+                  CupertinoDialogAction(
+                    isDestructiveAction: true,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      NoRiskApi()
+                          .deleteChatMessage(widget.chatId, widget.messageId)
+                          .then((_) {
                             setState(() {
-                              widget.content = AppLocalizations.of(context)!
-                                .chat_message_deleted.toLowerCase();
-                                isSelected = false;
-                                isDeleted = true;
+                              widget.content = AppLocalizations.of(
+                                context,
+                              ).chatMessageDeleted;
+                              isSelected = false;
+                              isDeleted = true;
                             });
                           });
-                        },
-                        child: NoRiskText(
-                            AppLocalizations.of(context)!
-                                .chat_delete_message_delete
-                                .toLowerCase(),
-                            style: const TextStyle(fontSize: 22.5)))
-                  ],
-                );
-        });
+                    },
+                    child: NoRiskText(
+                      AppLocalizations.of(context).mcRealPopupDelete,
+                      style: const TextStyle(fontSize: 22.5),
+                    ),
+                  ),
+                ],
+              );
+      },
+    );
   }
 }

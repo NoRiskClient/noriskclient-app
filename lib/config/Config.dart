@@ -1,8 +1,4 @@
-// ignore: file_names
 class Config {
-  static const String fallbackLangauge = 'en';
-  static const List<String> availableLanguages = ['de', 'en'];
-
   static int mcRealTimeframe = 15;
   static int maxPostsPerPage = 10;
   static int maxCommentsPerPage = 25;
@@ -17,7 +13,9 @@ class Config {
   static Uri supportUrl = Uri.parse('mailto:support@norisk.gg');
 
   static Uri playStoreUrl = Uri.parse(
-      'https://play.google.com/store/apps/details?id=gg.norisk.noriskclient');
-  static Uri appStoreUrl =
-      Uri.parse('https://apps.apple.com/de/app/norisk-client/id6661020268');
+    'https://play.google.com/store/apps/details?id=gg.norisk.noriskclient',
+  );
+  static Uri appStoreUrl = Uri.parse(
+    'https://apps.apple.com/de/app/norisk-client/id6661020268',
+  );
 }

@@ -48,7 +48,9 @@ class _ScanQRCodeState extends State<ScanQRCode> {
               controller: controller,
               onDetect: (BarcodeCapture result) {
                 handleQrCodeResult(
-                    controller, result.barcodes[0].rawValue ?? '');
+                  controller,
+                  result.barcodes[0].rawValue ?? '',
+                );
               },
             ),
           ),
@@ -68,26 +70,35 @@ class _ScanQRCodeState extends State<ScanQRCode> {
           Padding(
             padding: const EdgeInsets.only(right: 10, top: 40),
             child: Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                    onPressed: () {
-                      controller.stop();
-                      controller.dispose();
-                      Navigator.of(context).pop();
-                    },
-                    icon: const Icon(Icons.close_rounded,
-                        color: Colors.white, size: 30))),
+              alignment: Alignment.topRight,
+              child: IconButton(
+                onPressed: () {
+                  controller.stop();
+                  controller.dispose();
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(
+                  Icons.close_rounded,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 50),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: IconButton(
-                  onPressed: () async {
-                    await controller.toggleTorch();
-                  },
-                  icon: const Icon(Icons.flash_on_rounded,
-                      color: Colors.white, size: 50)),
+                onPressed: () async {
+                  await controller.toggleTorch();
+                },
+                icon: const Icon(
+                  Icons.flash_on_rounded,
+                  color: Colors.white,
+                  size: 50,
+                ),
+              ),
             ),
           ),
         ],
@@ -96,7 +107,9 @@ class _ScanQRCodeState extends State<ScanQRCode> {
   }
 
   void handleQrCodeResult(
-      MobileScannerController controller, String code) async {
+    MobileScannerController controller,
+    String code,
+  ) async {
     print('QR Code Detected: $code');
 
     if (code.contains("/giveaways/")) {
@@ -105,29 +118,31 @@ class _ScanQRCodeState extends State<ScanQRCode> {
       controller.stop();
       controller.dispose();
       if (widget.isAdminScan) {
-        Map<String, dynamic> giveawayData =
-            await NoRiskApi().getGiveawayAdminInfo(giveawayId);
+        Map<String, dynamic> giveawayData = await NoRiskApi()
+            .getGiveawayAdminInfo(giveawayId);
 
         if (giveawayData['itemId'] == null) {
           Fluttertoast.showToast(msg: 'Invalid voucher QR code');
           return;
         }
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GiveawayAdminInfo(
-                  giveawayId: giveawayId,
-                  itemId: giveawayData['itemId'],
-                  additionalInfo:
-                      giveawayData['additionalInformation'] ?? 'null'),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => GiveawayAdminInfo(
+              giveawayId: giveawayId,
+              itemId: giveawayData['itemId'],
+              additionalInfo: giveawayData['additionalInformation'] ?? 'null',
+            ),
+          ),
+        );
       } else {
         if (lastRedeem! + 1000 >= DateTime.now().millisecondsSinceEpoch) {
           return;
         }
-        
-        Map<String, dynamic>? resultData =
-            await NoRiskApi().redeemGiveaway(giveawayId);
+
+        Map<String, dynamic>? resultData = await NoRiskApi().redeemGiveaway(
+          giveawayId,
+        );
 
         if (resultData == null) {
           Fluttertoast.showToast(msg: 'Invalid voucher QR code');
@@ -137,15 +152,16 @@ class _ScanQRCodeState extends State<ScanQRCode> {
         lastRedeem = DateTime.now().millisecondsSinceEpoch;
 
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GiveawayResult(
-                itemId: resultData['id'] ?? '',
-                itemName: resultData['name'] ?? '',
-                itemRarity: resultData['rarity'] ?? '',
-                errorMessage: resultData['error'] ?? '',
-              ),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => GiveawayResult(
+              itemId: resultData['id'] ?? '',
+              itemName: resultData['name'] ?? '',
+              itemRarity: resultData['rarity'] ?? '',
+              errorMessage: resultData['error'] ?? '',
+            ),
+          ),
+        );
       }
     }
   }

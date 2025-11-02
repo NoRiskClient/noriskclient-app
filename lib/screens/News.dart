@@ -26,10 +26,16 @@ class _NewsState extends State<News> {
       resizeToAvoidBottomInset: true,
       backgroundColor: NoRiskClientColors.background,
       body: Padding(
-        padding:
-            const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 55),
+        padding: const EdgeInsets.only(
+          top: 15,
+          left: 15,
+          right: 15,
+          bottom: 55,
+        ),
         child: RefreshIndicator(
-            onRefresh: loadNews, child: ListView(children: news)),
+          onRefresh: loadNews,
+          child: ListView(children: news),
+        ),
       ),
     );
   }
@@ -41,19 +47,26 @@ class _NewsState extends State<News> {
     for (var post in posts) {
       bool isNewest = posts.indexOf(post) == 0;
       if (isNewest) {
-        newsPosts.add(NoRiskText('Newest'.toLowerCase(),
+        newsPosts.add(
+          NoRiskText(
+            'Newest'.toLowerCase(),
             style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: NoRiskClientColors.text)));
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: NoRiskClientColors.text,
+            ),
+          ),
+        );
       }
-      newsPosts.add(NewsPost(
-        title: post['title']['rendered'],
-        imageUrl: post['yoast_head_json']?['og_image']?[0]?['url'] ?? '',
-        link: post['link'],
-        postedAt: post['date'].split('T')[0].split('-').reversed.join('.'),
-        isNewest: isNewest,
-      ));
+      newsPosts.add(
+        NewsPost(
+          title: post['title']['rendered'],
+          imageUrl: post['yoast_head_json']?['og_image']?[0]?['url'] ?? '',
+          link: post['link'],
+          postedAt: post['date'].split('T')[0].split('-').reversed.join('.'),
+          isNewest: isNewest,
+        ),
+      );
       newsPosts.add(const SizedBox(height: 10));
       if (isNewest) {
         newsPosts.add(

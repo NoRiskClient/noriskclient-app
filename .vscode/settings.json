@@ -1,5 +1,9 @@
 {
     "java.compile.nullAnalysis.mode": "disabled",
     "java.configuration.updateBuildConfiguration": "automatic",
-    "discord.enabled": false
+    "discord.enabled": false,
+    "cSpell.words": [
+        "gamescom",
+        "mcreal"
+    ]
 }

@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/l10n/app_localizations.dart';
-import 'package:noriskclient/main.dart';
-import 'package:noriskclient/screens/chats/Chat.dart';
-import 'package:noriskclient/utils/NoRiskApi.dart';
-import 'package:noriskclient/widgets/LoadingIndicator.dart';
-import 'package:noriskclient/widgets/NoRiskContainer.dart';
-import 'package:noriskclient/widgets/NoRiskText.dart';
+import '../config/Colors.dart';
+import '../l10n/app_localizations.dart';
+import '../main.dart';
+import '../screens/chats/Chat.dart';
+import '../utils/NoRiskApi.dart';
+import 'LoadingIndicator.dart';
+import 'NoRiskContainer.dart';
+import 'NoRiskText.dart';
 
 class ChatListItem extends StatefulWidget {
   String chatId;
@@ -39,8 +39,8 @@ class _ChatListItemState extends State<ChatListItem> {
       'loadSkin',
       widget.participantId,
       () => setState(() {
-            cache = getCache;
-          })
+        cache = getCache;
+      }),
     ]);
     NoRiskApi().getUserProfile(widget.participantId).then((Map profile) {
       setState(() {
@@ -60,26 +60,30 @@ class _ChatListItemState extends State<ChatListItem> {
           height: 85,
           width: MediaQuery.of(context).size.width - 2 * 15,
           padding: const EdgeInsets.all(10),
-          child: Row(children: [
-            GestureDetector(
-              onTap: openChat,
-              child: SizedBox(
-                height: 65,
-                width: 65,
-                child: ClipRRect(
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: openChat,
+                child: SizedBox(
+                  height: 65,
+                  width: 65,
+                  child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
-                    child: cache['skins']?[widget.participantId] ??
-                        LoadingIndicator()),
+                    child:
+                        cache['skins']?[widget.participantId] ??
+                        LoadingIndicator(),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(width: 10),
-            Column(
+              const SizedBox(width: 10),
+              Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     // LMAO ich bin mir noch nicht sicher, ob das cursed ist oder nicht? i mean eig ist es nicht clean aber ist ist ein cleaner weg das sizing zu berechnen ohne probleme mit Bildschirmgrößen zu bekommen :thinking:
-                    width: MediaQuery.of(context).size.width -
+                    width:
+                        MediaQuery.of(context).size.width -
                         2 * 15 -
                         2 * 10 -
                         65 -
@@ -90,12 +94,13 @@ class _ChatListItemState extends State<ChatListItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         NoRiskText(
-                          cache['profiles']?[widget.participantId]?['nrcUser']
-                                      ?['ign']
+                          cache['profiles']?[widget
+                                      .participantId]?['nrcUser']?['ign']
                                   ?.toString()
                                   .toLowerCase() ??
                               '',
-                          maxLength: MediaQuery.of(context).size.width -
+                          maxLength:
+                              MediaQuery.of(context).size.width -
                               2 * 15 -
                               2 * 15 -
                               65 -
@@ -103,7 +108,8 @@ class _ChatListItemState extends State<ChatListItem> {
                               () {
                                 DateTime lastMessageDateTime =
                                     DateTime.fromMillisecondsSinceEpoch(
-                                        widget.lastMessageTimestamp ?? 0);
+                                      widget.lastMessageTimestamp ?? 0,
+                                    );
 
                                 if (lastMessageDateTime.day ==
                                         DateTime.now().day &&
@@ -120,18 +126,22 @@ class _ChatListItemState extends State<ChatListItem> {
                           spaceBottom: false,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: NoRiskClientColors.text),
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: NoRiskClientColors.text,
+                          ),
                         ),
                         if (widget.lastMessageTimestamp != null)
-                          NoRiskText(getLastMessageTimestampString(),
-                              spaceTop: false,
-                              spaceBottom: false,
-                              textAlign: TextAlign.right,
-                              style: const TextStyle(
-                                  fontSize: 25,
-                                  color: NoRiskClientColors.text)),
+                          NoRiskText(
+                            getLastMessageTimestampString(),
+                            spaceTop: false,
+                            spaceBottom: false,
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              color: NoRiskClientColors.text,
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -139,11 +149,11 @@ class _ChatListItemState extends State<ChatListItem> {
                   NoRiskText(
                     widget.lastMessage != null && widget.lastMessage!.isNotEmpty
                         ? widget.lastMessage!.toLowerCase()
-                        : AppLocalizations.of(context)!
-                            .chat_chat_empty.toLowerCase(),
+                        : AppLocalizations.of(context).chatEmpty,
                     spaceTop: false,
                     spaceBottom: false,
-                    maxLength: MediaQuery.of(context).size.width -
+                    maxLength:
+                        MediaQuery.of(context).size.width -
                         2 * 15 -
                         2 * 10 -
                         65 -
@@ -151,28 +161,35 @@ class _ChatListItemState extends State<ChatListItem> {
                         50, // 50 is added for padding to the right!
                     textAlign: TextAlign.left,
                     style: const TextStyle(
-                        fontSize: 20, color: NoRiskClientColors.text),
+                      fontSize: 20,
+                      color: NoRiskClientColors.text,
+                    ),
                   ),
-                ])
-          ]),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   void openChat() {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => Chat(
-        chatId: widget.chatId,
-        participantId: widget.participantId,
-        chatUpdateStream: widget.chatUpdateStream,
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Chat(
+          chatId: widget.chatId,
+          participantId: widget.participantId,
+          chatUpdateStream: widget.chatUpdateStream,
+        ),
       ),
-    ));
+    );
   }
 
   String getLastMessageTimestampString() {
-    DateTime lastMessageDateTime =
-        DateTime.fromMillisecondsSinceEpoch(widget.lastMessageTimestamp!);
+    DateTime lastMessageDateTime = DateTime.fromMillisecondsSinceEpoch(
+      widget.lastMessageTimestamp!,
+    );
 
     if (lastMessageDateTime.day == DateTime.now().day &&
         lastMessageDateTime.month == DateTime.now().month &&

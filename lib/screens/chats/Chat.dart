@@ -1,15 +1,17 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/config/Config.dart';
-import 'package:noriskclient/l10n/app_localizations.dart';
-import 'package:noriskclient/main.dart';
-import 'package:noriskclient/screens/NoRiskProfile.dart';
-import 'package:noriskclient/utils/NoRiskApi.dart';
-import 'package:noriskclient/widgets/Message.dart';
-import 'package:noriskclient/widgets/NoRiskBackButton.dart';
-import 'package:noriskclient/widgets/NoRiskText.dart';
-import 'package:noriskclient/widgets/NoRiskTextField.dart';
+
+import '../../config/Colors.dart';
+import '../../config/Config.dart';
+import '../../l10n/app_localizations.dart';
+import '../../main.dart';
+import '../../utils/NoRiskApi.dart';
+import '../../widgets/Message.dart';
+import '../../widgets/NoRiskBackButton.dart';
+import '../../widgets/NoRiskText.dart';
+import '../../widgets/NoRiskTextField.dart';
+import '../NoRiskProfile.dart';
 
 class Chat extends StatefulWidget {
   const Chat({
@@ -102,13 +104,14 @@ class ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: NoRiskClientColors.background,
-        body: Padding(
-          padding: EdgeInsets.only(
-              bottom:
-                  isAndroid ? MediaQuery.of(context).viewPadding.bottom : 0),
-          child: Column(children: [
+      resizeToAvoidBottomInset: true,
+      backgroundColor: NoRiskClientColors.background,
+      body: Padding(
+        padding: EdgeInsets.only(
+          bottom: isAndroid ? MediaQuery.of(context).viewPadding.bottom : 0,
+        ),
+        child: Column(
+          children: [
             SizedBox(height: isAndroid ? 40 : 60),
             Stack(
               children: [
@@ -138,17 +141,19 @@ class ChatState extends State<Chat> {
                       GestureDetector(
                         onTap: openProfilePage,
                         child: NoRiskText(
-                            cache['profiles']?[widget.participantId]?['nrcUser']
-                                        ?['ign']
-                                    ?.toString()
-                                    .toLowerCase() ??
-                                '',
-                            spaceTop: false,
-                            spaceBottom: false,
-                            style: const TextStyle(
-                                color: NoRiskClientColors.text,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold)),
+                          cache['profiles']?[widget
+                                      .participantId]?['nrcUser']?['ign']
+                                  ?.toString()
+                                  .toLowerCase() ??
+                              '',
+                          spaceTop: false,
+                          spaceBottom: false,
+                          style: const TextStyle(
+                            color: NoRiskClientColors.text,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -157,51 +162,51 @@ class ChatState extends State<Chat> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-                width: MediaQuery.of(context).size.width - 2 * 15,
-                height: MediaQuery.of(context).size.height -
-                    195 +
-                    (isAndroid ? 20 : 0) -
-                    (keyboardVisible
-                        ? isAndroid
+              width: MediaQuery.of(context).size.width - 2 * 15,
+              height:
+                  MediaQuery.of(context).size.height -
+                  195 +
+                  (isAndroid ? 20 : 0) -
+                  (keyboardVisible
+                      ? isAndroid
                             ? 300
                             : 345
-                        : 0),
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    setState(() {
-                      messages = [];
-                      page = 1;
-                    });
-                    loadMessages();
-                  },
-                  child: ListView(
-                    controller: scrollController,
-                    reverse: true,
-                    children: [
-                      messages.isEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 35),
-                              child: NoRiskText(
-                                  AppLocalizations.of(context)!
-                                      .chat_chat_empty
-                                      .toLowerCase(),
-                                  spaceTop: false,
-                                  spaceBottom: false,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      color: NoRiskClientColors.textLight)),
-                            )
-                          : Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                  ...messages,
-                                  const SizedBox(height: 10),
-                                ]),
-                    ],
-                  ),
-                )),
+                      : 0),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  setState(() {
+                    messages = [];
+                    page = 1;
+                  });
+                  loadMessages();
+                },
+                child: ListView(
+                  controller: scrollController,
+                  reverse: true,
+                  children: [
+                    messages.isEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 35),
+                            child: NoRiskText(
+                              AppLocalizations.of(context).chatEmpty,
+                              spaceTop: false,
+                              spaceBottom: false,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: NoRiskClientColors.textLight,
+                              ),
+                            ),
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [...messages, const SizedBox(height: 10)],
+                          ),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
@@ -217,9 +222,9 @@ class ChatState extends State<Chat> {
                   }
                   textController.clear();
                   focusNode.unfocus();
-                  NoRiskApi()
-                      .sendChatMessage(widget.chatId, text)
-                      .then((Map<String, dynamic> data) {
+                  NoRiskApi().sendChatMessage(widget.chatId, text).then((
+                    Map<String, dynamic> data,
+                  ) {
                     setState(() {
                       messages.insert(
                         messages.length,
@@ -230,12 +235,12 @@ class ChatState extends State<Chat> {
                           senderId: getUserData['uuid'],
                           sentAt: data['sentAt'],
                           status: data['readAt'] != null
-                              ? MessageStatus.READ
+                              ? MessageStatus.read
                               : data['recivedAt'] != data['sentAt']
-                                  ? MessageStatus.RECIVED
-                                  : data['sentAt'] != null
-                                      ? MessageStatus.SENT
-                                      : MessageStatus.PENDING,
+                              ? MessageStatus.received
+                              : data['sentAt'] != null
+                              ? MessageStatus.sent
+                              : MessageStatus.pending,
                           chatUpdateStream: widget.chatUpdateStream,
                         ),
                       );
@@ -244,22 +249,22 @@ class ChatState extends State<Chat> {
                   });
                 },
               ),
-            )
-          ]),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> loadMessages() async {
     isLoadingNewChats = true;
-    List<dynamic> messagesData =
-        await NoRiskApi().getChatMessages(widget.chatId, page);
+    List<dynamic> messagesData = await NoRiskApi().getChatMessages(
+      widget.chatId,
+      page,
+    );
 
-    if (messagesData.length < Config.messagesPerPage) {
-      hitEnd = true;
-      print('Hit end!!!');
-    } else {
-      hitEnd = false;
-    }
+    hitEnd = false;
+    if (messagesData.length < Config.messagesPerPage) hitEnd = true;
 
     List<Message> newMessages = [];
     DateTime lastMessageTimestamp = DateTime.fromMillisecondsSinceEpoch(0);
@@ -268,35 +273,42 @@ class ChatState extends State<Chat> {
         continue; // Skip deleted messages
       }
 
-      DateTime sentAt =
-          DateTime.fromMillisecondsSinceEpoch(messageData['sentAt']);
+      DateTime sentAt = DateTime.fromMillisecondsSinceEpoch(
+        messageData['sentAt'],
+      );
 
       if (sentAt.day != lastMessageTimestamp.day) {
-        newMessages.add(Message(
+        newMessages.add(
+          Message(
             chatId: '',
             messageId: '',
             content: '${sentAt.day}.${sentAt.month}.${sentAt.year}',
             senderId: '',
             sentAt: 0,
             isSpacer: true,
-            chatUpdateStream: widget.chatUpdateStream));
+            chatUpdateStream: widget.chatUpdateStream,
+          ),
+        );
       }
       lastMessageTimestamp = sentAt;
 
-      newMessages.add(Message(
+      newMessages.add(
+        Message(
           chatId: widget.chatId,
           messageId: messageData['_id'],
           content: messageData['content'],
           senderId: messageData['senderId'],
           sentAt: messageData['sentAt'],
           status: messageData['readAt'] != null
-              ? MessageStatus.READ
+              ? MessageStatus.read
               : messageData['recivedAt'] != sentAt
-                  ? MessageStatus.RECIVED
-                  : messageData['sentAt'] != null
-                      ? MessageStatus.SENT
-                      : MessageStatus.PENDING,
-          chatUpdateStream: widget.chatUpdateStream));
+              ? MessageStatus.received
+              : messageData['sentAt'] != null
+              ? MessageStatus.sent
+              : MessageStatus.pending,
+          chatUpdateStream: widget.chatUpdateStream,
+        ),
+      );
     }
 
     List<Message> existingChats = messages;
@@ -312,9 +324,13 @@ class ChatState extends State<Chat> {
   }
 
   void openProfilePage() {
-    Navigator.of(context).push(MaterialPageRoute(
+    Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (BuildContext context) => Profile(
-            uuid: widget.participantId,
-            postUpdateStream: messagesUpdateStream)));
+          uuid: widget.participantId,
+          postUpdateStream: messagesUpdateStream,
+        ),
+      ),
+    );
   }
 }

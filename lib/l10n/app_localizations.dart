@@ -62,15 +62,17 @@ import 'app_localizations_en.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,537 +84,533 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
     Locale('de'),
-    Locale('en')
   ];
 
-  /// No description provided for @mcRealComment_reply.
+  /// The name of the language as displayed to the user. This should be in the language itself. E.g. 'Deutsch' for German, 'Français' for French, etc.
   ///
   /// In en, this message translates to:
-  /// **'Reply'**
-  String get mcRealComment_reply;
+  /// **'English'**
+  String get localeDisplay;
 
-  /// No description provided for @mcRealComment_replys.
-  ///
-  /// In en, this message translates to:
-  /// **'Rreplys'**
-  String get mcRealComment_replys;
-
-  /// No description provided for @mcRealComment_you.
+  /// Navbar label for the current user's tab.
   ///
   /// In en, this message translates to:
   /// **'You'**
-  String get mcRealComment_you;
+  String get navbarYou;
 
-  /// No description provided for @mcRealProfile_notPosted.
-  ///
-  /// In en, this message translates to:
-  /// **'You have to post a McReal before you can see others.'**
-  String get mcRealProfile_notPosted;
-
-  /// No description provided for @mcRealReport_info_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'Additional Information'**
-  String get mcRealReport_info_hint;
-
-  /// No description provided for @mcRealReport_reason_copyrightInfringement.
-  ///
-  /// In en, this message translates to:
-  /// **'Copyright Infringement'**
-  String get mcRealReport_reason_copyrightInfringement;
-
-  /// No description provided for @mcRealReport_reason_hateSpeach.
-  ///
-  /// In en, this message translates to:
-  /// **'Hate Speach'**
-  String get mcRealReport_reason_hateSpeach;
-
-  /// No description provided for @mcRealReport_reason_inappropriateForMinors.
-  ///
-  /// In en, this message translates to:
-  /// **'Inappropriate For Minors'**
-  String get mcRealReport_reason_inappropriateForMinors;
-
-  /// No description provided for @mcRealReport_reason_obscenity.
-  ///
-  /// In en, this message translates to:
-  /// **'Obscenity'**
-  String get mcRealReport_reason_obscenity;
-
-  /// No description provided for @mcRealReport_reason_other.
-  ///
-  /// In en, this message translates to:
-  /// **'Other'**
-  String get mcRealReport_reason_other;
-
-  /// No description provided for @mcRealReport_reason_privacyViolation.
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy Violation'**
-  String get mcRealReport_reason_privacyViolation;
-
-  /// No description provided for @mcRealReport_reason_spamOrFraud.
-  ///
-  /// In en, this message translates to:
-  /// **'Spam or Fraud'**
-  String get mcRealReport_reason_spamOrFraud;
-
-  /// No description provided for @mcRealReport_report.
-  ///
-  /// In en, this message translates to:
-  /// **'Report'**
-  String get mcRealReport_report;
-
-  /// No description provided for @mcRealReport_title_comment.
-  ///
-  /// In en, this message translates to:
-  /// **'Report Comment'**
-  String get mcRealReport_title_comment;
-
-  /// No description provided for @mcRealReport_title_post.
-  ///
-  /// In en, this message translates to:
-  /// **'Report Post'**
-  String get mcRealReport_title_post;
-
-  /// No description provided for @mcRealReport_whatHappened.
-  ///
-  /// In en, this message translates to:
-  /// **'What happened?'**
-  String get mcRealReport_whatHappened;
-
-  /// No description provided for @mcReal_ago.
-  ///
-  /// In en, this message translates to:
-  /// **'late'**
-  String get mcReal_ago;
-
-  /// No description provided for @mcReal_comment.
-  ///
-  /// In en, this message translates to:
-  /// **'Comment'**
-  String get mcReal_comment;
-
-  /// No description provided for @mcReal_comment_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'New Comment'**
-  String get mcReal_comment_hint;
-
-  /// No description provided for @mcReal_deleteCommentPopupContent.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this comment?'**
-  String get mcReal_deleteCommentPopupContent;
-
-  /// No description provided for @mcReal_deleteCommentPopupTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure?'**
-  String get mcReal_deleteCommentPopupTitle;
-
-  /// No description provided for @mcReal_deletePostPopupContent.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete today\'s McReal?\nYou will not be able to post another McReal today!'**
-  String get mcReal_deletePostPopupContent;
-
-  /// No description provided for @mcReal_deletePostPopupTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure?'**
-  String get mcReal_deletePostPopupTitle;
-
-  /// No description provided for @mcReal_discovery.
-  ///
-  /// In en, this message translates to:
-  /// **'Discovery'**
-  String get mcReal_discovery;
-
-  /// No description provided for @mcReal_friendsOnly.
-  ///
-  /// In en, this message translates to:
-  /// **'Friends'**
-  String get mcReal_friendsOnly;
-
-  /// No description provided for @mcReal_partnerPosts.
-  ///
-  /// In en, this message translates to:
-  /// **'Partners'**
-  String get mcReal_partnerPosts;
-
-  /// No description provided for @mcReal_justNow.
-  ///
-  /// In en, this message translates to:
-  /// **'Now'**
-  String get mcReal_justNow;
-
-  /// No description provided for @mcReal_noComments.
-  ///
-  /// In en, this message translates to:
-  /// **'No Comments available.'**
-  String get mcReal_noComments;
-
-  /// No description provided for @mcReal_noPosts.
-  ///
-  /// In en, this message translates to:
-  /// **'Nobody has posted their McReal yet.\nStart NoRiskClient to be the first one to post!'**
-  String get mcReal_noPosts;
-
-  /// No description provided for @mcReal_noPostsPlain.
-  ///
-  /// In en, this message translates to:
-  /// **'No posts available :('**
-  String get mcReal_noPostsPlain;
-
-  /// No description provided for @mcReal_pinPostPopupContent.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to pin todays McReal?'**
-  String get mcReal_pinPostPopupContent;
-
-  /// No description provided for @mcReal_pinPostPopupTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure?'**
-  String get mcReal_pinPostPopupTitle;
-
-  /// No description provided for @mcReal_popup_cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get mcReal_popup_cancel;
-
-  /// No description provided for @mcReal_popup_delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete!'**
-  String get mcReal_popup_delete;
-
-  /// No description provided for @mcReal_popup_ok.
-  ///
-  /// In en, this message translates to:
-  /// **'Ok'**
-  String get mcReal_popup_ok;
-
-  /// No description provided for @mcReal_popup_yes.
-  ///
-  /// In en, this message translates to:
-  /// **'Yes'**
-  String get mcReal_popup_yes;
-
-  /// No description provided for @mcReal_popup_pin.
-  ///
-  /// In en, this message translates to:
-  /// **'Pin!'**
-  String get mcReal_popup_pin;
-
-  /// No description provided for @mcReal_popup_unpin.
-  ///
-  /// In en, this message translates to:
-  /// **'Unpin'**
-  String get mcReal_popup_unpin;
-
-  /// No description provided for @mcReal_removedPost.
-  ///
-  /// In en, this message translates to:
-  /// **'Your McReal was removed.\nTap here for more information.'**
-  String get mcReal_removedPost;
-
-  /// No description provided for @mcReal_removedPostPopupTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Your McReal was removed'**
-  String get mcReal_removedPostPopupTitle;
-
-  /// No description provided for @mcReal_removedPostReason.
-  ///
-  /// In en, this message translates to:
-  /// **'Reason'**
-  String get mcReal_removedPostReason;
-
-  /// No description provided for @mcReal_reply.
-  ///
-  /// In en, this message translates to:
-  /// **'Reply'**
-  String get mcReal_reply;
-
-  /// No description provided for @mcReal_status_deleted.
-  ///
-  /// In en, this message translates to:
-  /// **'You have deleted your post.'**
-  String get mcReal_status_deleted;
-
-  /// No description provided for @mcReal_status_noPost.
-  ///
-  /// In en, this message translates to:
-  /// **'You have not yet posted your McReal of today.'**
-  String get mcReal_status_noPost;
-
-  /// No description provided for @mcReal_status_removed.
-  ///
-  /// In en, this message translates to:
-  /// **'Your McReal was removed.'**
-  String get mcReal_status_removed;
-
-  /// No description provided for @mcReal_unpinPostPopupContent.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you no longer want to pin this McReal?'**
-  String get mcReal_unpinPostPopupContent;
-
-  /// No description provided for @mcReal_unpinPostPopupTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure?'**
-  String get mcReal_unpinPostPopupTitle;
-
-  /// No description provided for @mcReal_yourMcReal.
-  ///
-  /// In en, this message translates to:
-  /// **'Your McReal'**
-  String get mcReal_yourMcReal;
-
-  /// No description provided for @postDetails_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Post Details'**
-  String get postDetails_title;
-
-  /// No description provided for @postDetails_yourMcReal.
-  ///
-  /// In en, this message translates to:
-  /// **'Your McReal'**
-  String get postDetails_yourMcReal;
-
-  /// No description provided for @settings_signOut.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign Out'**
-  String get settings_signOut;
-
-  /// No description provided for @settings_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings_title;
-
-  /// No description provided for @signIn_eula.
+  /// Legal notice shown on the sign-in screen.
   ///
   /// In en, this message translates to:
   /// **'By signing in you agree to the terms of service and privacy policy.'**
-  String get signIn_eula;
+  String get signInEula;
 
-  /// No description provided for @signIn_explanation.
+  /// Explanation text on how to sign in using a QR code.
   ///
   /// In en, this message translates to:
-  /// **'To sign in just scan the QR-Code from the NoRiskClient Launcher under the menu option \"Social Accounts\" next to the account manager.'**
-  String get signIn_explanation;
+  /// **'To sign in, scan the QR code from the NoRiskClient Launcher under the menu option \'Social Accounts\' next to the account manager.'**
+  String get signInExplanation;
 
-  /// No description provided for @signIn_scanQrCode.
+  /// Button label for scanning a QR code. Note: Title case.
   ///
   /// In en, this message translates to:
   /// **'Scan QR Code'**
-  String get signIn_scanQrCode;
+  String get signInScanQrCode;
 
-  /// No description provided for @signIn_signIn.
+  /// Primary sign-in button label. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'SignIn'**
-  String get signIn_signIn;
+  /// **'Sign In'**
+  String get signInLabel;
 
-  /// No description provided for @signIn_signingIn.
+  /// Status text shown while the sign-in process is running.
   ///
   /// In en, this message translates to:
   /// **'Signing In...'**
-  String get signIn_signingIn;
+  String get signInSigningIn;
 
-  /// No description provided for @profile_yourProfile.
+  /// Settings screen title. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Your Profile'**
-  String get profile_yourProfile;
+  /// **'Settings'**
+  String get settingsTitle;
 
-  /// No description provided for @profile_usersProfile.
+  /// Action to sign out the current user. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'\'s Profile'**
-  String get profile_usersProfile;
+  /// **'Sign Out'**
+  String get settingsSignOut;
 
-  /// No description provided for @profile_stats_firstJoin.
-  ///
-  /// In en, this message translates to:
-  /// **'First Join'**
-  String get profile_stats_firstJoin;
-
-  /// No description provided for @profile_stats_lastJoin.
-  ///
-  /// In en, this message translates to:
-  /// **'Last Join'**
-  String get profile_stats_lastJoin;
-
-  /// No description provided for @profile_stats_loginStreak.
-  ///
-  /// In en, this message translates to:
-  /// **'Login Streak'**
-  String get profile_stats_loginStreak;
-
-  /// No description provided for @profile_stats_mcReal.
-  ///
-  /// In en, this message translates to:
-  /// **'McReal Streak'**
-  String get profile_stats_mcReal;
-
-  /// No description provided for @profile_stats_playtime.
-  ///
-  /// In en, this message translates to:
-  /// **'Playtime'**
-  String get profile_stats_playtime;
-
-  /// No description provided for @profile_noPinnedPosts.
-  ///
-  /// In en, this message translates to:
-  /// **' doesn\'t have any pinned posts :/'**
-  String get profile_noPinnedPosts;
-
-  /// No description provided for @settings_language.
+  /// Entry in settings to change the app language. Note: Title case.
   ///
   /// In en, this message translates to:
   /// **'Language'**
-  String get settings_language;
+  String get settingsLanguage;
 
-  /// No description provided for @settings_blockedPlayers.
+  /// Entry in settings showing/manage blocked players. Note: Title case.
   ///
   /// In en, this message translates to:
   /// **'Blocked Players'**
-  String get settings_blockedPlayers;
+  String get settingsBlockedPlayers;
 
-  /// No description provided for @settings_legal.
+  /// Entry in settings for legal information (imprint, privacy, terms). Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Legal Info\'s'**
-  String get settings_legal;
+  /// **'Legal'**
+  String get settingsLegal;
 
-  /// No description provided for @settings_tos.
+  /// Link to the terms of service page. Note: Title case.
   ///
   /// In en, this message translates to:
   /// **'Terms of Service'**
-  String get settings_tos;
+  String get settingsTos;
 
-  /// No description provided for @settings_privacyPolicy.
+  /// Link to the privacy policy page. Note: Title case.
   ///
   /// In en, this message translates to:
   /// **'Privacy Policy'**
-  String get settings_privacyPolicy;
+  String get settingsPrivacyPolicy;
 
-  /// No description provided for @settings_imprint.
+  /// Link to the imprint page. Note: Title case.
   ///
   /// In en, this message translates to:
   /// **'Imprint'**
-  String get settings_imprint;
+  String get settingsImprint;
 
-  /// No description provided for @settings_support.
+  /// Link to the support page. Note: Title case.
   ///
   /// In en, this message translates to:
   /// **'Support'**
-  String get settings_support;
+  String get settingsSupport;
 
-  /// No description provided for @mcReal_profile_blockUserPopupTitle.
+  /// Title shown on your own profile. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure?'**
-  String get mcReal_profile_blockUserPopupTitle;
+  /// **'Your Profile'**
+  String get profileYourProfile;
 
-  /// No description provided for @mcReal_profile_blockUserPopupContent.
+  /// Suffix used to display another user's profile title, e.g., 'Alex's Profile'. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to block this player?'**
-  String get mcReal_profile_blockUserPopupContent;
+  /// **'\'s Profile'**
+  String get profileUsersProfile;
 
-  /// No description provided for @mcReal_profile_unblockUserPopupTitle.
+  /// Profile stats label for the user's first join date. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure?'**
-  String get mcReal_profile_unblockUserPopupTitle;
+  /// **'First Join'**
+  String get profileStatsFirstJoin;
 
-  /// No description provided for @mcReal_profile_unblockUserPopupContent.
+  /// Profile stats label for the user's last join date. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to unblock this player?'**
-  String get mcReal_profile_unblockUserPopupContent;
+  /// **'Last Join'**
+  String get profileStatsLastJoin;
 
-  /// No description provided for @mcReal_profile_blockedPlayer.
+  /// Profile stats label for login streak days. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'You have blocked this player.'**
-  String get mcReal_profile_blockedPlayer;
+  /// **'Login Streak'**
+  String get profileStatsLoginStreak;
 
-  /// No description provided for @mcReal_blocked_noBlockedPlayers.
+  /// Profile stats label for the user's McReal posting streak. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'You don\'t have any blocked players.'**
-  String get mcReal_blocked_noBlockedPlayers;
+  /// **'McReal Streak'**
+  String get profileStatsMcReal;
 
-  /// No description provided for @chat_delete_message_title.
+  /// Profile stats label for the user's total playtime. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Delete Message'**
-  String get chat_delete_message_title;
+  /// **'Playtime'**
+  String get profileStatsPlaytime;
 
-  /// No description provided for @chat_delete_message_content.
+  /// Suffix shown when a user has no pinned posts.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete this message?'**
-  String get chat_delete_message_content;
+  /// **' doesn\'t have any pinned posts :/'**
+  String get profileNoPinnedPosts;
 
-  /// No description provided for @chat_delete_message_cancel.
+  /// Filter/tab label for friends-only posts. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Cancel'**
-  String get chat_delete_message_cancel;
+  /// **'Friends'**
+  String get mcRealFriendsTabLabel;
 
-  /// No description provided for @chat_delete_message_delete.
+  /// Tab label for discovery posts. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Delete'**
-  String get chat_delete_message_delete;
+  /// **'Discover'**
+  String get mcRealDiscoverTabLabel;
 
-  /// No description provided for @chat_message_deleted.
+  /// Filter/tab label for partner posts. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'This message was deleted.'**
-  String get chat_message_deleted;
+  /// **'Partners'**
+  String get mcRealPartnersTabLabel;
 
-  /// No description provided for @chat_chat_empty.
+  /// Header for the user's own McReal. Note: Title case.
   ///
   /// In en, this message translates to:
-  /// **'Empty Chat'**
-  String get chat_chat_empty;
+  /// **'Your McReal'**
+  String get mcRealYourMcReal;
 
-  /// No description provided for @navbar_you.
+  /// Relative time label for events that happened just now.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get mcRealJustNow;
+
+  /// Relative time suffix, e.g., '13h ago'.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} ago'**
+  String mcRealAgo(String time);
+
+  /// Action label to add a comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get mcRealCommentLabel;
+
+  /// Placeholder/hint for creating a new comment. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'New Comment'**
+  String get mcRealCommentHint;
+
+  /// Shown when there are no comments for a post.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments available.'**
+  String get mcRealNoComments;
+
+  /// Action to reply to a comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get mcRealReply;
+
+  /// Label next to a single reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get mcRealCommentReply;
+
+  /// Label for multiple replies.
+  ///
+  /// In en, this message translates to:
+  /// **'Replies'**
+  String get mcRealCommentReplies;
+
+  /// Avatar/author label meaning the current user.
   ///
   /// In en, this message translates to:
   /// **'You'**
-  String get navbar_you;
+  String get mcRealCommentYou;
 
-  /// No description provided for @gamescom_no_infos.
+  /// Shown when the feed has no posts for today.
   ///
   /// In en, this message translates to:
-  /// **'There are no infos available at the moment.'**
-  String get gamescom_no_infos;
+  /// **'Nobody has posted their McReal yet.\nStart NoRiskClient to be the first!'**
+  String get mcRealNoPosts;
+
+  /// Compact info when there are no posts to show.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts available :('**
+  String get mcRealNoPostsPlain;
+
+  /// Title of the delete comment confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get mcRealDeleteCommentTitle;
+
+  /// Body of the delete comment confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this comment?'**
+  String get mcRealDeleteCommentContent;
+
+  /// Title of the delete McReal confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get mcRealDeletePostTitle;
+
+  /// Body of the delete McReal confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete today\'s McReal?\nYou will not be able to post another McReal today!'**
+  String get mcRealDeletePostContent;
+
+  /// Title of the pin McReal confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get mcRealPinPostTitle;
+
+  /// Body of the pin McReal confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to pin today\'s McReal?'**
+  String get mcRealPinPostContent;
+
+  /// Title of the unpin McReal confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get mcRealUnpinPostTitle;
+
+  /// Body of the unpin McReal confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you no longer want to pin this McReal?'**
+  String get mcRealUnpinPostContent;
+
+  /// Generic cancel button in popups.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get mcRealPopupCancel;
+
+  /// Generic delete action in popups.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get mcRealPopupDelete;
+
+  /// Generic OK action in popups.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get mcRealPopupOk;
+
+  /// Generic YES action in popups.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get mcRealPopupYes;
+
+  /// Specific pin action label.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin'**
+  String get mcRealPopupPin;
+
+  /// Specific unpin action label.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin'**
+  String get mcRealPopupUnpin;
+
+  /// Info banner shown when the user's McReal was removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Your McReal was removed.\nTap here for more information.'**
+  String get mcRealRemovedPostInfo;
+
+  /// Title of the removed McReal popup. Note: Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Your McReal was removed'**
+  String get mcRealRemovedPostTitle;
+
+  /// Label for the reason displayed when a McReal was removed. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get mcRealRemovedPostReason;
+
+  /// Status text indicating the user's post has been deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'You have deleted your post.'**
+  String get mcRealStatusDeleted;
+
+  /// Status text indicating the user hasn't posted today.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not yet posted your McReal of today.'**
+  String get mcRealStatusNoPost;
+
+  /// Status text indicating the user's McReal was removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Your McReal was removed.'**
+  String get mcRealStatusRemoved;
+
+  /// Notice shown in profile view when the user hasn't posted a McReal yet.
+  ///
+  /// In en, this message translates to:
+  /// **'You have to post a McReal before you can see others.'**
+  String get mcRealProfileNotPosted;
+
+  /// Primary action/button to report a post or comment. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get mcRealReportLabel;
+
+  /// Dialog title when reporting a comment. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Comment'**
+  String get mcRealReportCommentTitle;
+
+  /// Dialog title when reporting a post. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Post'**
+  String get mcRealReportPostTitle;
+
+  /// Prompt label for describing the incident.
+  ///
+  /// In en, this message translates to:
+  /// **'What happened?'**
+  String get mcRealReportWhatHappened;
+
+  /// Hint/placeholder for optional additional information field. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Information'**
+  String get mcRealReportInfoHint;
+
+  /// Report reason option. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Copyright Infringement'**
+  String get mcRealReportReasonCopyrightInfringement;
+
+  /// Report reason option. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Hate Speech'**
+  String get mcRealReportReasonHateSpeech;
+
+  /// Report reason option. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Inappropriate For Minors'**
+  String get mcRealReportReasonInappropriateForMinors;
+
+  /// Report reason option. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Obscenity'**
+  String get mcRealReportReasonObscenity;
+
+  /// Report reason option for other/unspecified reasons. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get mcRealReportReasonOther;
+
+  /// Report reason option. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Violation'**
+  String get mcRealReportReasonPrivacyViolation;
+
+  /// Report reason option.
+  ///
+  /// In en, this message translates to:
+  /// **'Spam or Fraud'**
+  String get mcRealReportReasonSpamOrFraud;
+
+  /// Title of the post details page. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Post Details'**
+  String get postDetailsTitle;
+
+  /// Header labelling that the post is the user's McReal. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Your McReal'**
+  String get postDetailsYourMcReal;
+
+  /// Title of the delete message confirmation dialog. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Message'**
+  String get chatDeleteMessageTitle;
+
+  /// Body of the delete message confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this message?'**
+  String get chatDeleteMessageContent;
+
+  /// Replacement text shown for a deleted message.
+  ///
+  /// In en, this message translates to:
+  /// **'This message was deleted.'**
+  String get chatMessageDeleted;
+
+  /// Placeholder text when a chat has no messages. Note: Title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty Chat'**
+  String get chatEmpty;
+
+  /// Shown when there is no Gamescom information to display.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no information available at the moment.'**
+  String get gamescomNoInfo;
+
+  /// Title of the block user confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get mcRealBlockUserTitle;
+
+  /// Body of the block user confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to block this player?'**
+  String get mcRealBlockUserContent;
+
+  /// Title of the unblock user confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get mcRealUnblockUserTitle;
+
+  /// Body of the unblock user confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to unblock this player?'**
+  String get mcRealUnblockUserContent;
+
+  /// Info text shown on a blocked player's profile.
+  ///
+  /// In en, this message translates to:
+  /// **'You have blocked this player.'**
+  String get mcRealBlockedPlayer;
+
+  /// Shown in the blocked players list when it is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have any blocked players.'**
+  String get mcRealBlockedNone;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -621,25 +619,26 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['de', 'en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['de', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'de': return AppLocalizationsDe();
-    case 'en': return AppLocalizationsEn();
+    case 'de':
+      return AppLocalizationsDe();
+    case 'en':
+      return AppLocalizationsEn();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }
