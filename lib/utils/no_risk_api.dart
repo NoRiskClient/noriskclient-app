@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:noriskclient/main.dart';
+import '../main.dart';
 
 class NoRiskApi {
   static const String baseUrl = 'https://api.norisk.gg/api/v1/';
@@ -203,14 +203,10 @@ class NoRiskApi {
   }
 
   Future<Map<String, dynamic>?> getGamescomInfos() async {
-    print(
+    final url = Uri.parse(
       'https://api${getUserData['experimental'] == true ? '-staging' : ''}.norisk.gg/api/v1/discord/gamescom-infos',
     );
-    final response = await http.get(
-      Uri.parse(
-        'https://api${getUserData['experimental'] == true ? '-staging' : ''}.norisk.gg/api/v1/discord/gamescom-infos',
-      ),
-    );
+    final response = await http.get(url);
 
     if (response.statusCode == 200) {
       return response.body == 'null'

@@ -106,9 +106,8 @@ class McRealPostState extends State<McRealCommentInput> {
       headers: {'Authorization': 'Bearer ${widget.userData['token']}'},
     );
     if (res.statusCode != 200) {
-      print("Create comment: ${res.statusCode}");
       if (res.statusCode == 401) {
-        Navigator.of(context).pop();
+        if (mounted) Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
       return;

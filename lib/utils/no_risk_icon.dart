@@ -73,7 +73,7 @@ abstract class NoRiskIcon {
     width: 20,
     fit: BoxFit.fill,
   );
-  static Image blue_checkmark = Image.asset(
+  static Image blueCheckmark = Image.asset(
     'lib/assets/icons/blue_checkmark.png',
     height: 20,
     width: 20,

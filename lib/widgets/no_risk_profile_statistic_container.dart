@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:noriskclient/config/colors.dart';
-import 'package:noriskclient/widgets/no_risk_container.dart';
-import 'package:noriskclient/widgets/no_risk_text.dart';
+
+import '../config/colors.dart';
+import 'no_risk_container.dart';
+import 'no_risk_text.dart';
 
 class NoRiskProfileStatisticContainer extends StatelessWidget {
   const NoRiskProfileStatisticContainer({

@@ -11,7 +11,7 @@ import '../config/config.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
 import '../provider/locale_provider.dart';
-import '../widgets/NoRiskBackButton.dart';
+import '../widgets/no_risk_back_button.dart';
 import '../widgets/no_risk_container.dart';
 import '../widgets/no_risk_text.dart';
 import 'qr.dart';
@@ -471,9 +471,7 @@ class SettingsState extends State<Settings> {
   }
 
   void loadAppInfo() async {
-    PackageInfo _packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-      packageInfo = _packageInfo;
-    });
+    packageInfo = await PackageInfo.fromPlatform();
+    if (mounted) setState(() {});
   }
 }

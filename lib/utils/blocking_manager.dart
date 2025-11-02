@@ -1,5 +1,5 @@
-import 'package:noriskclient/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../main.dart';
 
 class BlockingManager {
   Map<String, dynamic> userData = getUserData;

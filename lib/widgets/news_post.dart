@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/colors.dart';
-import 'package:noriskclient/widgets/no_risk_container.dart';
-import 'package:noriskclient/widgets/no_risk_text.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../config/colors.dart';
+import 'no_risk_container.dart';
+import 'no_risk_text.dart';
 
 class NewsPost extends StatelessWidget {
   final String title;

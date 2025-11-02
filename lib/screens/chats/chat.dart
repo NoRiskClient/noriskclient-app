@@ -8,9 +8,9 @@ import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 import '../../utils/no_risk_api.dart';
 import '../../widgets/Message.dart';
-import '../../widgets/NoRiskBackButton.dart';
+import '../../widgets/no_risk_back_button.dart';
 import '../../widgets/no_risk_text.dart';
-import '../../widgets/NoRiskTextField.dart';
+import '../../widgets/no_risk_text_field.dart';
 import '../profile.dart';
 
 class Chat extends StatefulWidget {

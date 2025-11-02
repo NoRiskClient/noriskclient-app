@@ -7,7 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 import '../../utils/no_risk_api.dart';
 import '../../utils/report_types.dart';
-import '../../widgets/NoRiskBackButton.dart';
+import '../../widgets/no_risk_back_button.dart';
 import '../../widgets/no_risk_button.dart';
 import '../../widgets/no_risk_checkbox.dart';
 import '../../widgets/no_risk_text.dart';
@@ -49,14 +49,14 @@ class ReportMcRealState extends State<ReportMcReal> {
               children: [
                 Center(
                   child: NoRiskText(
-                    widget.type == ReportType.POST
+                    widget.type == ReportType.post
                         ? AppLocalizations.of(context).mcRealReportPostTitle
                         : AppLocalizations.of(context).mcRealReportCommentTitle,
                     spaceTop: false,
                     spaceBottom: false,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: widget.type == ReportType.POST ? 40 : 35,
+                      fontSize: widget.type == ReportType.post ? 40 : 35,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -213,41 +213,40 @@ class ReportMcRealState extends State<ReportMcReal> {
 
     String reasons = '';
     if (obscenity) {
-      reasons += '&reasons=${ReportReason.OBSCENITY.name}';
+      reasons += '&reasons=${ReportReason.obscenity.name}';
     }
     if (hateSpeech) {
-      reasons += '&reasons=${ReportReason.HATE_SPEECH.name}';
+      reasons += '&reasons=${ReportReason.hateSpeech.name}';
     }
     if (copyrightInfringement) {
-      reasons += '&reasons=${ReportReason.COPYRIGHT_INFRINGEMENT.name}';
+      reasons += '&reasons=${ReportReason.copyrightInfringement.name}';
     }
     if (privacyViolation) {
-      reasons += '&reasons=${ReportReason.PRIVACY_VIOLATION.name}';
+      reasons += '&reasons=${ReportReason.privacyViolation.name}';
     }
     if (spamOrFraud) {
-      reasons += '&reasons=${ReportReason.SPAM_OR_FRAUD.name}';
+      reasons += '&reasons=${ReportReason.spamOrFraud.name}';
     }
     if (inappropriateForMinors) {
-      reasons += '&reasons=${ReportReason.INAPPROPRIATE_FOR_MINORS.name}';
+      reasons += '&reasons=${ReportReason.inappropriateForMinors.name}';
     }
     if (other) {
-      reasons += '&reasons=${ReportReason.OTHER.name}';
+      reasons += '&reasons=${ReportReason.other.name}';
     }
 
     http.Response res = await http.post(
       Uri.parse(
-        '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/${widget.type == ReportType.COMMENT ? 'comment' : 'post'}/${widget.contentId}/report?uuid=${userData['uuid']}$reasons&info=${infoController.text}',
+        '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/${widget.type == ReportType.comment ? 'comment' : 'post'}/${widget.contentId}/report?uuid=${userData['uuid']}$reasons&info=${infoController.text}',
       ),
       headers: {'Authorization': 'Bearer ${userData['token']}'},
     );
     if (res.statusCode != 200) {
       if (res.statusCode == 401) {
-        Navigator.of(context).pop();
+        if (mounted) Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
-      print(res.statusCode);
       return;
     }
-    Navigator.of(context).pop();
+    if (mounted) Navigator.of(context).pop();
   }
 }

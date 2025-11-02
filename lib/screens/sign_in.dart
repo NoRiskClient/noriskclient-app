@@ -112,7 +112,7 @@ class SignInState extends State<SignIn> {
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: isProcessingResult
-                              ? NoRiskClientColors.blue.withOpacity(0.5)
+                              ? NoRiskClientColors.blue.withValues(alpha: 0.5)
                               : NoRiskClientColors.blue,
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -130,7 +130,9 @@ class SignInState extends State<SignIn> {
                                       spaceBottom: false,
                                       style: TextStyle(
                                         fontSize: 35,
-                                        color: Colors.white.withOpacity(0.5),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.5,
+                                        ),
                                       ),
                                     ),
                                   ]
@@ -143,7 +145,9 @@ class SignInState extends State<SignIn> {
                                       spaceBottom: false,
                                       style: TextStyle(
                                         color: isProcessingResult
-                                            ? Colors.white.withOpacity(0.5)
+                                            ? Colors.white.withValues(
+                                                alpha: 0.5,
+                                              )
                                             : Colors.white,
                                         fontSize: 35,
                                         fontWeight: FontWeight.w500,

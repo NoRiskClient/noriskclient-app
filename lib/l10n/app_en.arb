@@ -2,7 +2,7 @@
   "@@locale": "en",
   "localeDisplay": "English",
   "@localeDisplay": {
-    "description": "The name of the language as displayed to the user. This should be in the language itself. E.g. 'Deutsch' for German, 'Français' for French, etc.",
+    "description": "The name of the language as displayed to the user. This should be in the language itself. E.g. 'Deutsch' for German, etc.",
     "context": "global"
   },
   "navbarYou": "You",

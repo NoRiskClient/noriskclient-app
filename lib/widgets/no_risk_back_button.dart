@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'no_risk_text.dart';
 import 'no_risk_container.dart';
+import 'no_risk_text.dart';
 
 class NoRiskBackButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
-  const NoRiskBackButton({Key? key, this.onPressed}) : super(key: key);
+  const NoRiskBackButton({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

@@ -4,3 +4,5 @@ linter:
   rules:
     - directives_ordering
     - prefer_relative_imports
+    - document_ignores
+    - unnecessary_ignore

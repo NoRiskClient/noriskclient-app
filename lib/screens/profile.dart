@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -11,11 +12,11 @@ import '../main.dart';
 import '../utils/blocking_manager.dart';
 import '../utils/no_risk_api.dart';
 import '../utils/no_risk_icon.dart';
-import '../widgets/NoRiskBackButton.dart';
+import '../widgets/mc_real_profile_post.dart';
+import '../widgets/no_risk_back_button.dart';
 import '../widgets/no_risk_container.dart';
 import '../widgets/no_risk_profile_statistic_container.dart';
 import '../widgets/no_risk_text.dart';
-import '../widgets/mc_real_profile_post.dart';
 import 'settings.dart';
 
 class Profile extends StatefulWidget {
@@ -42,9 +43,9 @@ class ProfileState extends State<Profile> {
   bool noPins = true;
   bool? blocked;
 
-  //eastereggs
-  bool PSJahn = false;
-  bool Aim_shock = false;
+  // eastereggs
+  bool psJahn = false;
+  bool aimShock = false;
 
   @override
   void initState() {
@@ -67,16 +68,16 @@ class ProfileState extends State<Profile> {
   void toggleEasteregg() {
     if (widget.uuid == '1245c340-8bdb-4796-838e-a247f1594796') {
       setState(() {
-        PSJahn = !PSJahn;
+        psJahn = !psJahn;
       });
-      print('Toggled PSJahn, now $PSJahn');
+      if (kDebugMode) print('Toggled PSJahn, now $psJahn');
     } else if (widget.uuid == '625dd22b-bad2-4b82-a0bc-e43ba1c1a7fd') {
       setState(() {
-        Aim_shock = !Aim_shock;
+        aimShock = !aimShock;
       });
-      print('Toggled Aim_shock, now $Aim_shock');
+      if (kDebugMode) print('Toggled Aim_shock, now $aimShock');
 
-      if (Aim_shock) {
+      if (aimShock) {
         showDialog(
           context: context,
           builder: isAndroid
@@ -126,7 +127,7 @@ class ProfileState extends State<Profile> {
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
-          image: PSJahn
+          image: psJahn
               ? DecorationImage(
                   image: Image.asset(
                     'lib/assets/app/gommehd.png',

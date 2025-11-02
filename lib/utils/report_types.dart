@@ -1,11 +1,11 @@
-enum ReportType { POST, COMMENT }
+enum ReportType { post, comment }
 
 enum ReportReason {
-  OBSCENITY,
-  HATE_SPEECH,
-  COPYRIGHT_INFRINGEMENT,
-  PRIVACY_VIOLATION,
-  SPAM_OR_FRAUD,
-  INAPPROPRIATE_FOR_MINORS,
-  OTHER,
+  obscenity,
+  hateSpeech,
+  copyrightInfringement,
+  privacyViolation,
+  spamOrFraud,
+  inappropriateForMinors,
+  other,
 }

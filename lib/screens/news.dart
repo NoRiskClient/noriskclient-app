@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/colors.dart';
-import 'package:noriskclient/utils/no_risk_api.dart';
-import 'package:noriskclient/widgets/NewsPost.dart';
-import 'package:noriskclient/widgets/no_risk_text.dart';
+
+import '../config/colors.dart';
+import '../utils/no_risk_api.dart';
+import '../widgets/news_post.dart';
+import '../widgets/no_risk_text.dart';
 
 class News extends StatefulWidget {
   const News({super.key});

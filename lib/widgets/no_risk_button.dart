@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:noriskclient/widgets/no_risk_container.dart';
+import 'no_risk_container.dart';
 
 class NoRiskButton extends StatelessWidget {
-  NoRiskButton({
+  final Widget child;
+  final Color color;
+  final void Function() onTap;
+  final double? height;
+  final double? width;
+
+  const NoRiskButton({
     super.key,
     this.height,
     this.width,
@@ -10,12 +16,6 @@ class NoRiskButton extends StatelessWidget {
     required this.onTap,
     required this.child,
   });
-
-  final Widget child;
-  Color color;
-  final void Function() onTap;
-  final double? height;
-  final double? width;
 
   @override
   Widget build(BuildContext context) {

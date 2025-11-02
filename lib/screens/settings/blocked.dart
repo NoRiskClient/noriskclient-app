@@ -7,10 +7,10 @@ import '../../config/colors.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 import '../../utils/blocking_manager.dart';
-import '../../widgets/NoRiskBackButton.dart';
+import '../../widgets/no_risk_back_button.dart';
 import '../../widgets/no_risk_container.dart';
-import '../../widgets/no_risk_text.dart';
 import '../../widgets/no_risk_loading_indicator.dart';
+import '../../widgets/no_risk_text.dart';
 
 class Blocked extends StatefulWidget {
   const Blocked({super.key});
@@ -166,12 +166,10 @@ class BlockedState extends State<Blocked> {
   }
 
   void loadBlockedPlayers() async {
-    List<String> _blockedPlayers = await BlockingManager().getBlocked();
-    setState(() {
-      blockedPlayers = _blockedPlayers;
-    });
+    blockedPlayers = await BlockingManager().getBlocked();
+    if (mounted) setState(() {});
 
-    for (String uuid in _blockedPlayers) {
+    for (String uuid in blockedPlayers!) {
       getUpdateStream.sink.add([
         'loadSkin',
         uuid,
@@ -213,7 +211,7 @@ class BlockedState extends State<Blocked> {
                     onPressed: () async {
                       await BlockingManager().unblock(uuid);
                       loadBlockedPlayers();
-                      Navigator.of(context).pop();
+                      if (context.mounted) Navigator.of(context).pop();
                     },
                     child: Text(
                       AppLocalizations.of(context).mcRealPopupYes,
@@ -240,7 +238,7 @@ class BlockedState extends State<Blocked> {
                     onPressed: () async {
                       await BlockingManager().unblock(uuid);
                       loadBlockedPlayers();
-                      Navigator.of(context).pop();
+                      if (context.mounted) Navigator.of(context).pop();
                     },
                     child: Text(AppLocalizations.of(context).mcRealPopupYes),
                   ),

@@ -14,10 +14,10 @@ class ScanQRCode extends StatefulWidget {
   const ScanQRCode({super.key, this.isAdminScan = false});
 
   @override
-  _ScanQRCodeState createState() => _ScanQRCodeState();
+  ScanQRCodeState createState() => ScanQRCodeState();
 }
 
-class _ScanQRCodeState extends State<ScanQRCode> {
+class ScanQRCodeState extends State<ScanQRCode> {
   MobileScannerController controller = MobileScannerController();
   int? lastRedeem;
 
@@ -111,8 +111,6 @@ class _ScanQRCodeState extends State<ScanQRCode> {
     MobileScannerController controller,
     String code,
   ) async {
-    print('QR Code Detected: $code');
-
     if (code.contains("/giveaways/")) {
       String giveawayId = code.split("/")[code.split("/").length - 2];
 
@@ -126,6 +124,7 @@ class _ScanQRCodeState extends State<ScanQRCode> {
           Fluttertoast.showToast(msg: 'Invalid voucher QR code');
           return;
         }
+        if (!mounted) return;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -152,6 +151,7 @@ class _ScanQRCodeState extends State<ScanQRCode> {
 
         lastRedeem = DateTime.now().millisecondsSinceEpoch;
 
+        if (!mounted) return;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/colors.dart';
-import 'package:noriskclient/config/config.dart';
-import 'package:noriskclient/widgets/no_risk_container.dart';
-import 'package:noriskclient/widgets/no_risk_text.dart';
+
+import '../config/colors.dart';
+import '../config/config.dart';
+import 'no_risk_container.dart';
+import 'no_risk_text.dart';
 
 class NoRiskTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -19,7 +20,7 @@ class NoRiskTextField extends StatelessWidget {
   final Function(String, bool)? onSubmitted;
 
   const NoRiskTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.width,
     this.focusNode,

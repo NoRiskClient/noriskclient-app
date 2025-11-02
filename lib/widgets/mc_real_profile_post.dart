@@ -13,8 +13,8 @@ import '../utils/no_risk_api.dart';
 import '../utils/no_risk_icon.dart';
 import 'no_risk_container.dart';
 import 'no_risk_icon_button.dart';
-import 'no_risk_text.dart';
 import 'no_risk_loading_indicator.dart';
+import 'no_risk_text.dart';
 
 class ProfileMcRealPost extends StatefulWidget {
   ProfileMcRealPost({
@@ -199,9 +199,7 @@ class McRealPostState extends State<ProfileMcRealPost> {
 
   String getPostTime() {
     DateTime uploadTime = DateTime.parse(
-      widget.postData!['post']['uploadDate'] +
-          ' ' +
-          widget.postData!['post']['uploadTime'].toString().split('.')[0],
+      "${widget.postData!['post']['uploadDate']} ${widget.postData!['post']['uploadTime'].toString().split('.')[0]}",
     );
 
     String postTime = '';
@@ -233,7 +231,7 @@ class McRealPostState extends State<ProfileMcRealPost> {
     );
     if (primaryRes.statusCode != 200 || secondaryRes.statusCode != 200) {
       if (primaryRes.statusCode == 401 || secondaryRes.statusCode == 401) {
-        Navigator.of(context).pop();
+        if (mounted) Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
       return;
@@ -284,15 +282,13 @@ class McRealPostState extends State<ProfileMcRealPost> {
                         },
                       );
                       if (res.statusCode != 200) {
-                        print(res.statusCode);
-                        print(res.body);
                         if (res.statusCode == 401) {
-                          Navigator.of(context).pop();
+                          if (context.mounted) Navigator.of(context).pop();
                           getUpdateStream.sink.add(['signOut']);
                         }
                         return;
                       }
-                      Navigator.of(context).pop();
+                      if (context.mounted) Navigator.of(context).pop();
                       widget.profilePostsUpdateStream.sink.add([
                         widget.profilePostIndex,
                         updateData,
@@ -328,14 +324,13 @@ class McRealPostState extends State<ProfileMcRealPost> {
                         },
                       );
                       if (res.statusCode != 200) {
-                        print(res.statusCode);
                         if (res.statusCode == 401) {
-                          Navigator.of(context).pop();
+                          if (context.mounted) Navigator.of(context).pop();
                           getUpdateStream.sink.add(['signOut']);
                         }
                         return;
                       }
-                      Navigator.of(context).pop();
+                      if (context.mounted) Navigator.of(context).pop();
                       widget.profilePostsUpdateStream.sink.add([
                         widget.profilePostIndex,
                         updateData,
@@ -379,14 +374,13 @@ class McRealPostState extends State<ProfileMcRealPost> {
                         },
                       );
                       if (res.statusCode != 200) {
-                        print(res.statusCode);
                         if (res.statusCode == 401) {
-                          Navigator.of(context).pop();
+                          if (context.mounted) Navigator.of(context).pop();
                           getUpdateStream.sink.add(['signOut']);
                         }
                         return;
                       }
-                      Navigator.of(context).pop();
+                      if (context.mounted) Navigator.of(context).pop();
                       widget.profilePostsUpdateStream.sink.add([
                         widget.profilePostIndex,
                         updateData,
@@ -425,14 +419,13 @@ class McRealPostState extends State<ProfileMcRealPost> {
                         },
                       );
                       if (res.statusCode != 200) {
-                        print(res.statusCode);
                         if (res.statusCode == 401) {
-                          Navigator.of(context).pop();
+                          if (context.mounted) Navigator.of(context).pop();
                           getUpdateStream.sink.add(['signOut']);
                         }
                         return;
                       }
-                      Navigator.of(context).pop();
+                      if (context.mounted) Navigator.of(context).pop();
                       widget.profilePostsUpdateStream.sink.add([
                         widget.profilePostIndex,
                         updateData,

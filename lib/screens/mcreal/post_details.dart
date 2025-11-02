@@ -10,12 +10,12 @@ import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 import '../../utils/no_risk_api.dart';
 import '../../utils/report_types.dart';
+import '../../widgets/mc_real_comment.dart';
 import '../../widgets/mc_real_comment_input.dart';
 import '../../widgets/mc_real_post.dart';
-import '../../widgets/NoRiskBackButton.dart';
-import '../../widgets/no_risk_text.dart';
-import '../../widgets/mc_real_comment.dart';
+import '../../widgets/no_risk_back_button.dart';
 import '../../widgets/no_risk_loading_indicator.dart';
+import '../../widgets/no_risk_text.dart';
 import '../profile.dart';
 import 'report.dart';
 
@@ -65,9 +65,8 @@ class McRealState extends State<PostDetails> {
           headers: {'Authorization': 'Bearer ${userData['token']}'},
         );
         if (res.statusCode != 200) {
-          print("Load comment: ${res.statusCode}");
           if (res.statusCode == 401) {
-            Navigator.of(context).pop();
+            if (mounted) Navigator.of(context).pop();
             getUpdateStream.sink.add(['signOut']);
           }
           return;
@@ -265,20 +264,17 @@ class McRealState extends State<PostDetails> {
       headers: {'Authorization': 'Bearer ${userData['token']}'},
     );
     if (res.statusCode != 200) {
-      print(res.statusCode);
       if (res.statusCode == 401) {
-        Navigator.of(context).pop();
+        if (mounted) Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       } else if (res.statusCode == 400) {}
       return;
     }
     Map<String, dynamic> commentsData = jsonDecode(utf8.decode(res.bodyBytes));
 
+    hitEnd = false;
     if (commentsData['comments'].length < Config.maxCommentsPerPage) {
       hitEnd = true;
-      print('Hit end!!!');
-    } else {
-      hitEnd = false;
     }
 
     List<McRealComment> newComments = [];
@@ -300,9 +296,6 @@ class McRealState extends State<PostDetails> {
       comments = [...existingPosts, ...newComments];
     });
     scrollController.jumpTo(scrollOffset.toDouble());
-    print(
-      'New comments (${newComments.length}): ${newComments.map((c) => c.commentData['comment']['_id'])}',
-    );
 
     isLoadingNewComments = false;
   }
@@ -320,7 +313,7 @@ class McRealState extends State<PostDetails> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => ReportMcReal(
-          type: ReportType.POST,
+          type: ReportType.post,
           contentId: widget.postData['post']['_id'],
         ),
       ),

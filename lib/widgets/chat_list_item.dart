@@ -8,18 +8,18 @@ import '../main.dart';
 import '../screens/chats/chat.dart';
 import '../utils/no_risk_api.dart';
 import 'no_risk_container.dart';
-import 'no_risk_text.dart';
 import 'no_risk_loading_indicator.dart';
+import 'no_risk_text.dart';
 
 class ChatListItem extends StatefulWidget {
-  String chatId;
-  String participantId;
-  String? lastMessage;
-  int? lastMessageTimestamp;
-  int unreadMessages;
-  StreamController<String> chatUpdateStream;
+  final String chatId;
+  final String participantId;
+  final String? lastMessage;
+  final int? lastMessageTimestamp;
+  final int unreadMessages;
+  final StreamController<String> chatUpdateStream;
 
-  ChatListItem({
+  const ChatListItem({
     super.key,
     required this.chatId,
     required this.participantId,

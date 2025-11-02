@@ -60,7 +60,6 @@ class McRealPostState extends State<McRealPost> {
 
   @override
   void initState() {
-    print(widget.postData);
     getUpdateStream.sink.add([
       'loadSkin',
       widget.postData['post']['author'],
@@ -599,14 +598,10 @@ class McRealPostState extends State<McRealPost> {
 
   String getPostTime() {
     DateTime mcRealTime = DateTime.parse(
-      widget.postData['post']['mcRealDate'] +
-          ' ' +
-          widget.postData['post']['mcRealTime'].toString().split('.')[0],
+      "${widget.postData['post']['mcRealDate']} ${widget.postData['post']['mcRealTime'].toString().split('.')[0]}",
     );
     DateTime uploadTime = DateTime.parse(
-      widget.postData['post']['uploadDate'] +
-          ' ' +
-          widget.postData['post']['uploadTime'].toString().split('.')[0],
+      "${widget.postData['post']['uploadDate']} ${widget.postData['post']['uploadTime'].toString().split('.')[0]}",
     );
 
     Duration difference = uploadTime
@@ -701,7 +696,7 @@ class McRealPostState extends State<McRealPost> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => ReportMcReal(
-          type: ReportType.POST,
+          type: ReportType.post,
           contentId: widget.postData['post']['_id'],
         ),
       ),

@@ -499,7 +499,7 @@ class McRealPostState extends State<McRealComment> {
         currentlyUpdatingVotes = false;
       });
       if (res.statusCode == 401) {
-        if (context.mounted) Navigator.of(context).pop();
+        if (mounted) Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
       return;
@@ -517,7 +517,7 @@ class McRealPostState extends State<McRealComment> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => ReportMcReal(
-          type: ReportType.COMMENT,
+          type: ReportType.comment,
           contentId: widget.commentData['comment']['_id'],
         ),
       ),
@@ -607,7 +607,6 @@ class McRealPostState extends State<McRealComment> {
                           if (context.mounted) Navigator.of(context).pop();
                           getUpdateStream.sink.add(['signOut']);
                         }
-                        print(res.statusCode);
                         return;
                       }
                       setState(() {

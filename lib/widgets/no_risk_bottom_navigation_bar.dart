@@ -6,19 +6,19 @@ import '../config/colors.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
 import '../utils/no_risk_icon.dart';
+import 'no_risk_container.dart';
 import 'no_risk_icon_button.dart';
 import 'no_risk_text.dart';
-import 'no_risk_container.dart';
 
 class NoRiskBottomNavigationBar extends StatefulWidget {
-  NoRiskBottomNavigationBar({
+  final StreamController<int> currentIndexController;
+  final int currentIndex;
+
+  const NoRiskBottomNavigationBar({
     super.key,
     required this.currentIndexController,
     this.currentIndex = 2,
   });
-
-  final StreamController<int> currentIndexController;
-  int currentIndex;
 
   @override
   State<NoRiskBottomNavigationBar> createState() =>
@@ -96,7 +96,6 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
 
 class _BottomNavigationBarButton extends StatelessWidget {
   const _BottomNavigationBarButton({
-    super.key,
     required this.onTap,
     required this.currentIndex,
     required this.label,

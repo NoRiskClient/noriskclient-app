@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../config/colors.dart';
-import '../../widgets/NoRiskBackButton.dart';
+import '../../widgets/no_risk_back_button.dart';
 
 class ImageViewer extends StatelessWidget {
   final Image image;

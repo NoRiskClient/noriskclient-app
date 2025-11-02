@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:noriskclient/config/colors.dart';
-import 'package:noriskclient/utils/no_risk_icon.dart';
-import 'package:noriskclient/widgets/no_risk_container.dart';
-import 'package:noriskclient/widgets/no_risk_text.dart';
 
-// ignore: must_be_immutable
+import '../config/colors.dart';
+import '../utils/no_risk_icon.dart';
+import 'no_risk_container.dart';
+import 'no_risk_text.dart';
+
 class NoRiskCheckbox extends StatefulWidget {
   NoRiskCheckbox({
     super.key,

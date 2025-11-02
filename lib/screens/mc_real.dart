@@ -10,9 +10,9 @@ import '../config/colors.dart';
 import '../config/config.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
+import '../utils/blocking_manager.dart';
 import '../utils/no_risk_api.dart';
 import '../utils/no_risk_icon.dart';
-import '../utils/blocking_manager.dart';
 import '../widgets/mc_real_post.dart';
 import '../widgets/no_risk_icon_button.dart';
 import '../widgets/no_risk_text.dart';
@@ -73,7 +73,6 @@ class McRealState extends State<McReal> {
         headers: {'Authorization': 'Bearer ${userData['token']}'},
       );
       if (res.statusCode != 200) {
-        print("Load player post: ${res.statusCode}");
         if (res.statusCode == 403) {
           setState(() {
             ownPost = null;
@@ -339,7 +338,6 @@ class McRealState extends State<McReal> {
       headers: {'Authorization': 'Bearer ${userData['token']}'},
     );
     if (res.statusCode != 200) {
-      print("Load player post: ${res.statusCode}");
       if (res.statusCode == 403) {
         setState(() {
           ownPost = null;
@@ -380,7 +378,6 @@ class McRealState extends State<McReal> {
       headers: {'Authorization': 'Bearer ${userData['token']}'},
     );
     if (res.statusCode != 200) {
-      print("Load posts: ${res.statusCode}");
       if (res.statusCode == 401) {
         getUpdateStream.sink.add(['signOut']);
       }
@@ -427,7 +424,6 @@ class McRealState extends State<McReal> {
       posts = [...existingPosts, ...newPosts];
     });
     scrollController.jumpTo(scrollOffset.toDouble());
-    print('New posts: ${posts.map((p) => p.postData['post']['_id'])}');
 
     isLoadingNewPosts = false;
   }

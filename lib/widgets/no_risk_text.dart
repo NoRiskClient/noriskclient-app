@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:noriskclient/utils/string_utils.dart';
+import '../utils/string_utils.dart';
 
 class NoRiskText extends Text {
   NoRiskText(

@@ -8,8 +8,8 @@ import '../main.dart';
 import '../provider/locale_provider.dart';
 import '../utils/blocking_manager.dart';
 import '../utils/no_risk_api.dart';
-import '../widgets/no_risk_text.dart';
 import '../widgets/chat_list_item.dart';
+import '../widgets/no_risk_text.dart';
 import 'profile.dart';
 
 class Chats extends StatefulWidget {
@@ -109,14 +109,9 @@ class ChatsState extends State<Chats> {
       String participantId = (chatData['participants'] as List).firstWhere(
         (p) => p['userId'] != userData['uuid'],
       )['userId'];
-      bool isBlocked = await BlockingManager().checkBlocked(participantId);
 
-      if (isBlocked) {
-        print(
-          'Skipped blocked ChatListItem ${chatData['_id']} ($participantId)',
-        );
-        continue;
-      }
+      bool isBlocked = await BlockingManager().checkBlocked(participantId);
+      if (isBlocked) continue;
 
       newChats.add(
         ChatListItem(

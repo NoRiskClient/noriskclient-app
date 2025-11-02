@@ -98,7 +98,7 @@ abstract class AppLocalizations {
     Locale('de'),
   ];
 
-  /// The name of the language as displayed to the user. This should be in the language itself. E.g. 'Deutsch' for German, 'Français' for French, etc.
+  /// The name of the language as displayed to the user. This should be in the language itself. E.g. 'Deutsch' for German, etc.
   ///
   /// In en, this message translates to:
   /// **'English'**

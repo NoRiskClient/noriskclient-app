@@ -76,8 +76,6 @@
   "postDetailsYourMcReal": "Dein McReal",
   "chatDeleteMessageTitle": "Nachricht löschen",
   "chatDeleteMessageContent": "Bist du sicher, dass du diese Nachricht löschen willst?",
-  "chatDeleteMessageCancel": "Abbrechen",
-  "chatDeleteMessageDelete": "Löschen",
   "chatMessageDeleted": "Diese Nachricht wurde gelöscht.",
   "chatEmpty": "Leerer Chat",
   "gamescomNoInfo": "Derzeit sind keine Informationen verfügbar.",
