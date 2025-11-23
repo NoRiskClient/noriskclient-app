@@ -225,6 +225,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_support => 'Support';
 
   @override
+  String get settings_theme => 'Theme';
+
+  @override
   String get mcReal_profile_blockUserPopupTitle => 'Are you sure?';
 
   @override

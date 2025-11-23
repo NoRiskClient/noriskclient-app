@@ -527,6 +527,12 @@ abstract class AppLocalizations {
   /// **'Support'**
   String get settings_support;
 
+  /// No description provided for @settings_theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settings_theme;
+
   /// No description provided for @mcReal_profile_blockUserPopupTitle.
   ///
   /// In en, this message translates to:

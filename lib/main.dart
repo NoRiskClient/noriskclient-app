@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:noriskclient/config/Colors.dart'; 
+import 'package:noriskclient/config/Colors.dart';
+import 'package:noriskclient/config/ThemeProvider.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
 import 'package:noriskclient/NoRiskClient.dart';
 import 'package:noriskclient/screens/SignIn.dart';
@@ -17,7 +18,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  runApp(const App());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: const App(),
+    ),
+  );
 }
 
 late bool isIOS;
@@ -77,7 +83,7 @@ class AppState extends State<App> {
     }
 
     super.initState();
-    
+
     loadUserData();
     updateStream.stream.listen((List data) async {
       String event = data[0];
