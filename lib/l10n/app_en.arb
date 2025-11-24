@@ -85,5 +85,7 @@
   "chat_message_deleted": "This message was deleted.",
   "chat_chat_empty": "Empty Chat",
   "navbar_you": "You",
-  "gamescom_no_infos": "There are no infos available at the moment."
+  "gamescom_no_infos": "There are no infos available at the moment.",
+  "theme_apply": "Apply",
+  "theme_color_picker_title": "Color Picker"
 }

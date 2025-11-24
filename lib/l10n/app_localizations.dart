@@ -616,6 +616,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There are no infos available at the moment.'**
   String get gamescom_no_infos;
+
+  /// No description provided for @theme_apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get theme_apply;
+
+  /// No description provided for @theme_color_picker_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Picker'**
+  String get theme_color_picker_title;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

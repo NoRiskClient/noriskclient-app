@@ -1,49 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  Color _background = const Color.fromARGB(255, 42, 42, 40);
-  Color _darkerBackground = Color.fromARGB(255, 32, 31, 31);
-  Color _light = const Color.fromARGB(255, 68, 68, 70);
-  Color _blue = const Color.fromARGB(255, 52, 147, 235);
+  Color _blue = const Color(0xFF0066CC);
+  Color _background = const Color(0xFF1A1A2E);
+  Color _darkerBackground = const Color(0xFF0F0F1E);
+  Color _text = Colors.grey;
 
-  Color _text = const Color.fromARGB(255, 255, 255, 255);
-  Color _textLight = const Color.fromARGB(200, 130, 130, 130);
-
+  Color get blue => _blue;
   Color get background => _background;
   Color get darkerBackground => _darkerBackground;
-  Color get light => _light;
-  Color get blue => _blue;
-
   Color get text => _text;
-  Color get textLight => _textLight;
 
-  void setBackground(Color color) {
-    _background = color;
-    notifyListeners();
+  ThemeProvider() {
+    _loadSavedColor();
   }
 
-  void setDarkerBackground(Color color) {
-    _darkerBackground = color;
-    notifyListeners();
+  Future<void> _loadSavedColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedColorHex = prefs.getString('theme_color');
+
+    if (savedColorHex != null) {
+      _blue = _hexToColor(savedColorHex);
+      notifyListeners();
+    }
   }
 
-  void setLight(Color color) {
-    _light = color;
-    notifyListeners();
-  }
-
-  void setBlue(Color color) {
+  Future<void> setBlue(Color color) async {
     _blue = color;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme_color', _colorToHex(color));
+
     notifyListeners();
   }
 
-  void setText(Color color) {
-    _text = color;
-    notifyListeners();
+  String _colorToHex(Color color) {
+    return '#${color.red.toRadixString(16).padLeft(2, '0')}'
+        '${color.green.toRadixString(16).padLeft(2, '0')}'
+        '${color.blue.toRadixString(16).padLeft(2, '0')}';
   }
 
-  void setTextLight(Color color) {
-    _textLight = color;
-    notifyListeners();
+  Color _hexToColor(String hex) {
+    hex = hex.replaceAll('#', '');
+    return Color(int.parse('FF$hex', radix: 16));
   }
 }

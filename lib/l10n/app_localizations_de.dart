@@ -18,8 +18,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mcRealComment_you => 'Du';
 
   @override
-  String get mcRealProfile_notPosted =>
-      'Du musst erst ein McReal posten, bevor du die anderer sehen kannst.';
+  String get mcRealProfile_notPosted => 'Du musst erst ein McReal posten, bevor du die anderer sehen kannst.';
 
   @override
   String get mcRealReport_info_hint => 'Zusätzliche Informationen';
@@ -31,8 +30,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mcRealReport_reason_hateSpeach => 'Hassrede';
 
   @override
-  String get mcRealReport_reason_inappropriateForMinors =>
-      'Für Minderjährige Ungeeignet';
+  String get mcRealReport_reason_inappropriateForMinors => 'Für Minderjährige Ungeeignet';
 
   @override
   String get mcRealReport_reason_obscenity => 'Obszönität';
@@ -41,8 +39,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mcRealReport_reason_other => 'Andere';
 
   @override
-  String get mcRealReport_reason_privacyViolation =>
-      'Verletzung der Privatsphäre';
+  String get mcRealReport_reason_privacyViolation => 'Verletzung der Privatsphäre';
 
   @override
   String get mcRealReport_reason_spamOrFraud => 'Spam oder Betrug';
@@ -69,15 +66,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mcReal_comment_hint => 'Neuer Kommentar';
 
   @override
-  String get mcReal_deleteCommentPopupContent =>
-      'Bist du sicher, dass du diesen Kommentar löschen willst?';
+  String get mcReal_deleteCommentPopupContent => 'Bist du sicher, dass du diesen Kommentar löschen willst?';
 
   @override
   String get mcReal_deleteCommentPopupTitle => 'Bist du sicher?';
 
   @override
-  String get mcReal_deletePostPopupContent =>
-      'Bist du dir sicher, dass du dein heutiges McReal löschen willst?\nDu wirst heute kein weiteres McReal posten können!';
+  String get mcReal_deletePostPopupContent => 'Bist du dir sicher, dass du dein heutiges McReal löschen willst?\nDu wirst heute kein weiteres McReal posten können!';
 
   @override
   String get mcReal_deletePostPopupTitle => 'Bist du sicher?';
@@ -98,15 +93,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mcReal_noComments => 'Kein Kommentare verfügbar.';
 
   @override
-  String get mcReal_noPosts =>
-      'Heute hat noch niemand ein McReal gepostet.\nStarte den NoRiskClient um der Erste zu sein!';
+  String get mcReal_noPosts => 'Heute hat noch niemand ein McReal gepostet.\nStarte den NoRiskClient um der Erste zu sein!';
 
   @override
   String get mcReal_noPostsPlain => 'Keine Posts verfügbar :(';
 
   @override
-  String get mcReal_pinPostPopupContent =>
-      'Bist du dir sicher, dass du dein heutiges McReal anpinnen möchtest?';
+  String get mcReal_pinPostPopupContent => 'Bist du dir sicher, dass du dein heutiges McReal anpinnen möchtest?';
 
   @override
   String get mcReal_pinPostPopupTitle => 'Bist du sicher?';
@@ -130,8 +123,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mcReal_popup_unpin => 'Ja';
 
   @override
-  String get mcReal_removedPost =>
-      'Dein McReal wurde entfernt.\nTippe hier für mehr Infos.';
+  String get mcReal_removedPost => 'Dein McReal wurde entfernt.\nTippe hier für mehr Infos.';
 
   @override
   String get mcReal_removedPostPopupTitle => 'Dein McReal wurde entfernt';
@@ -152,8 +144,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mcReal_status_removed => 'Dein McReal wurde entfernt.';
 
   @override
-  String get mcReal_unpinPostPopupContent =>
-      'Bist du dir sicher, dass du dieses McReal nicht mehr anpinnen möchtest?';
+  String get mcReal_unpinPostPopupContent => 'Bist du dir sicher, dass du dieses McReal nicht mehr anpinnen möchtest?';
 
   @override
   String get mcReal_unpinPostPopupTitle => 'Bist du sicher?';
@@ -174,12 +165,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settings_title => 'Einstellungen';
 
   @override
-  String get signIn_eula =>
-      'Durch die Anmeldung erklärst du dich mit den Nutzungsbedingungen und Datenschutzrichtlinien einverstanden.';
+  String get signIn_eula => 'Durch die Anmeldung erklärst du dich mit den Nutzungsbedingungen und Datenschutzrichtlinien einverstanden.';
 
   @override
-  String get signIn_explanation =>
-      'Um dich anzumelden, scanne einfach den QR-Code aus dem NoRisk Client Launcher unter der Menü Option \"Social Accounts\" neben dem account manager.';
+  String get signIn_explanation => 'Um dich anzumelden, scanne einfach den QR-Code aus dem NoRisk Client Launcher unter der Menü Option \"Social Accounts\" neben dem account manager.';
 
   @override
   String get signIn_scanQrCode => 'QR Code Scannen';
@@ -242,30 +231,25 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mcReal_profile_blockUserPopupTitle => 'Bist du sicher?';
 
   @override
-  String get mcReal_profile_blockUserPopupContent =>
-      'Möchtest du diesen Spieler blockieren?';
+  String get mcReal_profile_blockUserPopupContent => 'Möchtest du diesen Spieler blockieren?';
 
   @override
   String get mcReal_profile_unblockUserPopupTitle => 'Bist du sicher?';
 
   @override
-  String get mcReal_profile_unblockUserPopupContent =>
-      'Möchtest du diesen Spieler wirklich entsperren?';
+  String get mcReal_profile_unblockUserPopupContent => 'Möchtest du diesen Spieler wirklich entsperren?';
 
   @override
-  String get mcReal_profile_blockedPlayer =>
-      'Du hast diesen Spieler blockiert.';
+  String get mcReal_profile_blockedPlayer => 'Du hast diesen Spieler blockiert.';
 
   @override
-  String get mcReal_blocked_noBlockedPlayers =>
-      'Du hast keine Spieler blockiert.';
+  String get mcReal_blocked_noBlockedPlayers => 'Du hast keine Spieler blockiert.';
 
   @override
   String get chat_delete_message_title => 'Nachricht Löschen';
 
   @override
-  String get chat_delete_message_content =>
-      'Bist du sicher, dass du diese Nachricht löschen willst?';
+  String get chat_delete_message_content => 'Bist du sicher, dass du diese Nachricht löschen willst?';
 
   @override
   String get chat_delete_message_cancel => 'Abbrechen';
@@ -284,4 +268,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get gamescom_no_infos => 'Aktuell sind keine Infos verfügbar.';
+
+  @override
+  String get theme_apply => 'Anwenden';
+
+  @override
+  String get theme_color_picker_title => 'Farb Auswahl';
 }

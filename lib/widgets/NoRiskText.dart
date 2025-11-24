@@ -35,7 +35,9 @@ class NoRiskText extends Text {
               fontFamily: 'SmallCapsMC'),
           textAlign: textAlign,
           textDirection: textDirection,
-          textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: spaceTop, applyHeightToLastDescent: spaceBottom),
+          textHeightBehavior: TextHeightBehavior(
+              applyHeightToFirstAscent: spaceTop,
+              applyHeightToLastDescent: spaceBottom),
           locale: locale,
           softWrap: softWrap,
           overflow: overflow,

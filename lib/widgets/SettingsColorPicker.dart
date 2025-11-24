@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:noriskclient/widgets/SettingsColorWheel.dart';
+import 'package:noriskclient/widgets/NoRiskContainer.dart';
+import 'package:noriskclient/widgets/SettingsColorSelector.dart';
 
 class SettingsColorPicker extends StatefulWidget {
   final Color selectedColor;
@@ -34,82 +35,96 @@ class _SettingsColorPicker extends State<SettingsColorPicker> {
   }
 
   @override
+  void didUpdateWidget(SettingsColorPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedColor != widget.selectedColor) {
+      setState(() {
+        _selectedColor = widget.selectedColor;
+      });
+    }
+  }
+
+  bool _isPresetColor() {
+    return _colors.any((color) => _colorsEqual(color, _selectedColor));
+  }
+
+  bool _colorsEqual(Color a, Color b) {
+    return a.toARGB32() == b.toARGB32();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 12,
       runSpacing: 12,
       children: [
         ..._colors.map((color) {
-          final bool isSelected = _selectedColor == color;
+          final bool isSelected = _colorsEqual(_selectedColor, color);
           return GestureDetector(
-            onTap: () {
-              setState(() => _selectedColor = color);
-              widget.onColorChange(color);
+              onTap: () {
+                setState(() => _selectedColor = color);
+                widget.onColorChange(color);
+              },
+              child: NoRiskContainer(
+                height: 44,
+                width: 44,
+                color: color,
+                child: isSelected
+                    ? const Icon(Icons.check, color: Colors.white, size: 22)
+                    : null,
+              ));
+        }),
+        GestureDetector(
+            onTap: () async {
+              await _openColorWheel();
             },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
+            child: NoRiskContainer(
               width: 44,
               height: 44,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                  color: isSelected
-                      ? Colors.black.withOpacity(0.3)
-                      : Colors.transparent,
-                  width: 2,
-                ),
-              ),
-              child: isSelected
-                  ? const Icon(Icons.check, color: Colors.white, size: 22)
-                  : null,
-            ),
-          );
-        }).toList(),
-        GestureDetector(
-          onTap: () async {
-            await _openColorWheel();
-          },
-          child: Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
               color: _selectedColor,
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(
-                color: Colors.black.withOpacity(0.3),
-                width: 2,
+              child: Icon(
+                _isPresetColor() ? Icons.edit : Icons.check,
+                color: Colors.white,
+                size: 22,
               ),
-            ),
-            child: const Icon(Icons.edit, color: Colors.white, size: 22),
-          ),
-        ),
+            )),
       ],
     );
   }
 
   Future<void> _openColorWheel() async {
-    await showModalBottomSheet(
+    await showGeneralDialog(
       context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Color(0xFF1A1A1A),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: SettingsColorWheel(
-            initialColor: _selectedColor,
-            onColorSelected: (color) {
-              setState(() => _selectedColor = color);
-              widget.onColorChange(color);
-              Navigator.of(context).pop();
-            },
+      barrierLabel: "ColorPicker",
+      barrierDismissible: true,
+      barrierColor: Colors.black.withValues(alpha: 0.6),
+      pageBuilder: (_, __, ___) {
+        return Center(
+          child: Material(
+            type: MaterialType.transparency,
+            child: SettingsColorSelector(
+              initialColor: _selectedColor,
+              onColorSelected: (color) {
+                setState(() {
+                  _selectedColor = color;
+                });
+                widget.onColorChange(color);
+                Navigator.of(context).pop();
+              },
+            ),
           ),
         );
       },
+      transitionBuilder: (_, animation, __, child) {
+        return Transform.scale(
+          scale: Curves.easeOutBack.transform(animation.value),
+          child: Opacity(
+            opacity: animation.value,
+            child: child,
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 200),
     );
   }
 }

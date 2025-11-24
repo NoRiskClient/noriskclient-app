@@ -12,7 +12,6 @@ import 'package:noriskclient/widgets/NoRiskBackButton.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
 import 'package:noriskclient/widgets/NoRiskText.dart';
 import 'package:noriskclient/widgets/SettingsColorPicker.dart';
-import 'package:noriskclient/widgets/SettingsColorWheel.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
