@@ -225,6 +225,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_support => 'Support';
 
   @override
+  String get settings_theme => 'Theme';
+
+  @override
   String get mcReal_profile_blockUserPopupTitle => 'Are you sure?';
 
   @override
@@ -265,4 +268,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gamescom_no_infos => 'There are no infos available at the moment.';
+
+  @override
+  String get theme_apply => 'Apply';
+
+  @override
+  String get theme_color_picker_title => 'Color Picker';
 }

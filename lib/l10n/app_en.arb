@@ -71,6 +71,7 @@
   "settings_privacyPolicy": "Privacy Policy",
   "settings_imprint": "Imprint",
   "settings_support": "Support",
+  "settings_theme": "Theme",
   "mcReal_profile_blockUserPopupTitle": "Are you sure?",
   "mcReal_profile_blockUserPopupContent": "Are you sure you want to block this player?",
   "mcReal_profile_unblockUserPopupTitle": "Are you sure?",
@@ -84,5 +85,7 @@
   "chat_message_deleted": "This message was deleted.",
   "chat_chat_empty": "Empty Chat",
   "navbar_you": "You",
-  "gamescom_no_infos": "There are no infos available at the moment."
+  "gamescom_no_infos": "There are no infos available at the moment.",
+  "theme_apply": "Apply",
+  "theme_color_picker_title": "Color Picker"
 }

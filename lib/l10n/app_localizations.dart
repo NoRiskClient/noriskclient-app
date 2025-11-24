@@ -527,6 +527,12 @@ abstract class AppLocalizations {
   /// **'Support'**
   String get settings_support;
 
+  /// No description provided for @settings_theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settings_theme;
+
   /// No description provided for @mcReal_profile_blockUserPopupTitle.
   ///
   /// In en, this message translates to:
@@ -610,6 +616,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There are no infos available at the moment.'**
   String get gamescom_no_infos;
+
+  /// No description provided for @theme_apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get theme_apply;
+
+  /// No description provided for @theme_color_picker_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Picker'**
+  String get theme_color_picker_title;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
