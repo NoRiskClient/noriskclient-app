@@ -49,8 +49,8 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
             _BottomNavigationBarButton(
               index: 1,
               currentIndex: widget.currentIndex,
-              icon: NoRiskIcon.chats,
-              label: 'chats',
+              icon: NoRiskIcon.friends,
+              label: 'friends',
               onTap: () => widget.currentIndexController.sink.add(1),
             ),
             _BottomNavigationBarButton(
@@ -59,14 +59,6 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
                 icon: NoRiskIcon.mcreal,
                 label: 'mcreal',
                 onTap: () => widget.currentIndexController.sink.add(2)),
-            // _BottomNavigationBarButton(
-            //   index: 3,
-            //   currentIndex: widget.currentIndex,
-            //   icon: NoRiskIcon.friends,
-            //   label: 'friends',
-            //   onTap: () => widget.currentIndexController.sink.add(3),
-            //   disabled: true,
-            // ),
             _BottomNavigationBarButton(
                 index: 3,
                 currentIndex: widget.currentIndex,

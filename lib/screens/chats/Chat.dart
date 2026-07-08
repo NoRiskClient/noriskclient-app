@@ -133,18 +133,37 @@ class ChatState extends State<Chat> {
                     children: [
                       GestureDetector(
                         onTap: openProfilePage,
-                        child: NoRiskText(
-                            cache['profiles']?[widget.participantId]?['nrcUser']
-                                        ?['ign']
-                                    ?.toString()
-                                    .toLowerCase() ??
-                                '',
-                            spaceTop: false,
-                            spaceBottom: false,
-                            style: const TextStyle(
-                                color: NoRiskClientColors.text,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 7.5),
+                              child: SizedBox(
+                                height: 25,
+                                width: 25,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: cache['skins']
+                                          ?[widget.participantId] ??
+                                      const SizedBox.shrink(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            NoRiskText(
+                                cache['profiles']?[widget.participantId]
+                                            ?['nrcUser']?['ign']
+                                        ?.toString()
+                                        .toLowerCase() ??
+                                    '',
+                                spaceTop: false,
+                                spaceBottom: false,
+                                style: const TextStyle(
+                                    color: NoRiskClientColors.text,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -155,8 +174,8 @@ class ChatState extends State<Chat> {
             SizedBox(
                 width: MediaQuery.of(context).size.width - 2 * 15,
                 height: MediaQuery.of(context).size.height -
-                    195 +
-                    (isAndroid ? 20 : 0) -
+                    195 -
+                    25 -
                     (keyboardVisible
                         ? isAndroid
                             ? 300

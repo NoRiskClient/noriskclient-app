@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:noriskclient/main.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
-import 'package:noriskclient/screens/Chats.dart';
+import 'package:noriskclient/screens/Friends.dart';
 import 'package:noriskclient/screens/Gamescom.dart';
 import 'package:noriskclient/screens/McReal.dart';
 import 'package:noriskclient/screens/News.dart';
@@ -46,7 +46,7 @@ class NoRiskClientState extends State<NoRiskClient> {
       case 0:
         return News(); // News
       case 1:
-        return Chats(); // Chat
+        return Friends(); // Friends
       case 2:
         return McReal();
       case 3:
