@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Main app theme referenced in AndroidManifest.xml -->
+    
     <style name="Theme.AppCompat.NoActionBar" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/normal_theme_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -8,7 +8,7 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
-    <!-- Launch theme for splash screen -->
+    
     <style name="LaunchTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/launch_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -18,7 +18,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
-    <!-- Normal theme after splash -->
+    
     <style name="NormalTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/normal_theme_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

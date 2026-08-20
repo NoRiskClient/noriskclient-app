@@ -5,5 +5,6 @@ import 'package:noriskclient/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(const App());
+    await tester.pump(const Duration(seconds: 5));
   });
 }

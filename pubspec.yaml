@@ -2,7 +2,7 @@ name: noriskclient
 description: "NoRisk Client mobile app."
 publish_to: 'none'
 
-version: 2.0.11+27
+version: 2.0.7+22
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # cupertino_icons: ^1.0.6
+  cupertino_icons: ^1.0.6
   provider: ^6.1.2
   intl: any
   flutter_localizations:
@@ -22,9 +22,9 @@ dependencies:
   vibration: ^3.1.8
   http: ^1.2.1
   fluttertoast: ^9.0.0
-  package_info_plus: ^10.0.0
+  package_info_plus: ^9.0.0
   url_launcher: ^6.3.1
-  qr_flutter: ^4.1.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:

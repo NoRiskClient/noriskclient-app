@@ -1,7 +1,19 @@
-// ignore: file_names
 class Config {
   static const String fallbackLangauge = 'en';
-  static const List<String> availableLanguages = ['de', 'en'];
+  static const List<String> availableLanguages = [
+    'de',
+    'en',
+    'es',
+    'fr',
+    'pt-BR',
+    'pl',
+    'ru',
+    'tr',
+    'it',
+    'zh-CN',
+    'ja',
+    'ko',
+  ];
 
   static int mcRealTimeframe = 15;
   static int maxPostsPerPage = 10;
@@ -20,4 +32,20 @@ class Config {
       'https://play.google.com/store/apps/details?id=gg.norisk.noriskclient');
   static Uri appStoreUrl =
       Uri.parse('https://apps.apple.com/de/app/norisk-client/id6661020268');
+  static Uri launcherDownloadUrl = Uri.parse('https://norisk.gg/downloads');
+
+  static const Map<String, String> languageNames = {
+    'de': '🇩🇪 Deutsch',
+    'en': '🇬🇧 English',
+    'es': '🇪🇸 Español',
+    'fr': '🇫🇷 Français',
+    'pt-BR': '🇧🇷 Português (Brasil)',
+    'pl': '🇵🇱 Polski',
+    'ru': '🇷🇺 Русский',
+    'tr': '🇹🇷 Türkçe',
+    'it': '🇮🇹 Italiano',
+    'zh-CN': '🇨🇳 简体中文',
+    'ja': '🇯🇵 日本語',
+    'ko': '🇰🇷 한국어',
+  };
 }

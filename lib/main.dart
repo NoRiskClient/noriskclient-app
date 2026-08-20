@@ -5,14 +5,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:noriskclient/config/Colors.dart'; 
-import 'package:noriskclient/provider/localeProvider.dart';
-import 'package:noriskclient/NoRiskClient.dart';
-import 'package:noriskclient/screens/SignIn.dart';
+import 'package:noriskclient/config/colors.dart';
+import 'package:noriskclient/providers/locale_provider.dart';
+import 'package:noriskclient/providers/theme_provider.dart';
+import 'package:noriskclient/services/blocking_manager.dart';
+import 'package:noriskclient/screens/home/home.dart';
+import 'package:noriskclient/screens/auth/language_select.dart';
+import 'package:noriskclient/screens/auth/qr_guide.dart';
+import 'package:noriskclient/screens/auth/sign_in.dart';
+import 'package:noriskclient/screens/auth/splash.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:noriskclient/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -25,18 +31,22 @@ late bool isAndroid;
 Map<String, dynamic> userData = {
   'uuid': '',
   'experimental': false,
-  'token': ''
+  'token': '',
 };
 Map<String, Map<String, dynamic>> cache = {
   'skins': {},
   'armorSkins': {},
   'usernames': {},
   'posts': {},
-  'profiles': {}
+  'profiles': {},
 };
-int activeTabIndex = 2;
+int activeTabIndex = 0;
+bool languageChosen = false;
+bool onboardingSeen = false;
+bool showWelcomeSplash = true;
+bool autoOpenScannerNext = false;
+bool showSignInNow = false;
 final StreamController<List> updateStream = StreamController<List>();
-final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
 Map<String, Map<String, dynamic>> get getCache => cache;
 Map<String, dynamic> get getUserData => userData;
@@ -63,8 +73,10 @@ class AppState extends State<App> {
         Theme.of(context).platform == TargetPlatform.fuchsia;
 
     if (isAndroid) {
-      SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
       SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
@@ -78,7 +90,7 @@ class AppState extends State<App> {
     }
 
     super.initState();
-    
+
     loadUserData();
     updateStream.stream.listen((List data) async {
       String event = data[0];
@@ -91,8 +103,11 @@ class AppState extends State<App> {
         if (kDebugMode) {
           print('Signing out');
         }
-        popToMainPage();
-        activeTabIndex = 2;
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+        activeTabIndex = 0;
+        BlockingManager().invalidate();
         clearUserData();
         clearCache();
       } else if (event == 'tabIndex') {
@@ -145,72 +160,178 @@ class AppState extends State<App> {
   Future<void> removeSplashScreen() async {
     await Future.delayed(const Duration(seconds: 2));
     FlutterNativeSplash.remove();
+    await Future.delayed(const Duration(seconds: 3));
+    if (mounted) {
+      setState(() {
+        showWelcomeSplash = false;
+      });
+    }
+  }
+
+  Widget getHome() {
+    if (showWelcomeSplash) {
+      final playerName = userData['uuid'].toString().isEmpty
+          ? null
+          : cache['usernames']?[userData['uuid']]?.toString();
+       return WelcomeSplash(
+         playerName: playerName,
+         showWelcome: languageChosen,
+       );
+    }
+
+    if (!languageChosen) {
+      return LanguageSelect(
+        onLanguageChosen: () {
+          setState(() {
+            languageChosen = true;
+          });
+        },
+      );
+    }
+
+    if (userData['token'] == '') {
+      if (!onboardingSeen) {
+        return QrGuide(
+          onScanNow: () {
+            markOnboardingSeen();
+            setState(() {
+              onboardingSeen = true;
+              showSignInNow = true;
+              autoOpenScannerNext = true;
+            });
+          },
+          onLater: () {
+            markOnboardingSeen();
+            setState(() {
+              onboardingSeen = true;
+            });
+          },
+        );
+      }
+      if (showSignInNow) {
+        final openScanner = autoOpenScannerNext;
+        autoOpenScannerNext = false;
+        return SignIn(
+          autoOpenScanner: openScanner,
+          onContinueAsGuest: () {
+            setState(() {
+              showSignInNow = false;
+            });
+          },
+        );
+      }
+      return NoRiskClient(isGuest: true);
+    }
+
+    return NoRiskClient();
   }
 
   @override
   Widget build(BuildContext context) {
     if (isAndroid) {
-      app = ChangeNotifierProvider(
-          create: (context) => LocaleProvider(),
-          builder: (context, child) {
-            final provider = Provider.of<LocaleProvider>(context);
-            return MaterialApp(
-              navigatorKey: appNavigatorKey,
-              title: 'NoRisk Client',
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              locale: provider.locale,
-              theme: ThemeData(
-                  useMaterial3: true,
-                  brightness: Brightness.dark,
-                  appBarTheme: const AppBarTheme(
-                      backgroundColor: NoRiskClientColors.background),
-                  textTheme: Theme.of(context).textTheme.apply(
-                      fontFamily: 'SmallCapsMC',
-                      fontSizeFactor: 1.25,
-                      displayColor: Colors.white,
-                      bodyColor: Colors.white)),
-              home: MediaQuery(
-                data: MediaQuery.of(context)
-                    .copyWith(textScaler: const TextScaler.linear(1.0)),
-                child:
-                    userData['token'] != '' ? NoRiskClient() : const SignIn(),
+      app = MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => LocaleProvider()),
+          ChangeNotifierProvider(create: (context) => ThemeModeProvider()),
+        ],
+        builder: (context, child) {
+          final provider = Provider.of<LocaleProvider>(context);
+           final themeProvider = Provider.of<ThemeModeProvider>(context);
+           if (themeProvider.mode != NoRiskClientColors.mode) {
+             NoRiskClientColors.setMode(themeProvider.mode);
+           }
+          final isDark = NoRiskClientColors.mode == NoRiskThemeMode.dark;
+          return MaterialApp(
+            title: 'NoRisk Client',
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: provider.locale,
+            theme: ThemeData(
+              useMaterial3: true,
+              brightness: isDark ? Brightness.dark : Brightness.light,
+              scaffoldBackgroundColor: NoRiskClientColors.background,
+              appBarTheme: AppBarTheme(
+                backgroundColor: NoRiskClientColors.background,
               ),
-            );
-          });
-    } else if (isIOS) {
-      app = ChangeNotifierProvider(
-          create: (context) => LocaleProvider(),
-          builder: (context, child) {
-            final provider = Provider.of<LocaleProvider>(context);
-            return CupertinoApp(
-                navigatorKey: appNavigatorKey,
-                title: 'NoRisk Client',
-                debugShowCheckedModeBanner: false,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                locale: provider.locale,
-                theme: const CupertinoThemeData(
-                  textTheme: CupertinoTextThemeData(
-                    textStyle: TextStyle(
-                        color: Colors.white, fontFamily: "SmallCapsMC"),
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: NoRiskClientColors.blue,
+                brightness: isDark ? Brightness.dark : Brightness.light,
+              ),
+              cardTheme: CardThemeData(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    NoRiskClientColors.borderRadius,
                   ),
                 ),
-                home: MediaQuery(
-                  data: MediaQuery.of(context)
-                      .copyWith(textScaler: const TextScaler.linear(1.0)),
-                  child:
-                      userData['token'] != '' ? NoRiskClient() : const SignIn(),
-                ));
-          });
+              ),
+              textTheme: Theme.of(context).textTheme.apply(
+                    fontFamily: 'SmallCapsMC',
+                    fontSizeFactor: 1.25,
+                    displayColor: NoRiskClientColors.text,
+                    bodyColor: NoRiskClientColors.text,
+                  ),
+            ),
+            home: MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(1.0)),
+              child: getHome(),
+            ),
+          );
+        },
+      );
+    } else {
+      app = MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => LocaleProvider()),
+          ChangeNotifierProvider(create: (context) => ThemeModeProvider()),
+        ],
+        builder: (context, child) {
+          final provider = Provider.of<LocaleProvider>(context);
+           final themeProvider = Provider.of<ThemeModeProvider>(context);
+           if (themeProvider.mode != NoRiskClientColors.mode) {
+             NoRiskClientColors.setMode(themeProvider.mode);
+           }
+          return CupertinoApp(
+            title: 'NoRisk Client',
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: provider.locale,
+            theme: CupertinoThemeData(
+              brightness: NoRiskClientColors.mode == NoRiskThemeMode.dark
+                  ? Brightness.dark
+                  : Brightness.light,
+              scaffoldBackgroundColor: NoRiskClientColors.background,
+              textTheme: CupertinoTextThemeData(
+                textStyle: TextStyle(
+                  color: NoRiskClientColors.text,
+                  fontFamily: "SmallCapsMC",
+                ),
+              ),
+            ),
+            home: MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(1.0)),
+              child: getHome(),
+            ),
+          );
+        },
+      );
     }
 
     return app;
   }
 
   bool validUserData() {
-    return userData['uuid'] != '' && userData['uuid'] != '';
+    return userData['uuid'] != '' && userData['token'] != '';
+  }
+
+  Future<void> markOnboardingSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboardingSeen', true);
   }
 
   Future<void> loadUserData() async {
@@ -219,9 +340,15 @@ class AppState extends State<App> {
       userData = {
         'uuid': prefs.getString('uuid') ?? '',
         'experimental': prefs.getBool('experimental') ?? false,
-        'token': prefs.getString('token') ?? ''
+        'token': prefs.getString('token') ?? '',
       };
+      languageChosen = prefs.getString('language') != null;
+      onboardingSeen = prefs.getBool('onboardingSeen') ?? false;
     });
+    final uuid = userData['uuid']?.toString() ?? '';
+    if (uuid.isNotEmpty && cache['usernames']?[uuid] == null) {
+      await loadUsername(uuid);
+    }
   }
 
   Future<void> saveUserData(Map<String, dynamic> userData) async {
@@ -240,15 +367,6 @@ class AppState extends State<App> {
     loadUserData();
   }
 
-  void popToMainPage() {
-    final NavigatorState? navigatorState = appNavigatorKey.currentState;
-    if (navigatorState == null) {
-      return;
-    }
-
-    navigatorState.popUntil((route) => route.isFirst);
-  }
-
   void clearCache() {
     setState(() {
       cache = {
@@ -256,7 +374,7 @@ class AppState extends State<App> {
         'armorSkins': {},
         'usernames': {},
         'posts': {},
-        'profiles': {}
+        'profiles': {},
       };
     });
   }
@@ -265,25 +383,40 @@ class AppState extends State<App> {
     if (cache['skins']?[uuid] == null) {
       setState(() {
         cache['skins']?[uuid] = Image.network(
-            'https://mineskin.eu/helm/$uuid/64',
+          'https://mineskin.eu/helm/$uuid/64',
+          width: 32,
+          height: 32,
+          errorBuilder: (context, error, stackTrace) => SvgPicture.asset(
+            'lib/assets/icons/null_helm.svg',
             width: 32,
-            height: 32);
+            height: 32,
+          ),
+        );
       });
     }
     if (cache['armorSkins']?[uuid] == null) {
       setState(() {
         cache['armorSkins']?[uuid] = Image.network(
-            'https://mineskin.eu/armor/bust/$uuid/128.png',
+          'https://mineskin.eu/armor/bust/$uuid/128.png',
+          height: 175,
+          width: 175,
+          errorBuilder: (context, error, stackTrace) => SvgPicture.asset(
+            'lib/assets/icons/null_armor.svg',
             height: 175,
-            width: 175);
+            width: 175,
+          ),
+        );
       });
     }
   }
 
   Future<void> loadUsername(String uuid) async {
     if (cache['usernames']?[uuid] == null) {
-      http.Response res = await http.get(Uri.parse(
-          'https://sessionserver.mojang.com/session/minecraft/profile/$uuid'));
+      http.Response res = await http.get(
+        Uri.parse(
+          'https://sessionserver.mojang.com/session/minecraft/profile/$uuid',
+        ),
+      );
       if (res.statusCode != 200) {
         return;
       }

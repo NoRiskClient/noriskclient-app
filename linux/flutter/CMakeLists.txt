@@ -1,16 +1,16 @@
-# This file controls Flutter-level build steps. It should not be edited.
+
 cmake_minimum_required(VERSION 3.10)
 
 set(EPHEMERAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ephemeral")
 
-# Configuration provided via flutter tool.
+
 include(${EPHEMERAL_DIR}/generated_config.cmake)
 
-# TODO: Move the rest of this into files in ephemeral. See
-# https://github.com/flutter/flutter/issues/57146.
 
-# Serves the same purpose as list(TRANSFORM ... PREPEND ...),
-# which isn't available in 3.10.
+
+
+
+
 function(list_prepend LIST_NAME PREFIX)
     set(NEW_LIST "")
     foreach(element ${${LIST_NAME}})
@@ -19,8 +19,8 @@ function(list_prepend LIST_NAME PREFIX)
     set(${LIST_NAME} "${NEW_LIST}" PARENT_SCOPE)
 endfunction()
 
-# === Flutter Library ===
-# System-level dependencies.
+
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtk+-3.0)
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
@@ -28,7 +28,7 @@ pkg_check_modules(GIO REQUIRED IMPORTED_TARGET gio-2.0)
 
 set(FLUTTER_LIBRARY "${EPHEMERAL_DIR}/libflutter_linux_gtk.so")
 
-# Published to parent scope for install step.
+
 set(FLUTTER_LIBRARY ${FLUTTER_LIBRARY} PARENT_SCOPE)
 set(FLUTTER_ICU_DATA_FILE "${EPHEMERAL_DIR}/icudtl.dat" PARENT_SCOPE)
 set(PROJECT_BUILD_DIR "${PROJECT_DIR}/build/" PARENT_SCOPE)
@@ -69,10 +69,10 @@ target_link_libraries(flutter INTERFACE
 )
 add_dependencies(flutter flutter_assemble)
 
-# === Flutter tool backend ===
-# _phony_ is a non-existent file to force this command to run every time,
-# since currently there's no way to get a full input/output list from the
-# flutter tool.
+
+
+
+
 add_custom_command(
   OUTPUT ${FLUTTER_LIBRARY} ${FLUTTER_LIBRARY_HEADERS}
     ${CMAKE_CURRENT_BINARY_DIR}/_phony_
